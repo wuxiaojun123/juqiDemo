@@ -123,7 +123,7 @@ public class MatchController {
         String action = "index/game_info";
         String param = "id=" + id;
         String str = httpClient.doPost(action, param);
-        System.out.println(str);
+        LogUtils.e("获取球局详细信息:" + str);
         if (str.equals("time out")) {
             return null;
         } else {

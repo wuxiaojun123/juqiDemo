@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import cn.com.sfn.juqi.controller.MatchController;
 import cn.com.sfn.juqi.model.MatchModel;
+import cn.com.wx.util.LogUtils;
 
 import com.example.juqi.R;
 
@@ -39,10 +40,6 @@ public class ManageItemAdapter extends BaseAdapter {
         mContext = context;
         mManages = manages;
         this.callback = callback;
-    }
-
-    public void setMatches(List<MatchModel> manages) {
-        mManages = manages;
     }
 
     @Override
@@ -109,8 +106,8 @@ public class ManageItemAdapter extends BaseAdapter {
                     Integer.valueOf(matchModel.getDuration()))
                     .substring(11, 16));
 
-            match = matchController.getinfo(matchModel.getId());
-            Log.e("matchid", matchModel.getId());
+            /*match = matchController.getinfo(matchModel.getId());
+            LogUtils.e("matchid=" + matchModel.getId());
             if (match.getUserAndmatch().equals("3")) {
                 viewHolder.attendnum.setText("已结束");
             } else {
@@ -119,7 +116,7 @@ public class ManageItemAdapter extends BaseAdapter {
                 } else
                     viewHolder.attendnum.setText(matchModel.getAttendance() + "/"
                             + matchModel.getNum());
-            }
+            }*/
         }
         final int p = position;
         final int zero = viewHolder.manageAttend.getId();
@@ -259,5 +256,9 @@ public class ManageItemAdapter extends BaseAdapter {
             notifyDataSetChanged();
         }
     }
+
+    /*public void setMatches(List<MatchModel> manages) {
+        mManages = manages;
+    }*/
 
 }
