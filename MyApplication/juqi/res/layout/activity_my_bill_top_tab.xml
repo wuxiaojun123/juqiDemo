@@ -1,0 +1,115 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#66000000" >
+
+        <TextView
+            android:id="@+id/back_to_my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/back_to_pre"
+            android:text="@string/back_txt"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/medium_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/my_bill"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/large_text_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/id_switch_tab_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/id_tab_overview_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/id_overview_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/bill_overview"
+                android:textColor="@color/manage_pay"
+                android:textSize="@dimen/small_middle_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/id_tab_detail_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:saveEnabled="false" >
+
+            <TextView
+                android:id="@+id/id_detail_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/bill_detail"
+                android:textColor="@color/manage_pay"
+                android:textSize="@dimen/small_middle_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/id_tab_withdraw_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/id_withdraw_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/withdraw_detail"
+                android:textColor="@color/manage_pay"
+                android:textSize="@dimen/small_middle_text_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/id_tab_line_iv"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/manage_pay"
+        android:contentDescription="@string/image_description" >
+    </ImageView>
+	<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/bill_down_line"
+        android:contentDescription="@string/image_description" >
+    </ImageView>
+
+</LinearLayout>

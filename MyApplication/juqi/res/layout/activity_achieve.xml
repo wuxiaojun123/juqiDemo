@@ -1,0 +1,111 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.com.sfn.example.juqi.AchieveActivity" >
+
+    <ImageView
+        android:id="@+id/img1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/paihang" />
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img1"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/canyu_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/achieve_btn"
+            android:gravity="center"
+            android:text="@string/canyu_ac"
+            android:textColor="@color/manage_pay"
+            android:textSize="@dimen/small_medium_text_size" />
+
+        <Button
+            android:id="@+id/zuzhi_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/achieve_btn"
+            android:gravity="center"
+            android:text="@string/zuzhi_ac"
+            android:textColor="@color/manage_pay"
+            android:textSize="@dimen/small_medium_text_size" />
+
+        <Button
+            android:id="@+id/myself_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/achieve_btn"
+            android:gravity="center"
+            android:text="@string/wode_ac"
+            android:textColor="@color/manage_pay"
+            android:textSize="@dimen/small_medium_text_size" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll1"
+        android:background="@drawable/achieve_box1"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="@string/paiming"
+            android:textColor="@color/manage_pay"
+            android:textSize="@dimen/small_medium_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/yonghuming"
+            android:textColor="@color/manage_pay"
+            android:textSize="@dimen/small_medium_text_size" />
+
+        <TextView
+            android:id="@+id/ac_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="@string/chengjiu"
+            android:textColor="@color/manage_pay"
+            android:textSize="@dimen/small_medium_text_size" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/achieveList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl2"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="3dp"
+        android:divider="@null"
+        android:listSelector="@color/transparent"
+        android:scrollbars="none" >
+    </ListView>
+
+</RelativeLayout>

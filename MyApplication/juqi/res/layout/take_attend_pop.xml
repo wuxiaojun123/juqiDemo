@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/attend_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="#444953"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hint29"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/small_medium_text_size" />
+
+        <TextView
+            android:id="@+id/attend_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/small_medium_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hint12"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/small_medium_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="@string/detail_name"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/small_medium_text_size" />
+
+        <EditText
+            android:id="@+id/attend_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="#30343b"
+            android:inputType="text"
+            android:textColor="@color/editcolor"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/small_medium_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="@string/hint30"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/small_medium_text_size" />
+
+        <EditText
+            android:id="@+id/attend_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#30343b"
+            android:hint="@string/hitn36"
+            android:inputType="phone"
+            android:textColor="@color/editcolor"
+            android:textColorHint="@color/pophint"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/small_medium_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/check_attend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/checkbox_back"
+            android:button="@null" />
+
+        <TextView
+            android:id="@+id/check_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/check_attend"
+            android:textColor="@color/editcolor"
+            android:textSize="@dimen/small_text_size" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/attend_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/manage_option_cancel"
+        android:text="@string/attend_confirm"
+        android:textColor="@color/manage_pay"
+        android:textSize="@dimen/medium_text_size" />
+
+</LinearLayout>

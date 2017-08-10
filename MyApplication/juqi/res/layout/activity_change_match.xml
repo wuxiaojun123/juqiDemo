@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#66000000" >
+
+        <TextView
+            android:id="@+id/change_to_manage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/back_to_pre"
+            android:text="@string/back_txt"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/medium_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/change_match"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/large_text_size" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/appoint_title" >
+
+                <TextView
+                    android:id="@+id/title_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/appoint_title"
+                    android:textColor="@color/match_detail"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <EditText
+                    android:id="@+id/change_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/title_txt"
+                    android:background="@null"
+                    android:hint="@string/hint1"
+                    android:inputType="textMultiLine"
+                    android:maxLength="50"
+                    android:singleLine="false"
+                    android:textColor="@color/editcolor"
+                    android:textColorHint="@color/editcolor"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/small_medium_text_size" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/appoint_time_box"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/start_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/appoint_start_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/appoint_start"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/date_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/appoint_start_txt"
+                        android:textColor="@color/choosetextcolor"
+                        android:textSize="@dimen/small_medium_text_size" />
+
+                    <ImageView
+                        style="@style/PersonalRightIconStyle"
+                        android:contentDescription="@string/image_description"
+                        android:src="@drawable/next_page" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/get_during"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/appoint_time_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/appoint_time"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/set_during"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/appoint_time_txt"
+                        android:text="@string/hint2"
+                        android:textColor="@color/choosetextcolor"
+                        android:textSize="@dimen/small_medium_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/set_during"
+                        android:text="@string/hint3"
+                        android:textColor="@color/choosetextcolor"
+                        android:textSize="@dimen/small_medium_text_size" />
+
+                    <ImageView
+                        style="@style/PersonalRightIconStyle"
+                        android:contentDescription="@string/image_description"
+                        android:src="@drawable/next_page" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/end_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/appoint_end_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/appoint_end"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/date_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/appoint_end_txt"
+                        android:textColor="@color/choosetextcolor"
+                        android:textSize="@dimen/small_medium_text_size" />
+
+                    <ImageView
+                        style="@style/PersonalRightIconStyle"
+                        android:contentDescription="@string/image_description"
+                        android:src="@drawable/next_page" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rl2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/appoint_format_box"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/appoint_format_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/weizhi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/appoint_format"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/appoint_format"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/weizhi"
+                        android:text="@string/hint4"
+                        android:textColor="@color/choosetextcolor"
+                        android:textSize="@dimen/small_medium_text_size" />
+
+                    <ImageView
+                        style="@style/PersonalRightIconStyle"
+                        android:contentDescription="@string/image_description"
+                        android:src="@drawable/next_page" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/appoint_number_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/appoint_number"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <EditText
+                        android:id="@+id/num_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_toRightOf="@id/appoint_number_txt"
+                        android:background="@null"
+                        android:hint="@string/hint5"
+                        android:inputType="number"
+                        android:textColor="@color/editcolor"
+                        android:textColorHint="@color/editcolor"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/small_medium_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/num_show"
+                        android:textColor="@color/halfwhite"
+                        android:textSize="@dimen/small_text_size" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/appoint_type_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/weizhi2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/appoint_type"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/appoint_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/weizhi2"
+                        android:text="@string/hint6"
+                        android:textColor="@color/choosetextcolor"
+                        android:textSize="@dimen/small_medium_text_size" />
+
+                    <ImageView
+                        style="@style/PersonalRightIconStyle"
+                        android:contentDescription="@string/image_description"
+                        android:src="@drawable/next_page" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/appoint_place_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/appoint_place"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <EditText
+                        android:id="@+id/appoint_place_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/appoint_place_txt"
+                        android:background="@null"
+                        android:hint="@string/appoint_hint_place"
+                        android:inputType="text"
+                        android:textColor="@color/editcolor"
+                        android:textColorHint="@color/editcolor"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/small_medium_text_size" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/place_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/appoint_dplace_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/detail_place"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/appoint_detail_place"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/appoint_dplace_txt"
+                        android:textColor="@color/editcolor"
+                        android:textColorHint="@color/editcolor"
+                        android:textSize="@dimen/small_medium_text_size" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/appoint_phone"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/rl3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/appoint_phone_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/appoint_phone"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <EditText
+                        android:id="@+id/phone_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/appoint_phone_txt"
+                        android:background="@null"
+                        android:hint="@string/hint7"
+                        android:inputType="phone"
+                        android:textColor="@color/editcolor"
+                        android:textColorHint="@color/editcolor"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/small_medium_text_size" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/appoint_cost_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/appoint_cost"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/fee_content"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/appoint_cost_txt"
+                        android:textColor="@color/editcolor"
+                        android:textSize="@dimen/small_medium_text_size" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/appont_detail" >
+
+                <TextView
+                    android:id="@+id/match_detail_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/appoint_detail"
+                    android:textColor="@color/match_detail"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <EditText
+                    android:id="@+id/match_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/match_detail_txt"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/match_detail_txt"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:hint="@string/hint8"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:textColor="@color/editcolor"
+                    android:textColorHint="@color/editcolor"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/small_medium_text_size" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/appoint_confirm_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/manage_option_cancel"
+                android:gravity="center"
+                android:text="@string/confirm_change"
+                android:textColor="@color/manage_pay"
+                android:textSize="@dimen/medium_text_size" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

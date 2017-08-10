@@ -1,0 +1,141 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background" >
+
+    <RelativeLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#66000000" >
+
+        <TextView
+            android:id="@+id/inspect_back_to_manage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/back_to_pre"
+            android:text="@string/back_txt"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/medium_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/attend_manage"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/large_text_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp" >
+
+        <TextView
+            android:id="@+id/inspect_ok_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableLeft="@drawable/inspect_result"
+            android:text="@string/inspect_success"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/huge_text_size" />
+
+        <LinearLayout
+            android:id="@+id/inspect_failed_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/inspect_failed"
+                android:textColor="@color/textcolor"
+                android:textSize="@dimen/huge_text_size" />
+
+            <TextView
+                android:id="@+id/inspect_failed_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/editcolor"
+                android:textSize="@dimen/medium_text_size" />
+
+            <TextView
+                android:id="@+id/inspect_failed_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/editcolor"
+                android:textSize="@dimen/medium_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll1"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical" >
+   <!-- android:background="@drawable/inspect_box" -->
+        
+    <!--     <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/medium_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/hint34"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/small_middle_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/hint32"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/small_middle_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/hint33"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/small_middle_text_size" /> -->
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/continue_inspect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/manage_option_cancel"
+        android:text="@string/inspect_continue"
+        android:textColor="@color/manage_pay"
+        android:textSize="@dimen/medium_text_size" />
+
+</RelativeLayout>

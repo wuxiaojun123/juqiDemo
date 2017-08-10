@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/comments_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#444953"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/comments"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="4"
+            android:background="#30343b"
+            android:hint="@string/comments_hint"
+            android:inputType="textMultiLine"
+            android:minLines="1"
+            android:textCursorDrawable="@null"
+            android:textColor="@color/editcolor"
+            android:textColorHint="@color/pophint"
+            android:textSize="@dimen/small_medium_text_size" />
+
+        <Button
+            android:id="@+id/send_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/attendbtn"
+            android:text="@string/comments_send"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/small_middle_text_size" />
+    </LinearLayout>
+
+</RelativeLayout>

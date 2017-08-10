@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android_custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#66000000">
+
+            <TextView
+                android:id="@+id/my_login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/personal_login"
+                android:textColor="@color/choosetextcolor"
+                android:textSize="@dimen/medium_text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/myString"
+                android:textColor="@color/choosetextcolor"
+                android:textSize="@dimen/large_text_size" />
+
+            <TextView
+                android:id="@+id/my_register_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/register"
+                android:textColor="@color/choosetextcolor"
+                android:textSize="@dimen/medium_text_size" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/info_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/my_top_box">
+
+            <RelativeLayout
+                android:id="@+id/rl1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/image_description"
+                        android:src="@drawable/my_avatar" />
+
+                    <cn.com.sfn.juqi.widgets.CircleImageView
+                        android:id="@+id/avatar"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:layout_marginLeft="27dp"
+                        android:layout_marginTop="27dp"
+                        android:contentDescription="@string/image_description" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:ellipsize="end"
+                        android:text="@string/hint9"
+                        android:textColor="@color/manage_pay"
+                        android:textSize="@dimen/medium_text_size" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/my_attend_box"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/attend_achieve"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:ellipsize="end"
+                            android:text="@string/attend_achievement"
+                            android:textColor="@color/manage_pay"
+                            android:textSize="@dimen/small_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/my_org_box"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/org_achieve"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:ellipsize="end"
+                            android:text="@string/org_achievement"
+                            android:textColor="@color/manage_pay"
+                            android:textSize="@dimen/small_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/my_friendnum_box"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/friend_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:ellipsize="end"
+                            android:text="@string/follow"
+                            android:textColor="@color/manage_pay"
+                            android:textSize="@dimen/small_text_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl1">
+
+                <LinearLayout
+                    android:id="@+id/ll1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/chengwei"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/chengwei"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/manage_pay"
+                        android:textSize="@dimen/small_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+
+                    <cn.com.sfn.juqi.widgets.RoundProgressBar
+                        android:id="@+id/offense_bar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android_custom:roundColor="@android:color/black"
+                        android_custom:roundProgressColor="#71dcff"
+                        android_custom:roundWidth="5dp"
+                        android_custom:text="进攻"
+                        android_custom:textColor="@color/manage_pay"
+                        android_custom:textSize="@dimen/micro_text_size" />
+
+                    <cn.com.sfn.juqi.widgets.RoundProgressBar
+                        android:id="@+id/defense_bar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android_custom:roundColor="@android:color/black"
+                        android_custom:roundProgressColor="#71dcff"
+                        android_custom:roundWidth="5dp"
+                        android_custom:text="防守"
+                        android_custom:textColor="@color/manage_pay"
+                        android_custom:textSize="@dimen/micro_text_size" />
+
+                    <cn.com.sfn.juqi.widgets.RoundProgressBar
+                        android:id="@+id/zonghe_bar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android_custom:roundColor="@android:color/black"
+                        android_custom:roundProgressColor="#71dcff"
+                        android_custom:roundWidth="5dp"
+                        android_custom:text="综合"
+                        android_custom:textColor="@color/manage_pay"
+                        android_custom:textSize="@dimen/micro_text_size" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl2"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hint22"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:id="@+id/role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hint17"
+                    android:textColor="@color/editcolor"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="@string/hint23"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:id="@+id/age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hint17"
+                    android:textColor="@color/editcolor"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:id="@+id/sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="@string/hint18"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/small_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll2"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_state"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:id="@+id/show_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textColor="@color/editcolor"
+                    android:textSize="@dimen/small_text_size" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/my_bottom1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/my_bottom_box1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/my_certificate_btn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/my_page_btn">
+
+                <ImageView
+                    android:id="@+id/personal_icon_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/certificate_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/personal_icon_01"
+                    android:text="@string/match_certificate"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <ImageView
+                    style="@style/PersonalRightIconStyle"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/next_page" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/my_friend_btn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/my_page_btn">
+
+                <ImageView
+                    android:id="@+id/personal_icon_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/myfriend_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/personal_icon_02"
+                    android:text="@string/my_friend"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <ImageView
+                    style="@style/PersonalRightIconStyle"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/next_page" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/my_message_btn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/my_page_btn">
+
+                <ImageView
+                    android:id="@+id/personal_icon_03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/message_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/personal_icon_03"
+                    android:text="@string/my_message"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <ImageView
+                    style="@style/PersonalRightIconStyle"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/next_page" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/my_bottom2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/my_bottom_box2"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/my_bill_btn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/my_page_btn">
+
+                <ImageView
+                    android:id="@+id/personal_icon_04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/bill_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/personal_icon_04"
+                    android:text="@string/my_bill"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <ImageView
+                    style="@style/PersonalRightIconStyle"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/next_page" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/my_withdraw_btn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/my_page_btn">
+
+                <ImageView
+                    android:id="@+id/personal_icon_05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/withdraw_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/personal_icon_05"
+                    android:text="@string/my_withdraw"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <ImageView
+                    style="@style/PersonalRightIconStyle"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/next_page" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/my_bottom_box3">
+
+            <RelativeLayout
+                android:id="@+id/my_settings_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/my_page_btn">
+
+                <ImageView
+                    android:id="@+id/personal_icon_09"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/settings_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/personal_icon_09"
+                    android:text="@string/settings"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <ImageView
+                    style="@style/PersonalRightIconStyle"
+                    android:contentDescription="@string/image_description"
+                    android:src="@drawable/next_page" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

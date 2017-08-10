@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/achieve_box2"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/ac_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/manage_pay"
+        android:textSize="@dimen/small_medium_text_size" />
+
+    <TextView
+        android:id="@+id/ac_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/manage_pay"
+        android:textSize="@dimen/small_medium_text_size" />
+
+    <TextView
+        android:id="@+id/ac_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/manage_pay"
+        android:textSize="@dimen/small_medium_text_size" />
+
+</RelativeLayout>
