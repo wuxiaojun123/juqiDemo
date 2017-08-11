@@ -9,13 +9,16 @@ import cn.com.sfn.juqi.my.auth.WithdrawActivity;
 import cn.com.sfn.juqi.my.message.MessageActivity;
 import cn.com.sfn.juqi.my.mybill.MyBillActivity;
 import cn.com.sfn.juqi.util.Config;
+import cn.com.sfn.juqi.util.ToastUtil;
 import cn.com.sfn.juqi.widgets.CircleImageView;
 import cn.com.sfn.juqi.widgets.RoundProgressBar;
+import cn.com.wx.util.LogUtils;
 
 import com.example.juqi.R;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -48,36 +51,39 @@ public class MyFragment extends Fragment implements OnClickListener {
     private RelativeLayout mCertificateButton, mBillButton, mMessageButton;
     private RoundProgressBar defenseBar, offenseBar, zongheBar;
     private UserController userController;
-    private Handler myhandler;
     private UserModel userModel = new UserModel();
+    private Context mContext;
+
+    private Handler myhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    initShow();
+                    LogUtils.e("用户昵称是" + userModel == null ? "null" : userModel.getNickName());
+
+                    break;
+                case 2:
+                    ToastUtil.show(mContext, "未登录");
+                    break;
+            }
+        }
+    };
 
     @SuppressLint("HandlerLeak")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         myView = inflater.inflate(R.layout.activity_my, container, false);
+        mContext = getActivity();
         userController = new UserController();
-        Log.e("TEST", Config.SessionID + "idididi" + Config.login_userid + Config.login_type);
+        LogUtils.e(Config.SessionID + "----" + Config.login_userid + "----" + Config.login_type);
+
         findViewById();
         initView();
         initData();
-        myhandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 1:
-                        initShow();
-                        if (userModel != null)
-                            Log.e("weishea", userModel.getNickName());
-                        break;
-                    case 2:
-                        Toast.makeText(getActivity(), "未登录", Toast.LENGTH_SHORT)
-                                .show();
-                        break;
-                }
-            }
-        };
+
         return myView;
     }
 

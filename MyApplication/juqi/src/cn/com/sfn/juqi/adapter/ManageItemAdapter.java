@@ -32,7 +32,7 @@ public class ManageItemAdapter extends BaseAdapter {
     private Context mContext = null;
     private ListItemClickHelp callback;
     private List<MatchModel> mManages = null;
-    private MatchModel match = new MatchModel();
+    //    private MatchModel match = new MatchModel();
     private MatchController matchController = new MatchController();
 
     public ManageItemAdapter(Context context, List<MatchModel> manages,
@@ -105,6 +105,16 @@ public class ManageItemAdapter extends BaseAdapter {
                     + addDateMinut(matchModel.getStart_time(),
                     Integer.valueOf(matchModel.getDuration()))
                     .substring(11, 16));
+
+            if (matchModel.getStatus().equals("3")) {
+                viewHolder.attendnum.setText("已结束");
+            } else {
+                if (matchModel.getStatus().equals("4")) {
+                    viewHolder.attendnum.setText("发起者已取消");
+                } else
+                    viewHolder.attendnum.setText(matchModel.getAttendance() + "/"
+                            + matchModel.getNum());
+            }
 
             /*match = matchController.getinfo(matchModel.getId());
             LogUtils.e("matchid=" + matchModel.getId());
@@ -220,32 +230,35 @@ public class ManageItemAdapter extends BaseAdapter {
     private String getWeek(String pTime) {
         String Week = "周";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         try {
-            c.setTime(format.parse(pTime));
+            calendar.setTime(format.parse(pTime));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (c.get(Calendar.DAY_OF_WEEK) == 1) {
-            Week += "日";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 2) {
-            Week += "一";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 3) {
-            Week += "二";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 4) {
-            Week += "三";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 5) {
-            Week += "四";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 6) {
-            Week += "五";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 7) {
-            Week += "六";
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (dayOfWeek) {
+            case 1:
+                Week += "日";
+                break;
+            case 2:
+                Week += "一";
+                break;
+            case 3:
+                Week += "二";
+                break;
+            case 4:
+                Week += "三";
+                break;
+            case 5:
+                Week += "四";
+                break;
+            case 6:
+                Week += "五";
+                break;
+            case 7:
+                Week += "六";
+                break;
         }
         return Week;
     }

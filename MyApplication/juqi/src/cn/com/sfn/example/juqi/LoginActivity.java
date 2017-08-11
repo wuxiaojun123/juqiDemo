@@ -54,7 +54,7 @@ import org.json.JSONObject;
 })
 public class LoginActivity extends Activity implements OnClickListener {
     @SuppressWarnings("unused")
-    private LoginActivity loginActivity = null;
+//    private LoginActivity loginActivity = null;
     private EditText accountEdit;
     private EditText passwordEdit;
     private String account, password;
@@ -113,7 +113,6 @@ public class LoginActivity extends Activity implements OnClickListener {
         wxBtn.setOnClickListener(this);
         initData();
 
-        loginActivity = LoginActivity.this;
         userController = new UserController();
         accountEdit = (EditText) findViewById(R.id.accout);
         passwordEdit = (EditText) findViewById(R.id.pwd);
@@ -291,7 +290,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         }
 
         public void onComplete(Object response) {
-            Toast.makeText(getApplicationContext(), "登录成功", 0).show();
+            ToastUtil.show(mContext,"登录成功");
             Config.is_login = true;
 
             try {

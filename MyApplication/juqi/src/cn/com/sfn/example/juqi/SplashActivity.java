@@ -2,6 +2,7 @@
 package cn.com.sfn.example.juqi;
 
 import cn.com.sfn.juqi.util.Config;
+import cn.com.wx.util.LogUtils;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -27,7 +28,7 @@ import android.widget.Toast;
 
 /**
  * 功能：引导页
- * 
+ *
  * @author wangwenbo
  */
 @SuppressLint("HandlerLeak")
@@ -50,9 +51,11 @@ public class SplashActivity extends Activity implements AMapLocationListener {
         setting = this.getSharedPreferences(Config.PREFS_NAME,
                 Context.MODE_PRIVATE);
         is_login = setting.getBoolean("isLogin", false);
+        LogUtils.e("是否登录" + is_login);
         Config.SessionID = setting.getString("sessionId", null);
         Config.login_type = setting.getString("type", null);
         Config.login_userid = setting.getString("userid", null);
+
         if (!TextUtils.isEmpty(Config.login_type))
             Log.e("TYTY", Config.login_type);
         if (!TextUtils.isEmpty(Config.SessionID))
@@ -120,7 +123,7 @@ public class SplashActivity extends Activity implements AMapLocationListener {
             Config.lat = geoLat;
             Config.lon = geoLng;
             Toast.makeText(SplashActivity.this, Config.lat + "+" + Config.lon, Toast.LENGTH_SHORT).show();
-            Log.e("onLocationChanged-geoLat", "geoLat");
+//            Log.e("onLocationChanged-geoLat", "geoLat");
         }
     }
 

@@ -52,6 +52,9 @@ public class ManageListDejson {
 				matchModel.setLatitude(Double.valueOf(json
 						.getString("latitude")));
 				matchModel.setFee(json.getString("fee"));
+				matchModel.setStatus(json.getString("status"));
+//				matchModel.setUserAndmatch(json.getString("userAndmatch"));
+
 				matchList.add(matchModel);
 			}
 		} catch (JSONException e) {

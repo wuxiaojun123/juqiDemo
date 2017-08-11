@@ -72,8 +72,8 @@ public class MainActivity extends Activity {
     private long mExitTime = 0;
     private Intent mIntent;
     private int flag = 0;
-    private UserController userController = new UserController();
-    private UserModel userModel = new UserModel();
+//    private UserController userController = new UserController();
+//    private UserModel userModel = new UserModel();
 
     private SignFragment signFragment; // 报名
     private AchieveFragment achieveFragment; // 成就
@@ -106,15 +106,13 @@ public class MainActivity extends Activity {
         int id = v.getId();
         switch (id) {
             case R.id.MyBottemAppointBtn:
-                userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
-                if (userModel == null) {// 未登录或登录过期
-                    mIntent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(mIntent);
-                    finish();
+//                userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
+                if (TextUtils.isEmpty(Config.login_userid)) {// 未登录或登录过期
+                    startLoginActivity();
                 } else {
-                    initBottemBtn();
-                    appointImg.setImageResource(R.drawable.appoint_pressed);
-                    appointTxt.setTextColor(Color.parseColor("#7be5ff"));
+//                    initBottemBtn();
+//                    appointImg.setImageResource(R.drawable.appoint_pressed);
+//                    appointTxt.setTextColor(Color.parseColor("#7be5ff"));
                     mIntent = new Intent(MainActivity.this, AppointActivity.class);
                     startActivity(mIntent);
                 }
@@ -124,7 +122,6 @@ public class MainActivity extends Activity {
                 break;
         }
     }
-
 
     private void showFragment(int id) {
         FragmentTransaction mFragmentTransaction = fm.beginTransaction();
@@ -145,45 +142,44 @@ public class MainActivity extends Activity {
 
                 break;
             case R.id.MyBottemAchieveBtn:
-                initBottemBtn();
-                achieveImg.setImageResource(R.drawable.achieve_pressed);
-
-                if (achieveFragment == null) {
-                    achieveFragment = new AchieveFragment();
-                    mFragmentTransaction.add(R.id.fragment_content, achieveFragment);
+                if (TextUtils.isEmpty(Config.login_userid)) {// 未登录或登录过期
+                    startLoginActivity();
                 } else {
-                    mFragmentTransaction.show(achieveFragment);
+                    initBottemBtn();
+                    achieveImg.setImageResource(R.drawable.achieve_pressed);
+
+                    if (achieveFragment == null) {
+                        achieveFragment = new AchieveFragment();
+                        mFragmentTransaction.add(R.id.fragment_content, achieveFragment);
+                    } else {
+                        mFragmentTransaction.show(achieveFragment);
+                    }
                 }
 
                 break;
             case R.id.MyBottemManageBtn:
-                if (Config.login_userid != null) {
-                    userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
-                    if (userModel == null) {// 未登录或登录过期
-                        mIntent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(mIntent);
-                        finish();
-                    } else {
-                        initBottemBtn();
-                        manageImg.setImageResource(R.drawable.manage_pressed);
-                        manageTxt.setTextColor(Color.parseColor("#7be5ff"));
+//                    userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
+                if (TextUtils.isEmpty(Config.login_userid)) {// 未登录或登录过期
+                    startLoginActivity();
+                } else {
+                    initBottemBtn();
+                    manageImg.setImageResource(R.drawable.manage_pressed);
+                    manageTxt.setTextColor(Color.parseColor("#7be5ff"));
 
-                        if (manageFragment == null) {
-                            manageFragment = new ManageFragment();
-                            mFragmentTransaction.add(R.id.fragment_content, manageFragment);
-                        } else {
-                            mFragmentTransaction.show(manageFragment);
-                        }
+                    if (manageFragment == null) {
+                        manageFragment = new ManageFragment();
+                        mFragmentTransaction.add(R.id.fragment_content, manageFragment);
+                    } else {
+                        mFragmentTransaction.show(manageFragment);
                     }
                 }
 
                 break;
             case R.id.MyBottemMyBtn:
-                userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
-                if (userModel == null) {// 未登录或登录过期
-                    mIntent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(mIntent);
-                    finish();
+                UserController userController = new UserController();
+                UserModel userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
+                if (TextUtils.isEmpty(Config.login_userid)) {// 未登录或登录过期
+                    startLoginActivity();
                 } else {
                     initBottemBtn();
                     myImg.setImageResource(R.drawable.my_pressed);
@@ -233,6 +229,15 @@ public class MainActivity extends Activity {
         myTxt.setTextColor(resSelectedColor);
     }
 
+    /***
+     * 跳到登录界面
+     */
+    private void startLoginActivity() {
+        mIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(mIntent);
+        finish();
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -241,7 +246,7 @@ public class MainActivity extends Activity {
                 mExitTime = System.currentTimeMillis();
             } else {
                 // 将设置还原
-                userController = null;
+//                userController = null;
                 Config.login_userid = null;
                 finish();
             }

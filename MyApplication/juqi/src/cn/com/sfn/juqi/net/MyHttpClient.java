@@ -11,9 +11,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import cn.com.sfn.juqi.dejson.UserDejson;
 import cn.com.sfn.juqi.util.Config;
+import cn.com.wx.util.LogUtils;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -26,17 +31,17 @@ public class MyHttpClient {
 
     private String result = "";
     private String url = "https://www.juqilife.cn/"; // 192.168.3.2 210.72.13.135
-                                                    // www.juqilife.cn
+    // www.juqilife.cn
 
     private SharedPreferences settings;
-    
+
 
     @SuppressWarnings("deprecation")
     public String doPost(Context context, String action, String params) {
         settings = context.getSharedPreferences(Config.PREFS_NAME, 0);
-        if (TextUtils.isEmpty(Config.SessionID))
+        if (TextUtils.isEmpty(Config.SessionID)) {
             System.out.println("action:" + action + "  params:" + params);
-        else {
+        } else {
             System.out.println("action:" + action + "  params:" + params
                     + "ID:" + Config.SessionID);
             // 记住登录状态
@@ -62,7 +67,14 @@ public class MyHttpClient {
             conn.getOutputStream().close();
 
             InputStream iStream = conn.getInputStream();
+            /*Map<String, List<String>> headerFields = conn.getHeaderFields();
+            Iterator<Map.Entry<String, List<String>>> iterator = headerFields.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, List<String>> next = iterator.next();
+                LogUtils.e("key=" + next.getKey() + "--" + next.getValue());
+            }*/
             String cookieval = conn.getHeaderField("set-cookie");
+            LogUtils.e("cookie的值是:" + cookieval + "----");
             if (cookieval != null) {
                 Config.SessionID = cookieval.substring(0,
                         cookieval.indexOf(";"));
@@ -85,7 +97,9 @@ public class MyHttpClient {
         }
 //        this.result = jsontourl(this.result);
         try {
-            this.result = URLDecoder.decode(this.result,"utf-8");
+//            LogUtils.e("登录信息没有解码之前" + result);
+            this.result = URLDecoder.decode(this.result, "UTF-8");
+
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -113,6 +127,7 @@ public class MyHttpClient {
             if (conn.getResponseCode() == 200) {
                 InputStream iStream = conn.getInputStream();
                 String cookieval = conn.getHeaderField("set-cookie");
+                LogUtils.e("返回的cookie值是:" + cookieval);
                 if (cookieval != null) {
                     Config.SessionID = cookieval.substring(0,
                             cookieval.indexOf(";"));
@@ -232,9 +247,9 @@ public class MyHttpClient {
                     "multipart/form-data;boundary=" + boundary);
             /* 璁剧疆DataOutputStream锛実etOutputStream涓粯璁よ皟鐢╟onnect() */
             DataOutputStream ds = new DataOutputStream(con.getOutputStream()); // output
-                                                                               // to
-                                                                               // the
-                                                                               // connection
+            // to
+            // the
+            // connection
             ds.writeBytes(twoHyphens + boundary + end);
             ds.writeBytes("Content-Disposition: form-data; "
                     + "name=\"file\";filename=\"" + fileName + "\"" + end);
@@ -258,7 +273,7 @@ public class MyHttpClient {
             ds.close();
             /* 浠庤繑鍥炵殑杈撳叆娴佽鍙栧搷搴斾俊鎭� */
             InputStream is = con.getInputStream(); // input from the connection
-                                                   // 姝ｅ紡寤虹珛HTTP杩炴帴
+            // 姝ｅ紡寤虹珛HTTP杩炴帴
             int ch;
             StringBuffer b = new StringBuffer();
             while ((ch = is.read()) != -1) {
@@ -286,12 +301,10 @@ public class MyHttpClient {
         return json;
     }
 
-    public static String StrReplace(String rStr, String rFix, String rRep)
-    {
+    public static String StrReplace(String rStr, String rFix, String rRep) {
         int l = 0;
         String gRtnStr = rStr;
-        do
-        {
+        do {
             l = rStr.indexOf(rFix, l);
             if (l == -1)
                 break;

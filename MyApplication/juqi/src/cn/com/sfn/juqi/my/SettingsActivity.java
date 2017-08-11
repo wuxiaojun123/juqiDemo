@@ -88,6 +88,7 @@ public class SettingsActivity extends Activity implements OnClickListener {
 				Editor editor = settings.edit();
 				// 存入数据
 				editor.putBoolean("isLogin", false);
+				editor.putString("userid",null);
 				editor.putString("sessionId", null);
 				// 提交修改
 				editor.commit();

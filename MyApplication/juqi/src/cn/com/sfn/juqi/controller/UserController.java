@@ -1,7 +1,7 @@
 /**
  * 有关用户的后台操作
- * @author wangwb
  *
+ * @author wangwb
  */
 
 package cn.com.sfn.juqi.controller;
@@ -23,6 +23,7 @@ import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.net.MyHttpClient;
 import cn.com.sfn.juqi.util.Config;
 import cn.com.wx.util.JsonUtils;
+import cn.com.wx.util.LogUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -40,7 +41,7 @@ public class UserController {
 
     /**
      * 调用网络层进行登录,如果登录成功将用户名保存到sharePerference
-     * 
+     *
      * @param username
      * @param password
      * @return 登录结果
@@ -52,8 +53,11 @@ public class UserController {
         String param = "username=" + username + "&password=" + password;
         // 发送登陆请求 18810543162   123456
         String str = httpClient.doPost(context, action, param);
-        if(!TextUtils.isEmpty(str)){
-            LoginModel loginModel = (LoginModel) JsonUtils.toObject(str,LoginModel.class);
+        if (!TextUtils.isEmpty(str)) {
+            LogUtils.e("登录返回信息是:" + str);
+//            LoginModel loginModel = (LoginModel) JsonUtils.toObject(str, LoginModel.class);
+            LoginDejson logindejson = new LoginDejson();
+            LoginModel loginModel = logindejson.dejson(str);
             // 判断是否登陆成功
             if (loginModel.getStatus() == 1) {
                 // 记住登录状态
@@ -171,7 +175,7 @@ public class UserController {
         String param = "id=" + id;
         System.out.println("用户" + param);
         String str = httpClient.doPost(action, param);
-        System.out.println("用户信息是:" + str);
+        LogUtils.e("用户信息是:" + str);
         if (str.equals("time out")) {
             return null;
         } else {
@@ -186,9 +190,9 @@ public class UserController {
     }
 
     public int editInfo(String nickname, String sex, String age, String uage,
-            String height, String weight, String offense, String defense,
-            String comprehensive, String standard, String position,
-            String signature, String grade) {
+                        String height, String weight, String offense, String defense,
+                        String comprehensive, String standard, String position,
+                        String signature, String grade) {
         String action = "user/profile/edit_post";
         String param = "user_nicename=" + nickname + "&sex=" + sex + "&age="
                 + age + "&u_age=" + uage + "&height=" + height + "&weight="
