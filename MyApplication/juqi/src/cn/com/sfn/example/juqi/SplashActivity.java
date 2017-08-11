@@ -98,7 +98,7 @@ public class SplashActivity extends Activity implements AMapLocationListener {
 
     @Override
     public void onLocationChanged(Location arg0) {
-
+        LogUtils.e("经纬度是：" + arg0.getLatitude() + "------" + arg0.getLongitude());
     }
 
     @Override
@@ -115,6 +115,7 @@ public class SplashActivity extends Activity implements AMapLocationListener {
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
+        LogUtils.e("返回的地图位置:" + amapLocation);
         if (amapLocation != null
                 && amapLocation.getAMapException().getErrorCode() == 0) {
             // 获取位置信息
@@ -122,7 +123,8 @@ public class SplashActivity extends Activity implements AMapLocationListener {
             Double geoLng = amapLocation.getLongitude();
             Config.lat = geoLat;
             Config.lon = geoLng;
-            Toast.makeText(SplashActivity.this, Config.lat + "+" + Config.lon, Toast.LENGTH_SHORT).show();
+            LogUtils.e("定位的经度是:" + Config.lat + "------" + Config.lon);
+//            Toast.makeText(SplashActivity.this, Config.lat + "+" + Config.lon, Toast.LENGTH_SHORT).show();
 //            Log.e("onLocationChanged-geoLat", "geoLat");
         }
     }

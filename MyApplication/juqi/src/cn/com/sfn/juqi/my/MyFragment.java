@@ -208,72 +208,65 @@ public class MyFragment extends Fragment implements OnClickListener {
                 if (!Config.is_login) {
                     mIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(mIntent);
-                    break;
                 } else {
                     mIntent = new Intent(getActivity(), DetailInfoActivity.class);
                     startActivity(mIntent);
-                    break;
                 }
+                break;
             case R.id.my_certificate_btn:
                 if (!Config.is_login) {
                     mIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(mIntent);
-                    break;
                 } else {
                     mIntent = new Intent(getActivity(), CertificateActivity.class);
                     startActivity(mIntent);
-                    break;
                 }
+                break;
             case R.id.my_friend_btn:
                 if (!Config.is_login) {
                     mIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(mIntent);
-                    break;
                 } else {
                     mIntent = new Intent(getActivity(), FriendActivity.class);
                     startActivity(mIntent);
-                    break;
                 }
+                break;
             case R.id.my_message_btn:
                 if (!Config.is_login) {
                     mIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(mIntent);
-                    break;
                 } else {
                     mIntent = new Intent(getActivity(), MessageActivity.class);
                     startActivity(mIntent);
-                    break;
                 }
+                break;
             case R.id.my_bill_btn:
                 if (!Config.is_login) {
                     mIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(mIntent);
-                    break;
                 } else {
                     mIntent = new Intent(getActivity(), MyBillActivity.class);
                     startActivity(mIntent);
-                    break;
                 }
+                break;
             case R.id.my_withdraw_btn:
                 if (!Config.is_login) {
                     mIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(mIntent);
-                    break;
                 } else {
                     mIntent = new Intent(getActivity(), WithdrawActivity.class);
                     startActivity(mIntent);
-                    break;
                 }
+                break;
             case R.id.my_settings_btn:
                 if (!Config.is_login) {
                     mIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(mIntent);
-                    break;
                 } else {
                     mIntent = new Intent(getActivity(), SettingsActivity.class);
                     startActivity(mIntent);
-                    break;
                 }
+                break;
             default:
                 break;
         }

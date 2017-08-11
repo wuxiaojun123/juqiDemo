@@ -176,8 +176,8 @@ public class MainActivity extends Activity {
 
                 break;
             case R.id.MyBottemMyBtn:
-                UserController userController = new UserController();
-                UserModel userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
+//                UserController userController = new UserController();
+//                UserModel userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
                 if (TextUtils.isEmpty(Config.login_userid)) {// 未登录或登录过期
                     startLoginActivity();
                 } else {

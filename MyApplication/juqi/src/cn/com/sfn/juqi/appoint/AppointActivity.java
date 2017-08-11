@@ -17,6 +17,7 @@ import cn.com.sfn.juqi.widgets.DuringWheelAdapter;
 import cn.com.sfn.juqi.widgets.NumericWheelAdapter;
 import cn.com.sfn.juqi.widgets.OnWheelScrollListener;
 import cn.com.sfn.juqi.widgets.WheelView;
+import cn.com.wx.util.LogUtils;
 
 import com.amap.map3d.poisearch.PoiAroundSearchActivity;
 import com.example.juqi.R;
@@ -221,6 +222,7 @@ public class AppointActivity extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.place_map:
+                LogUtils.e("经度和纬度是：" + Config.lat + "--" + Config.lon);
                 if (Config.lat == 0.0 || Config.lon == 0.0) {
                     Toast.makeText(AppointActivity.this, "wait", Toast.LENGTH_SHORT)
                             .show();
@@ -231,6 +233,7 @@ public class AppointActivity extends Activity implements OnClickListener {
                     mapIntent.putExtra("lat", Config.lat);
                     startActivityForResult(mapIntent, 0);
                 }
+
                 break;
             // 点击确认发布按钮
             case R.id.appoint_confirm_btn:
