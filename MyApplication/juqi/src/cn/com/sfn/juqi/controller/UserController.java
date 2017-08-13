@@ -60,16 +60,20 @@ public class UserController {
             LoginModel loginModel = logindejson.dejson(str);
             // 判断是否登陆成功
             if (loginModel.getStatus() == 1) {
+                Config.SessionID = loginModel.getSession_id();
+                LogUtils.e("登陆的sessionId是：" + Config.SessionID);
                 // 记住登录状态
                 Editor editor = setting.edit();
                 // 存入数据
                 editor.putString("userid", loginModel.getId());
+                editor.putString("sessionId", Config.SessionID);
                 // 提交修改
                 editor.commit();
                 Config.login_userid = loginModel.getId();
                 return Config.LoginSuccess;
-            } else
+            } else {
                 return Config.LoginFailed;
+            }
         }
         return -1;
         /*LoginDejson logindejson = new LoginDejson();

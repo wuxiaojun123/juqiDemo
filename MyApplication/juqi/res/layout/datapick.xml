@@ -4,69 +4,79 @@
     android:layout_height="wrap_content"
     android:background="#2f3339"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#2f3339"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="#2f3339"
-          	android:layout_marginTop="10dp"
-        	android:layout_marginBottom="10dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <cn.com.sfn.juqi.widgets.WheelView
                 android:id="@+id/year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
             <cn.com.sfn.juqi.widgets.WheelView
                 android:id="@+id/month"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
             <cn.com.sfn.juqi.widgets.WheelView
                 android:id="@+id/day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
             <cn.com.sfn.juqi.widgets.WheelView
                 android:id="@+id/hour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
             <cn.com.sfn.juqi.widgets.WheelView
                 android:id="@+id/mins"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </LinearLayout>
+
         <LinearLayout
-        	android:layout_width="match_parent"
-        	android:layout_height="45dp"
-        	android:background="@drawable/dialog_bg_bottom_normal"
-        	android:orientation="horizontal" >
-        	<Button
-	            android:id="@+id/set"
-	            style="?android:attr/buttonBarButtonStyle"
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1"
-	            android:background="@color/commentbtn"
-	            android:text="@string/ok"
-	            android:textColor="@color/textcolor" />
-	        <Button
-	            android:id="@+id/cancel"
-	            style="?android:attr/buttonBarButtonStyle"
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1"
-	            android:background="@color/attendbtn"
-	            android:text="@string/cancel"
-	            android:textColor="@color/textcolor" />
-    	</LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/dialog_bg_bottom_normal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/set"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/commentbtn"
+                android:text="@string/ok"
+                android:textColor="@color/textcolor" />
+
+            <Button
+                android:id="@+id/cancel"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/attendbtn"
+                android:text="@string/cancel"
+                android:textColor="@color/textcolor" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

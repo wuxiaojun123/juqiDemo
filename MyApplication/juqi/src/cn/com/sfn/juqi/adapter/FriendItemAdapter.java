@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.widgets.CircleImageView;
+import cn.com.wx.util.GlideUtils;
 
 import com.example.juqi.R;
 
@@ -83,7 +84,7 @@ public class FriendItemAdapter extends BaseAdapter {
 		}
 		UserModel friendModel = (UserModel) getItem(position);
 		if (null != friendModel) {
-			viewHolder.avatar.setImageBitmap(friendModel.getUserAvatar());
+			GlideUtils.loadCircleImage(friendModel.getUserAvatar(),viewHolder.avatar);
 			viewHolder.name.setText(friendModel.getNickName());
 			viewHolder.level.setText(friendModel.getStandard());
 			viewHolder.cyachieve.setText(friendModel.getJoinEntire());

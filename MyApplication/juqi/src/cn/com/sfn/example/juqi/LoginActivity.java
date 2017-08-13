@@ -174,7 +174,6 @@ public class LoginActivity extends Activity implements OnClickListener {
         if (mSsoHandler != null) {
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
-
     }
 
     @Override
@@ -210,7 +209,8 @@ public class LoginActivity extends Activity implements OnClickListener {
             case R.id.register_btn:
                 mIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(mIntent);
-                finish();
+//                finish();
+
                 break;
             case R.id.login_btn:
                 account = accountEdit.getText().toString().trim();

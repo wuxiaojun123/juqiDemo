@@ -35,7 +35,7 @@ public class MatchModel {
 	private String status_title;
 	private String type_title;
 	private List<AttendModel> attendList;
-	private Bitmap uImg;
+	private String uImg;
 	private String uAge;
 	private int JoinEntire;
 	private int JoinLevel;
@@ -322,11 +322,11 @@ public class MatchModel {
 		this.attendList = attendList;
 	}
 
-	public Bitmap getuImg() {
+	public String getuImg() {
 		return uImg;
 	}
 
-	public void setuImg(Bitmap uImg) {
+	public void setuImg(String uImg) {
 		this.uImg = uImg;
 	}
 

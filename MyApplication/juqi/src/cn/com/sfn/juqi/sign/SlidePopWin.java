@@ -28,20 +28,24 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import cn.com.wx.util.LogUtils;
+
 public class SlidePopWin extends PopupWindow implements
         ExpandableListView.OnChildClickListener,
         ExpandableListView.OnGroupClickListener {
+
     private ExpandableListView expandableListView;
     private ArrayList<Group> groupList;
     private ArrayList<List<QueryType>> childList;
-    public static Handler mHandler;
+    private Handler mHandler;
     private MyexpandableListAdapter adapter;
     private View mMenuView; // PopupWindow上面装载的View
     private Group group;
     private GroupHolder groupHolder;
 
-    public SlidePopWin(final Activity context) {
+    public SlidePopWin(final Activity context, Handler mHandler) {
         super(context);
+        this.mHandler = mHandler;
         /* 将xml布局初始化为View,并初始化上面的控件 */
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -110,7 +114,6 @@ public class SlidePopWin extends PopupWindow implements
                 } else {
                     group.setTitle(groupList.get(i).getTitle());
                 }
-
             } else {
                 if (groupList.size() == 1) {
                     group.setTitle("排序方式");
@@ -153,7 +156,7 @@ public class SlidePopWin extends PopupWindow implements
 
     /***
      * 数据源
-     * 
+     *
      * @author Administrator
      */
     class MyexpandableListAdapter extends BaseExpandableListAdapter {
@@ -207,7 +210,7 @@ public class SlidePopWin extends PopupWindow implements
 
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded,
-                View convertView, ViewGroup parent) {
+                                 View convertView, ViewGroup parent) {
             // GroupHolder groupHolder = null;
             if (convertView == null) {
                 groupHolder = new GroupHolder();
@@ -233,7 +236,7 @@ public class SlidePopWin extends PopupWindow implements
 
         @Override
         public View getChildView(int groupPosition, int childPosition,
-                boolean isLastChild, View convertView, ViewGroup parent) {
+                                 boolean isLastChild, View convertView, ViewGroup parent) {
             ChildHolder childHolder = null;
             if (convertView == null) {
                 childHolder = new ChildHolder();
@@ -261,24 +264,20 @@ public class SlidePopWin extends PopupWindow implements
 
     @Override
     public boolean onGroupClick(final ExpandableListView parent, final View v,
-            int groupPosition, final long id) {
-
+                                int groupPosition, final long id) {
         return false;
     }
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v,
-            int groupPosition, int childPosition, long id) {
-
+                                int groupPosition, int childPosition, long id) {
         Message mesg = new Message();
         Bundle data = new Bundle();
         data.putString("type", childList.get(groupPosition).get(childPosition).getType());
         mesg.setData(data);
-        mesg.what = 1;
+        mesg.what = 10;
         mHandler.sendMessage(mesg);
         QueryType querytype = childList.get(groupPosition).get(childPosition);
-        // groupHolder.textView.setText(((Group)
-        // groupList.get(groupPosition)).getTitle()+"       "+querytype.getType());
         groupList = new ArrayList<Group>();
         Group group = null;
         for (int i = 0; i < 2; i++) {
@@ -286,23 +285,20 @@ public class SlidePopWin extends PopupWindow implements
             if (i == 0) {
                 if (groupPosition == 0) {
                     group.setTitle("活动地点           " + querytype.getType());
-                }
-                else {
-                    group.setTitle("活动地点");
+                } else {
+                    group.setTitle("活动地点           ");
                 }
             } else {
                 if (groupPosition == 1) {
                     group.setTitle("排序方式         " + querytype.getType());
-                }
-                else {
-                    group.setTitle("排序方式");
+                } else {
+                    group.setTitle("排序方式         ");
                 }
             }
             groupList.add(group);
         }
         adapter.notifyDataSetChanged();
-        Log.e("groupPosition", Integer.toString(groupPosition));
-        // dismiss();
+        LogUtils.e("摔选条件 groupPosition:" + Integer.toString(groupPosition));
         return false;
     }
 

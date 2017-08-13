@@ -15,12 +15,13 @@ import cn.com.sfn.juqi.model.FriendModel;
 import cn.com.sfn.juqi.model.MatchModel;
 import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.net.MyHttpClient;
+import cn.com.sfn.juqi.util.Config;
 
 public class UserDejson {
     private JSONObject infoObject;
 
     public UserModel userInfoDejson(String str) {
-        if(TextUtils.isEmpty(str)){
+        if (TextUtils.isEmpty(str)) {
             return null;
         }
         UserModel userInfo = new UserModel();
@@ -37,8 +38,10 @@ public class UserDejson {
         try {
             userInfo.setUserId(infoObject.getString("id"));
             userInfo.setNickName(infoObject.getString("user_nicename"));
-            userInfo.setUserAvatar(MyHttpClient.getImage("http://192.168.3.2"
-                    + infoObject.getString("u_img")));// 210.72.13.135
+            String userAvatar = infoObject.getString("u_img");
+            if (!TextUtils.isEmpty(userAvatar) && userAvatar.endsWith("avatar/")) {
+                userInfo.setUserAvatar(Config.URL_BASE + userAvatar);// 210.72.13.135
+            }
             userInfo.setUserSex(infoObject.getString("sex"));
             userInfo.setAge(infoObject.getString("age"));
             userInfo.setUage(infoObject.getString("u_age"));
@@ -108,8 +111,8 @@ public class UserDejson {
                 matchModel.setLatitude(Double.valueOf(json
                         .getString("latitude")));
                 matchModel.setFee(json.getString("fee"));
-                matchModel.setuImg(MyHttpClient.getImage("http://192.168.3.2"
-                        + friendObject.getString("u_img")));// 210.72.13.135
+                matchModel.setuImg(Config.URL_BASE
+                        + friendObject.getString("u_img"));// 210.72.13.135
                 releaseList.add(matchModel);
             }
         } catch (JSONException e) {
@@ -120,9 +123,7 @@ public class UserDejson {
         try {
             friendDetail.setUserId(friendObject.getString("id"));
             friendDetail.setNickName(friendObject.getString("user_nicename"));
-            friendDetail.setUserAvatar(MyHttpClient
-                    .getImage("http://192.168.3.2"
-                            + friendObject.getString("u_img")));// 210.72.13.135
+            friendDetail.setUserAvatar(Config.URL_BASE + friendObject.getString("u_img"));// 210.72.13.135
             friendDetail.setUserSex(friendObject.getString("sex"));
             friendDetail.setAge(friendObject.getString("age"));
             friendDetail.setSignature(friendObject.getString("signature"));
@@ -173,9 +174,8 @@ public class UserDejson {
                 friendModel.setNickName(json.getString("user_nicename"));
                 friendModel.setFriendship(json.getString("friend_ship"));
                 friendModel.setStandard(json.getString("standard"));
-                friendModel.setUserAvatar(MyHttpClient
-                        .getImage("http://192.168.3.2"
-                                + json.getString("u_img")));// 210.72.13.135
+                friendModel.setUserAvatar(Config.URL_BASE
+                        + json.getString("u_img"));// 210.72.13.135
                 friendModel.setJoinEntire(json.getString("join_entire"));
                 friendModel.setReleaseEntire(json.getString("release_entire"));
                 friends.add(friendModel);
@@ -210,9 +210,8 @@ public class UserDejson {
                 friendModel.setUserId(json.getString("id"));
                 friendModel.setNickName(json.getString("user_nicename"));
                 friendModel.setStandard(json.getString("standard"));
-                friendModel.setUserAvatar(MyHttpClient
-                        .getImage("http://192.168.3.2"
-                                + json.getString("u_img")));// 210.72.13.135
+                friendModel.setUserAvatar(Config.URL_BASE
+                        + json.getString("u_img"));// 210.72.13.135
                 friendModel.setJoinEntire(json.getString("join_entire"));
                 friendModel.setReleaseEntire(json.getString("release_entire"));
                 friends.add(friendModel);
@@ -256,9 +255,8 @@ public class UserDejson {
             e.printStackTrace();
         }
         try {
-            auth.setAvatar(MyHttpClient
-                    .getImage("http://192.168.3.2"
-                            + authObject1.getString("u_img")));
+            auth.setAvatar(Config.URL_BASE
+                    + authObject1.getString("u_img"));
             auth.setAccount(authObject1.getString("account_name"));
             auth.setType(authObject1.getString("type"));
             auth.setResidula(authObject1.getString("max_withdraw"));
@@ -287,9 +285,7 @@ public class UserDejson {
         try {
             auth.setId(authObject.getString("id"));
             auth.setName(authObject.getString("user_nicename"));
-            auth.setAvatar(MyHttpClient
-                    .getImage("http://192.168.3.2"
-                            + authObject.getString("u_img")));
+            auth.setAvatar(Config.URL_BASE + authObject.getString("u_img"));
             auth.setStatus(authObject.getString("verify_status"));
             auth.setBalance(authObject.getString("coin"));
             auth.setIncome(authObject.getString("add_up"));

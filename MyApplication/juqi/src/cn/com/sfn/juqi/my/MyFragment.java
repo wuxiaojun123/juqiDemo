@@ -8,11 +8,15 @@ import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.my.auth.WithdrawActivity;
 import cn.com.sfn.juqi.my.message.MessageActivity;
 import cn.com.sfn.juqi.my.mybill.MyBillActivity;
+import cn.com.sfn.juqi.rxbus.RxBus;
+import cn.com.sfn.juqi.rxbus.rxtype.RxtypeUpdateBean;
 import cn.com.sfn.juqi.util.Config;
 import cn.com.sfn.juqi.util.ToastUtil;
 import cn.com.sfn.juqi.widgets.CircleImageView;
 import cn.com.sfn.juqi.widgets.RoundProgressBar;
+import cn.com.wx.util.GlideUtils;
 import cn.com.wx.util.LogUtils;
+import rx.functions.Action1;
 
 import com.example.juqi.R;
 
@@ -26,6 +30,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,13 +50,11 @@ public class MyFragment extends Fragment implements OnClickListener {
     private RelativeLayout infoDetail;
     private Intent mIntent = null;
     private CircleImageView avatar_btn;
-    // sd路径
-
+    private TextView tv_default_avatar;
     private RelativeLayout mSettingsButton, mWithdrawButton, mFriendButton;
     private RelativeLayout mCertificateButton, mBillButton, mMessageButton;
     private RoundProgressBar defenseBar, offenseBar, zongheBar;
     private UserController userController;
-    private UserModel userModel = new UserModel();
     private Context mContext;
 
     private Handler myhandler = new Handler() {
@@ -59,9 +62,8 @@ public class MyFragment extends Fragment implements OnClickListener {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    initShow();
-                    LogUtils.e("用户昵称是" + userModel == null ? "null" : userModel.getNickName());
-
+                    initShow(Config.mUserModel);
+                    LogUtils.e("用户昵称是" + Config.mUserModel == null ? "null" : Config.mUserModel.getNickName());
                     break;
                 case 2:
                     ToastUtil.show(mContext, "未登录");
@@ -83,8 +85,24 @@ public class MyFragment extends Fragment implements OnClickListener {
         findViewById();
         initView();
         initData();
+        initRxBus();
 
         return myView;
+    }
+
+    private void initRxBus() {
+        RxBus.getDefault().toObservable(RxtypeUpdateBean.class).subscribe(new Action1<RxtypeUpdateBean>() {
+            @Override
+            public void call(RxtypeUpdateBean rxtypeUpdateBean) {
+                if (rxtypeUpdateBean != null) {
+                    if (rxtypeUpdateBean.updateFlag == 2) {
+                        initShow(Config.mUserModel);
+                    } else if (rxtypeUpdateBean.updateFlag == 1) {
+                        loadCircleImage(Config.mUserModel.getUserAvatar());
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -102,6 +120,7 @@ public class MyFragment extends Fragment implements OnClickListener {
         mRegister = (TextView) myView.findViewById(R.id.my_register_button);
         mLoginButton = (TextView) myView.findViewById(R.id.my_login_button);
         mBillButton = (RelativeLayout) myView.findViewById(R.id.my_bill_btn);
+        tv_default_avatar = (TextView) myView.findViewById(R.id.tv_default_avatar);
         mFriendButton = (RelativeLayout) myView
                 .findViewById(R.id.my_friend_btn);
         mMessageButton = (RelativeLayout) myView
@@ -141,7 +160,7 @@ public class MyFragment extends Fragment implements OnClickListener {
         }
     }
 
-    private void initShow() {
+    private void initShow(UserModel userModel) {
         if (userModel == null || userModel.getJoinEntire() == null) {
             return;
         }
@@ -171,23 +190,29 @@ public class MyFragment extends Fragment implements OnClickListener {
         offenseBar.setProgress(Integer.valueOf(userModel.getOffense()));
         defenseBar.setProgress(Integer.valueOf(userModel.getDefense()));
         zongheBar.setProgress(Integer.valueOf(userModel.getComprehensive()));
-        @SuppressWarnings("deprecation")
-        Drawable drawable = new BitmapDrawable(userModel.getUserAvatar());// 转换成drawable
-        avatar_btn.setImageDrawable(drawable);
+        loadCircleImage(userModel.getUserAvatar());
+    }
+
+    private void loadCircleImage(String url) {
+        if (TextUtils.isEmpty(url)) {
+            tv_default_avatar.setVisibility(View.VISIBLE);
+            avatar_btn.setVisibility(View.GONE);
+        } else {
+            avatar_btn.setVisibility(View.VISIBLE);
+            tv_default_avatar.setVisibility(View.GONE);
+            GlideUtils.loadCircleImage(url, avatar_btn);
+        }
     }
 
     protected void initData() {
         new Thread() {
             public void run() {
-                userModel = userController.getInfo(Config.login_userid);
+                UserModel userModel = userController.getInfo(Config.login_userid);
                 if (userModel == null) {
-                    Message msg = new Message();
-                    msg.what = 2;
-                    myhandler.sendMessage(msg);
+                    myhandler.sendEmptyMessage(2);
                 } else {
-                    Message msg = new Message();
-                    msg.what = 1;
-                    myhandler.sendMessage(msg);
+                    Config.mUserModel = userModel;
+                    myhandler.sendEmptyMessage(1);
                 }
             }
         }.start();

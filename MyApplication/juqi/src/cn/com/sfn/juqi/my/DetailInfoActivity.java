@@ -1,22 +1,5 @@
 package cn.com.sfn.juqi.my;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import cn.com.sfn.example.juqi.MainActivity;
-import cn.com.sfn.juqi.controller.UserController;
-import cn.com.sfn.juqi.model.UserModel;
-import cn.com.sfn.juqi.net.MyHttpClient;
-import cn.com.sfn.juqi.util.Config;
-import cn.com.sfn.juqi.widgets.ArrayWheelAdapter;
-import cn.com.sfn.juqi.widgets.CircleImageView;
-import cn.com.sfn.juqi.widgets.NumberWheelAdaper;
-import cn.com.sfn.juqi.widgets.WheelView;
-
-import com.example.juqi.R;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -27,31 +10,45 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.PopupWindow.OnDismissListener;
+
+import com.example.juqi.R;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import cn.com.sfn.juqi.controller.UserController;
+import cn.com.sfn.juqi.model.UserModel;
+import cn.com.sfn.juqi.rxbus.RxBus;
+import cn.com.sfn.juqi.rxbus.rxtype.RxtypeUpdateBean;
+import cn.com.sfn.juqi.util.ChooseCameraPopuUtils;
+import cn.com.sfn.juqi.util.Config;
+import cn.com.sfn.juqi.util.ToastUtil;
+import cn.com.sfn.juqi.widgets.ArrayWheelAdapter;
+import cn.com.sfn.juqi.widgets.CircleImageView;
+import cn.com.sfn.juqi.widgets.NumberWheelAdaper;
+import cn.com.sfn.juqi.widgets.WheelView;
+import cn.com.wx.util.GlideUtils;
+import cn.com.wx.util.LogUtils;
 
 @SuppressLint("HandlerLeak")
 public class DetailInfoActivity extends Activity implements OnClickListener {
-    @SuppressLint("SdCardPath")
     private static String path = "/sdcard/myHead/";
-    private MyHttpClient uploadClient;
-    private Bitmap head;
     // 在页面上添加其他layout
     private LayoutInflater inflater = null;
     private TextView back;
@@ -71,26 +68,8 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
     private String level[] = {"初级菜鸟", "一般水平", "业余高手"};
     private Button confirm;
     private String sexStr;
-    private Intent mIntent;
-    private String postUrl = "http://www.juqilife.cn/user/profile/avatar_upload"; // 处理POST请求的页面
-
-
-    private Handler myhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    initShow();
-                    break;
-                case 2:
-                    Toast.makeText(DetailInfoActivity.this, "未登录",
-                            Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
+    private Context mContext;
+    private ChooseCameraPopuUtils chooseCameraPopuUtils;
 
 
     @Override
@@ -98,6 +77,7 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_detail_info);
+        mContext = this;
         userController = new UserController();
         findViewById();
         initView();
@@ -115,13 +95,22 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
         } else {
             sex.setText("女");
         }
-        age.setText(userModel.getAge());
-        @SuppressWarnings("deprecation")
-        Drawable drawable = new BitmapDrawable(userModel.getUserAvatar());// 转换成drawable
-        avatar.setImageDrawable(drawable);
-        gameAge.setText(userModel.getUage());
-        height.setText(userModel.getHeight());
-        weight.setText(userModel.getWeight());
+        String ageParams = userModel.getAge().trim();
+        if (!TextUtils.isEmpty(ageParams) && !"0".equals(ageParams)) {
+            age.setText(ageParams);
+        }
+        String uageParams = userModel.getUage().trim();
+        if (!TextUtils.isEmpty(uageParams) && !"0".equals(uageParams)) {
+            gameAge.setText(uageParams);
+        }
+        String heightParams = userModel.getHeight().trim();
+        if (!TextUtils.isEmpty(heightParams) && !"0".equals(heightParams)) {
+            height.setText(heightParams);
+        }
+        String weightParams = userModel.getWeight().trim();
+        if (!TextUtils.isEmpty(weightParams) && !"0".equals(weightParams)) {
+            weight.setText(weightParams);
+        }
         offense.setText(userModel.getOffense());
         defense.setText(userModel.getDefense());
         zonghe.setText(userModel.getComprehensive());
@@ -137,6 +126,7 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
         } else {
             zhanji.setText(userModel.getGrade());
         }
+        GlideUtils.loadCircleImage(userModel.getUserAvatar(), avatar);
     }
 
     protected void findViewById() {
@@ -180,16 +170,24 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
     }
 
     protected void initData() {
-        new Thread() {
-            public void run() {
-                userModel = userController.getInfo(Config.login_userid);
-                if (userModel == null) {
-                    myhandler.sendEmptyMessage(2);
-                } else {
-                    myhandler.sendEmptyMessage(1);
-                }
+        userModel = Config.mUserModel;
+        initShow();
+        chooseCameraPopuUtils = new ChooseCameraPopuUtils(this, Config.URL_UPLOAD_HEADER);
+        chooseCameraPopuUtils.setOnUploadImageListener(new ChooseCameraPopuUtils.OnUploadImageListener() {
+            @Override
+            public void onLoadError() {
+                ToastUtil.show(mContext, "选择相片出错");
             }
-        }.start();
+
+            @Override
+            public void onLoadSucced(int flag, String url) {
+                LogUtils.e("头像修改的路径是：" + url);
+                Config.mUserModel.setUserAvatar(Config.URL_IMAGE_BASE + url);
+                GlideUtils.loadCircleImage(Config.mUserModel.getUserAvatar(), avatar);
+                sendRxtypeUpdateFlag(1);
+                ToastUtil.show(mContext, "上传成功");
+            }
+        });
     }
 
     @Override
@@ -223,56 +221,83 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
                 showPopwindow(getArrayPick(weizhi, role));
                 break;
             case R.id.avatar_btn:
-                Intent avaIntent = new Intent(Intent.ACTION_PICK, null);
+                /*Intent avaIntent = new Intent(Intent.ACTION_PICK, null);
                 avaIntent.setDataAndType(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(avaIntent, 1);
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image*//*");
+                startActivityForResult(avaIntent, 1);*/
+                chooseCameraPopuUtils.showPopupWindow();
                 break;
             case R.id.info_confirm_btn:
-                if (sex.getText().toString().equals("男")) {
+                String sexParams = sex.getText().toString().trim();
+                String nichNameParams = nickName.getText().toString().trim();
+                String ageParams = age.getText().toString().trim();
+                String gameAgeParams = gameAge.getText().toString().trim();
+                String heightParams = height.getText().toString().trim();
+                String weightParams = weight.getText().toString().trim();
+                String offenseParams = offense.getText().toString().trim();
+                String defenseParams = defense.getText().toString().trim();
+                String zongheParams = zonghe.getText().toString().trim();
+                String shizhanParams = shizhan.getText().toString().trim();
+                String weizhiParams = weizhi.getText().toString().trim();
+                String signatureParams = signature.getText().toString().trim();
+                String zhanjiParams = zhanji.getText().toString().trim();
+
+                if (sexParams.equals("男")) {
                     sexStr = "1";
                 } else {
                     sexStr = "2";
                 }
                 int rs = userController
-                        .editInfo(nickName.getText().toString(), sexStr, age
-                                        .getText().toString(),
-                                gameAge.getText().toString(), height.getText()
-                                        .toString(), weight.getText().toString(),
-                                offense.getText().toString(), defense.getText()
-                                        .toString(), zonghe.getText().toString(),
-                                shizhan.getText().toString(), weizhi.getText()
-                                        .toString(),
-                                signature.getText().toString(), zhanji.getText()
-                                        .toString());
+                        .editInfo(nichNameParams, sexStr, ageParams, gameAgeParams
+                                , heightParams, weightParams, offenseParams
+                                , defenseParams, zongheParams, shizhanParams
+                                , weizhiParams, signatureParams
+                                , zhanjiParams);
                 if (rs == Config.EditSuccess) {
-                    Toast.makeText(DetailInfoActivity.this, "修改成功",
-                            Toast.LENGTH_LONG).show();
-                    mIntent = new Intent();
-                    mIntent.putExtra("flag", 5);
-                    mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    mIntent.setClass(DetailInfoActivity.this, MainActivity.class);
-                    startActivity(mIntent);
-                    finish();
-                    finish();
-                    break;
+                    ToastUtil.show(mContext, "修改成功");
+                    UserModel mUserModel = Config.mUserModel;
+                    if (mUserModel != null) {
+                        mUserModel.setNickName(nichNameParams);
+                        mUserModel.setUserSex(sexStr);
+                        mUserModel.setAge(ageParams);
+                        mUserModel.setUage(gameAgeParams);
+                        mUserModel.setHeight(heightParams);
+                        mUserModel.setWeight(weightParams);
+                        mUserModel.setOffense(offenseParams);
+                        mUserModel.setDefense(defenseParams);
+                        mUserModel.setComprehensive(zongheParams);
+                        mUserModel.setStandard(shizhanParams);
+                        mUserModel.setPosition(weizhiParams);
+                        mUserModel.setSignature(signatureParams);
+                        mUserModel.setGrade(zhanjiParams);
+                        Config.mUserModel = mUserModel;
+                    }
+                    sendRxtypeUpdateFlag(2);
+//                    startMainActivity();
                 } else if (rs == -1) {
-                    Toast.makeText(DetailInfoActivity.this, "网络异常",
-                            Toast.LENGTH_LONG).show();
-                    break;
+                    ToastUtil.show(mContext, "网络异常");
                 } else {
-                    Toast.makeText(DetailInfoActivity.this, "网络异常",
-                            Toast.LENGTH_LONG).show();
-                    break;
+                    ToastUtil.show(mContext, "网络异常");
                 }
+                break;
             default:
                 break;
         }
     }
 
+    private void sendRxtypeUpdateFlag(int updateFlag) {
+        RxBus.getDefault().post(new RxtypeUpdateBean(updateFlag));
+        if (updateFlag == 2) {
+            finish();
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
+        if (chooseCameraPopuUtils != null)
+            chooseCameraPopuUtils.onActivityResult(requestCode, resultCode, data);
+
+        /*switch (requestCode) {
             case 1:
                 if (resultCode == Activity.RESULT_OK) {
                     cropPhoto(data.getData(), 3);// 裁剪图片
@@ -281,26 +306,32 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
             case 3:
                 if (data != null) {
                     Bundle extras = data.getExtras();
-                    head = extras.getParcelable("data");
-                    if (head != null) {
-                        setPicToView(head);// 保存在SD卡中
-                        avatar.setImageBitmap(head);// 用ImageView显示出来
-                        /**
-                         * 上传服务器代码
-                         */
+                    Bitmap headBitmap = extras.getParcelable("data");
+                    if (headBitmap != null) {
+                        setPicToView(headBitmap);// 保存在SD卡中
+                        *//**
+         * 上传服务器代码
+         *//*
                         uploadClient = new MyHttpClient();
-                        String sstr = uploadClient.uploadFile(postUrl, "head.jpg", path
+                        String sstr = uploadClient.uploadFile(Config.URL_UPLOAD, "head.jpg", path
                                 + "head.jpg");
-                        if (!sstr.equals(""))
-                            Log.i("upload", "success");
-                        else
-                            Log.i("upload", "fail");
+                        if (!TextUtils.isEmpty(sstr)) {
+                            LogUtils.e("上传success:" + sstr);
+                            Config.mUserModel.setUserAvatar(Config.URL_IMAGE_BASE + sstr);
+                            sendRxtypeUpdateFlag(1);
+                            ToastUtil.show(mContext, "上传成功");
+                        } else {
+                            ToastUtil.show(mContext, "上传失败");
+                        }
+                        if (headBitmap != null) {
+                            headBitmap.recycle();
+                        }
                     }
                 }
                 break;
             default:
                 break;
-        }
+        }*/
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -336,6 +367,7 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
             b = new FileOutputStream(fileName);
             mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
 
+            GlideUtils.loadCircleImage(fileName, avatar);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {

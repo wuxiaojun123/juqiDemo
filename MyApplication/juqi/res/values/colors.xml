@@ -333,4 +333,15 @@
     <color name="act_background">#efefef</color>
     <color name="phone_bg">#f6f6f6</color>
 
+    <!-- 仿ios弹窗颜色 -->
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#037BFF</color>
+    <color name="actionsheet_red">#FD4A2E</color>
+    <color name="actionsheet_gray">#8F8F8F</color>
+    <color name="assist0">#666666</color>
+    <color name="The_main_text">#000000</color>
+
+    <color name="color_3488ab">#3488ab</color>
+    <color name="color_9adfff">#9adfff</color>
+
 </resources>

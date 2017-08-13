@@ -162,8 +162,9 @@
                 <EditText
                     android:id="@+id/age_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerVertical="true"
+                    android:maxLines="1"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/age_txt"
                     android:background="@null"
@@ -196,6 +197,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_toRightOf="@id/game_age_txt"
                     android:background="@null"
                     android:hint="@string/hint5"

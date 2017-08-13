@@ -6,6 +6,8 @@ import com.example.juqi.R;
 
 import cn.com.sfn.juqi.model.CommentsModel;
 import cn.com.sfn.juqi.widgets.CircleImageView;
+import cn.com.wx.util.GlideUtils;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +77,8 @@ public class CommentsItemAdapter extends BaseAdapter {
 		if (null != commentsModel) {
 			viewHolder.name.setText(commentsModel.getUserName());
 			viewHolder.content.setText(commentsModel.getContent());
-			viewHolder.avatar.setImageBitmap(commentsModel.getUserAvatar());
+//			viewHolder.avatar.setImageBitmap(commentsModel.getUserAvatar());
+			GlideUtils.loadCircleImage(commentsModel.getUserAvatar(),viewHolder.avatar);
 		}
 		final int p = position;
 		final int zero = viewHolder.avatar.getId();

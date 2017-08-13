@@ -10,6 +10,31 @@ public class LoginModel {
     private String state; // success
     private String info; // 信息
     private String referer; // 头像链接
+    private String session_id; // cookie
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getReferer() {
+        return referer;
+    }
+
+    public void setReferer(String referer) {
+        this.referer = referer;
+    }
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
 
     public String getId() {
         return id;

@@ -3,6 +3,7 @@ package cn.com.sfn.juqi.net;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +31,7 @@ import android.util.Log;
 public class MyHttpClient {
 
     private String result = "";
-    private String url = "https://www.juqilife.cn/"; // 192.168.3.2 210.72.13.135
+//    private String url = ""; // 192.168.3.2 210.72.13.135
     // www.juqilife.cn
 
     private SharedPreferences settings;
@@ -53,7 +54,7 @@ public class MyHttpClient {
         }
         HttpURLConnection conn = null;
         try {
-            URL requestURL = new URL(url + action);
+            URL requestURL = new URL(Config.URL_BASE + action);
             conn = (HttpURLConnection) requestURL.openConnection();
             if (Config.SessionID != null) {
                 conn.setRequestProperty("Cookie", Config.SessionID);
@@ -111,8 +112,9 @@ public class MyHttpClient {
     public String doPost(String action, String params) {
         HttpURLConnection conn = null;
         try {
-            URL requestURL = new URL(url + action);
+            URL requestURL = new URL(Config.URL_BASE + action);
             conn = (HttpURLConnection) requestURL.openConnection();
+            LogUtils.e("设置cookie=" + Config.SessionID);
             if (Config.SessionID != null) {
                 conn.setRequestProperty("Cookie", Config.SessionID);
             }
@@ -158,8 +160,8 @@ public class MyHttpClient {
     public String doGet(String action) {
         HttpURLConnection conn = null;
         try {
-            System.out.println(url + action);
-            URL requestURL = new URL(url + action);
+            System.out.println(Config.URL_BASE + action);
+            URL requestURL = new URL(Config.URL_BASE + action);
             conn = (HttpURLConnection) requestURL.openConnection();
             if (Config.SessionID != null) {
                 conn.setRequestProperty("Cookie", Config.SessionID);
@@ -203,7 +205,7 @@ public class MyHttpClient {
         this.result = result;
     }
 
-    public static Bitmap getImage(String urlpath) throws Exception {
+    /*public static Bitmap getImage(String urlpath) throws Exception {
         urlpath = StrReplace(urlpath, "192.168.3.2", "www.juqilife.cn"); // 绗簩澶勬敼鍦板潃鐨勫湴鏂�
         URL url = new URL(urlpath);
 
@@ -216,6 +218,78 @@ public class MyHttpClient {
             bitmap = BitmapFactory.decodeStream(inputStream);
         }
         return bitmap;
+    }*/
+
+    public String uploadFile(String postUrl, String type, File uploadFile) {
+        String end = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        try {
+            URL url = new URL(postUrl + type);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            /*
+             * Output to the connection. Default is false, set to true because
+             * post method must write something to the connection
+             */
+            con.setDoOutput(true);
+            /* Read from the connection. Default is true. */
+            con.setDoInput(true);
+            /* Post cannot use caches */
+            con.setUseCaches(false);
+            /* Set the post method. Default is GET */
+            if (Config.SessionID != null) {
+                con.setRequestProperty("Cookie", Config.SessionID);
+            }
+            con.setRequestMethod("POST");
+            /* 璁剧疆璇锋眰灞炴�� */
+            con.setRequestProperty("Connection", "Keep-Alive");
+            con.setRequestProperty("Charset", "UTF-8");
+            con.setRequestProperty("Content-Type",
+                    "multipart/form-data;boundary=" + boundary);
+            /* 璁剧疆DataOutputStream锛実etOutputStream涓粯璁よ皟鐢╟onnect() */
+            DataOutputStream ds = new DataOutputStream(con.getOutputStream()); // output
+            // to
+            // the
+            // connection
+            ds.writeBytes(twoHyphens + boundary + end);
+            ds.writeBytes("Content-Disposition: form-data; "
+                    + "name=\"file\";filename=\"" + uploadFile.getName() + "\"" + end);
+            ds.writeBytes(end);
+            /* 鍙栧緱鏂囦欢鐨凢ileInputStream */
+            FileInputStream fStream = new FileInputStream(uploadFile);
+            /* 璁剧疆姣忔鍐欏叆8192bytes */
+            int bufferSize = 8192;
+            byte[] buffer = new byte[bufferSize]; // 8k
+            int length = -1;
+            /* 浠庢枃浠惰鍙栨暟鎹嚦缂撳啿鍖� */
+            while ((length = fStream.read(buffer)) != -1) {
+                /* 灏嗚祫鏂欏啓鍏ataOutputStream涓� */
+                ds.write(buffer, 0, length);
+            }
+            ds.writeBytes(end);
+            ds.writeBytes(twoHyphens + boundary + twoHyphens + end);
+            /* 鍏抽棴娴侊紝鍐欏叆鐨勪笢瑗胯嚜鍔ㄧ敓鎴怘ttp姝ｆ枃 */
+            fStream.close();
+            /* 鍏抽棴DataOutputStream */
+            ds.close();
+            /* 浠庤繑鍥炵殑杈撳叆娴佽鍙栧搷搴斾俊鎭� */
+            InputStream is = con.getInputStream(); // input from the connection
+            // 姝ｅ紡寤虹珛HTTP杩炴帴
+            int ch;
+            StringBuffer b = new StringBuffer();
+            while ((ch = is.read()) != -1) {
+                b.append((char) ch);
+            }
+            /* 鏄剧ず缃戦〉鍝嶅簲鍐呭 */
+            LogUtils.e("上传图片：" + b.toString().trim());
+            String str = "";
+            UserDejson ud = new UserDejson();
+            str = ud.imageName(b.toString().trim());
+            return str;
+        } catch (Exception e) {
+            /* 鏄剧ず寮傚父淇℃伅 */
+            return "";
+        }
     }
 
     /* 涓婁紶鏂囦欢鑷砈erver鐨勬柟娉� */
@@ -280,7 +354,7 @@ public class MyHttpClient {
                 b.append((char) ch);
             }
             /* 鏄剧ず缃戦〉鍝嶅簲鍐呭 */
-            Log.e("uploadImage", b.toString().trim());
+            LogUtils.e("上传图片：" + b.toString().trim());
             String str = "";
             UserDejson ud = new UserDejson();
             str = ud.imageName(b.toString().trim());

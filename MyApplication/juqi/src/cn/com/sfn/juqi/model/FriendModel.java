@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 public class FriendModel {
 	private String userId;
 	private String nickName;
-	private Bitmap userAvatar;
+	private String userAvatar;
 	private String userSex;
 	private String age;
 	private String signature;
@@ -39,11 +39,11 @@ public class FriendModel {
 		this.nickName = nickName;
 	}
 
-	public Bitmap getUserAvatar() {
+	public String getUserAvatar() {
 		return userAvatar;
 	}
 
-	public void setUserAvatar(Bitmap userAvatar) {
+	public void setUserAvatar(String userAvatar) {
 		this.userAvatar = userAvatar;
 	}
 

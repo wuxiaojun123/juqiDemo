@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import cn.com.sfn.juqi.model.AccountModel;
 import cn.com.sfn.juqi.model.BillModel;
 import cn.com.sfn.juqi.net.MyHttpClient;
+import cn.com.sfn.juqi.util.Config;
 
 public class BillDejson {
 	private JSONObject infoObject, userObject;
@@ -53,8 +54,8 @@ public class BillDejson {
 		}
 		try {
 			accountModel.setId(userObject.getString("id"));
-			accountModel.setAvatar(MyHttpClient.getImage("http://192.168.3.2"
-					+ userObject.getString("u_img")));
+			accountModel.setAvatar(Config.URL_BASE
+					+ userObject.getString("u_img"));
 			accountModel.setBalance(userObject.getString("coin"));
 			accountModel.setIncome(userObject.getString("add_up"));
 			accountModel.setBillModel(billList);

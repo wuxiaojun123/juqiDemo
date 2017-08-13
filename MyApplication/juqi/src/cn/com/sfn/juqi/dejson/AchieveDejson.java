@@ -34,6 +34,7 @@ public class AchieveDejson {
                 if (json.has("join_entire")) {
                     achieveModel.setScore(json.getString("join_entire"));
                 }
+                achieveModel.setScore(json.getString("total_score"));
                 joinAcList.add(achieveModel);
             }
         } catch (JSONException e) {
@@ -65,6 +66,7 @@ public class AchieveDejson {
                 if (json.has("release_entire")) {
                     achieveModel.setScore(json.getString("release_entire"));
                 }
+                achieveModel.setScore(json.getString("total_score"));
                 releaseAcList.add(achieveModel);
             }
         } catch (JSONException e) {

@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
         ButterKnife.bind(this);
         mContext = this;
         mIntent = getIntent();
-
+//        initNet();
         // 进入系统默认为BillOverViewFragment
         fm = getFragmentManager();
         flag = mIntent.getIntExtra("flag", 0);
@@ -176,21 +176,21 @@ public class MainActivity extends Activity {
 
                 break;
             case R.id.MyBottemMyBtn:
-//                UserController userController = new UserController();
-//                UserModel userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
                 if (TextUtils.isEmpty(Config.login_userid)) {// 未登录或登录过期
                     startLoginActivity();
                 } else {
-                    initBottemBtn();
-                    myImg.setImageResource(R.drawable.my_pressed);
-                    myTxt.setTextColor(Color.parseColor("#7be5ff"));
+//                    if (userModel != null) {
+                        initBottemBtn();
+                        myImg.setImageResource(R.drawable.my_pressed);
+                        myTxt.setTextColor(Color.parseColor("#7be5ff"));
 
-                    if (myFragment == null) {
-                        myFragment = new MyFragment();
-                        mFragmentTransaction.add(R.id.fragment_content, myFragment);
-                    } else {
-                        mFragmentTransaction.show(myFragment);
-                    }
+                        if (myFragment == null) {
+                            myFragment = new MyFragment();
+                            mFragmentTransaction.add(R.id.fragment_content, myFragment);
+                        } else {
+                            mFragmentTransaction.show(myFragment);
+                        }
+//                    }
                 }
                 break;
         }

@@ -13,6 +13,7 @@ import java.util.List;
 import cn.com.sfn.juqi.controller.MatchController;
 import cn.com.sfn.juqi.model.MatchModel;
 import cn.com.sfn.juqi.widgets.CircleImageView;
+import cn.com.wx.util.GlideUtils;
 
 import com.example.juqi.R;
 import android.annotation.SuppressLint;
@@ -104,7 +105,7 @@ public class MatchItemAdapter extends BaseAdapter {
 		
 	
 		if (null != matchModel) {
-			viewHolder.avatar.setImageBitmap(matchModel.getuImg());
+			GlideUtils.loadCircleImage(matchModel.getuImg(),viewHolder.avatar);
 			viewHolder.title.setText(matchModel.getTitle());
 			viewHolder.place.setText(matchModel.getS_name());
 			viewHolder.startDate.setText(matchModel.getStart_time().substring(

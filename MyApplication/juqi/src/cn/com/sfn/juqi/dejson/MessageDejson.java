@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import cn.com.sfn.juqi.model.CommentsModel;
 import cn.com.sfn.juqi.model.MessageModel;
 import cn.com.sfn.juqi.net.MyHttpClient;
+import cn.com.sfn.juqi.util.Config;
 
 public class MessageDejson {
 	private List<MessageModel> officialList;
@@ -78,9 +79,8 @@ public class MessageDejson {
 				JSONObject json = (JSONObject) jsonArray.get(i);
 				commentsModel.setUserName(json.getString("full_name"));
 				commentsModel.setContent(json.getString("content"));
-				commentsModel.setUserAvatar(MyHttpClient
-						.getImage("http://192.168.3.2"
-								+ json.getString("u_img")));
+				commentsModel.setUserAvatar(Config.URL_BASE
+								+ json.getString("u_img"));
 				commentList.add(commentsModel);
 			}
 		} catch (JSONException e) {

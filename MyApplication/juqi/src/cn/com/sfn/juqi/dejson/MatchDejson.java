@@ -16,6 +16,7 @@ import cn.com.sfn.juqi.model.AttendModel;
 import cn.com.sfn.juqi.model.CommentsModel;
 import cn.com.sfn.juqi.model.MatchModel;
 import cn.com.sfn.juqi.net.MyHttpClient;
+import cn.com.sfn.juqi.util.Config;
 
 public class MatchDejson {
 	private List<MatchModel> matchList;
@@ -56,8 +57,8 @@ public class MatchDejson {
 				matchModel.setLatitude(Double.valueOf(json
 						.getString("latitude")));
 				matchModel.setFee(json.getString("fee"));
-				matchModel.setuImg(MyHttpClient.getImage("http://192.168.3.2"
-						+ json.getString("u_img")));
+				matchModel.setuImg(Config.URL_BASE
+						+ json.getString("u_img"));
 				matchModel.setPage(page);
 				matchList.add(matchModel);
 			}
@@ -134,9 +135,8 @@ public class MatchDejson {
 				attendModel.setId(json.getString("u_id"));
 				attendModel.setU_name(json.getString("u_name"));
 				attendModel.setU_mobile(json.getString("u_mobile"));
-				attendModel.setAvatar(MyHttpClient
-						.getImage("http://192.168.3.2"
-								+ json.getString("u_img")));
+				attendModel.setAvatar(Config.URL_BASE
+								+ json.getString("u_img"));
 				attendModel.setU_age(json.getString("u_age"));
 				attendModel.setJoinLevel(json.getString("join_level"));
 				attendModel.setStatus(json.getString("status_title"));
@@ -180,8 +180,8 @@ public class MatchDejson {
 			matchDetail.setNowRelNum(gameObject.getInt("release_num"));
 			matchDetail.setuAge(gameObject.getString("u_age"));
 			matchDetail.setNextRelNum(gameObject.getInt("next_release_num"));
-			matchDetail.setuImg(MyHttpClient.getImage("http://192.168.3.2"
-					+ gameObject.getString("u_img")));
+			matchDetail.setuImg(Config.URL_BASE
+					+ gameObject.getString("u_img"));
 			matchDetail.setUserAndmatch(userMatch);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -220,9 +220,8 @@ public class MatchDejson {
 				attendModel.setU_name(json.getString("u_name"));
 				attendModel.setTime(json.getString("enroll_time"));
 				attendModel.setU_mobile(json.getString("u_mobile"));
-				attendModel.setAvatar(MyHttpClient
-						.getImage("http://192.168.3.2"
-								+ json.getString("u_img")));
+				attendModel.setAvatar(Config.URL_BASE
+								+ json.getString("u_img"));
 				attendModel.setStatus(json.getString("status"));
 				attendModel.setFee(infoObject.getString("fee"));
 				manageAttendList.add(attendModel);
@@ -324,9 +323,8 @@ public class MatchDejson {
 				commentModel.setUserName(json.getString("full_name"));
 				commentModel.setPostId(json.getString("post_id"));
 				commentModel.setToUid(json.getString("to_uid"));
-				commentModel.setUserAvatar(MyHttpClient
-						.getImage("http://192.168.3.2"
-								+ json.getString("u_img")));
+				commentModel.setUserAvatar(Config.URL_BASE
+								+ json.getString("u_img"));
 				commentsList.add(commentModel);
 			}
 		} catch (JSONException e) {

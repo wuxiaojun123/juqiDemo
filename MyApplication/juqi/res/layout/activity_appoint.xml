@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#66000000" >
+        android:background="#66000000">
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,12 +22,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none" >
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/appoint_title" >
+                android:background="@drawable/appoint_title">
 
                 <TextView
                     android:id="@+id/title_txt"
@@ -71,13 +71,13 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/appoint_time_box"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/start_date"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/appoint_start_txt"
@@ -110,7 +110,7 @@
                     android:id="@+id/get_during"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/appoint_time_txt"
@@ -152,7 +152,7 @@
                     android:id="@+id/end_date"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/appoint_end_txt"
@@ -190,13 +190,13 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/appoint_format_box"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/appoint_format_txt"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/weizhi"
@@ -229,7 +229,7 @@
                     android:id="@+id/rl1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/appoint_number_txt"
@@ -272,7 +272,7 @@
                     android:id="@+id/appoint_type_txt"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/weizhi2"
@@ -304,7 +304,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/appoint_place_txt"
@@ -336,7 +336,7 @@
                     android:id="@+id/place_map"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/appoint_dplace_txt"
@@ -368,13 +368,13 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/appoint_phone"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/rl3"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/appoint_phone_txt"
@@ -395,7 +395,9 @@
                         android:layout_toRightOf="@id/appoint_phone_txt"
                         android:background="@null"
                         android:hint="@string/hit_account"
-                        android:inputType="phone"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:maxLines="1"
                         android:textColor="@color/editcolor"
                         android:textColorHint="@color/editcolor"
                         android:textCursorDrawable="@null"
@@ -405,7 +407,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/appoint_cost_txt"
@@ -426,13 +428,13 @@
                         android:layout_toRightOf="@id/appoint_cost_txt"
                         android:background="@null"
                         android:hint="@string/appoint_hint_fee"
-                      
+
+                        android:inputType="numberDecimal"
                         android:textColor="@color/editcolor"
                         android:textColorHint="@color/editcolor"
                         android:textCursorDrawable="@null"
-                        android:textSize="@dimen/small_medium_text_size"
-                        android:inputType="numberDecimal" />
-                         <!--   android:inputType="number" -->
+                        android:textSize="@dimen/small_medium_text_size" />
+                    <!--   android:inputType="number" -->
                 </RelativeLayout>
             </LinearLayout>
 
@@ -442,7 +444,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/appont_detail" >
+                android:background="@drawable/appont_detail">
 
                 <TextView
                     android:id="@+id/match_detail_txt"

@@ -30,14 +30,36 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class AchieveFragment extends Fragment implements OnClickListener {
-    private Handler myhandler;
+
     private ListView achieveListView;
-    private ListAdapter listAdapter;
+    private AchieveItemAdapter achieveItemAdapter;
     private List<AchieveModel> achieves;
     private Button canyu, zuzhi, myself_btn;
     private TextView title;
     private View achieveView;
     private AchieveController achieveController;
+
+    private Handler myhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    title.setText("参与成就");
+                    achieveItemAdapter = new AchieveItemAdapter(getActivity(),
+                            achieves);
+                    achieveListView.setAdapter(achieveItemAdapter);
+                    break;
+                case 2:
+                    title.setText("组织成就");
+                    achieveItemAdapter = new AchieveItemAdapter(getActivity(),
+                            achieves);
+                    achieveListView.setAdapter(achieveItemAdapter);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -52,27 +74,7 @@ public class AchieveFragment extends Fragment implements OnClickListener {
         zuzhi.setOnClickListener(this);
         canyu.setOnClickListener(this);
         myself_btn.setOnClickListener(this);
-        myhandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 1:
-                        title.setText("参与成就");
-                        listAdapter = new AchieveItemAdapter(getActivity(),
-                                achieves);
-                        achieveListView.setAdapter(listAdapter);
-                        break;
-                    case 2:
-                        title.setText("组织成就");
-                        listAdapter = new AchieveItemAdapter(getActivity(),
-                                achieves);
-                        achieveListView.setAdapter(listAdapter);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
+
         return achieveView;
     }
 
@@ -97,9 +99,7 @@ public class AchieveFragment extends Fragment implements OnClickListener {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Message msg = new Message();
-                msg.what = 1;
-                myhandler.sendMessage(msg);
+                myhandler.sendEmptyMessage(1);
             }
         }.start();
     }
@@ -112,9 +112,7 @@ public class AchieveFragment extends Fragment implements OnClickListener {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Message msg = new Message();
-                msg.what = 2;
-                myhandler.sendMessage(msg);
+                myhandler.sendEmptyMessage(2);
             }
         }.start();
     }

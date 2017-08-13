@@ -7,7 +7,7 @@ public class AttendModel {
 	private String u_name;
 	private String u_mobile;
 	private String u_age;
-	private Bitmap avatar;
+	private String avatar;
 	private String time;
 	private String joinLevel;
 	private String status;
@@ -46,11 +46,11 @@ public class AttendModel {
 		this.u_age = u_age;
 	}
 
-	public Bitmap getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(Bitmap avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 

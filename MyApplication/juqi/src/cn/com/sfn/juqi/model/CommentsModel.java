@@ -8,7 +8,7 @@ public class CommentsModel {
 	private String userName;
 	private String toUid;
 	private String postId;
-	private Bitmap userAvatar;
+	private String userAvatar;
 
 	public String getUserId() {
 		return userId;
@@ -18,11 +18,11 @@ public class CommentsModel {
 		this.userId = userId;
 	}
 
-	public Bitmap getUserAvatar() {
+	public String getUserAvatar() {
 		return userAvatar;
 	}
 
-	public void setUserAvatar(Bitmap userAvatar) {
+	public void setUserAvatar(String userAvatar) {
 		this.userAvatar = userAvatar;
 	}
 

@@ -10,6 +10,7 @@ import java.util.List;
 
 import cn.com.sfn.juqi.model.AttendModel;
 import cn.com.sfn.juqi.widgets.CircleImageView;
+import cn.com.wx.util.GlideUtils;
 
 import com.example.juqi.R;
 
@@ -95,7 +96,9 @@ public class AttendItemAdapter extends BaseAdapter {
 			viewHolder.name.setText(attendModel.getU_name());
 			viewHolder.phone.setText("手机:" + attendModel.getU_mobile());
 			viewHolder.fee.setText("报名金额:" + attendModel.getFee());
-			viewHolder.avatar.setImageBitmap(attendModel.getAvatar());
+//			viewHolder.avatar.setImageBitmap();
+			GlideUtils.loadCircleImage(attendModel.getAvatar(),viewHolder.avatar);
+
 			if (attendModel.getStatus().equals("0")) {
 				sta = "未支付";
 			} else if (attendModel.getStatus().equals("2")) {

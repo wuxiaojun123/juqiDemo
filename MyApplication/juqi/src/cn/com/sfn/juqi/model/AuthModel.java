@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 public class AuthModel {
 	private String id;
 	private String name;
-	private Bitmap avatar;
+	private String avatar;
 	private String status;
 	private String balance;
 	private String income;
@@ -36,10 +36,10 @@ public class AuthModel {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Bitmap getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
-	public void setAvatar(Bitmap avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 	public String getStatus() {

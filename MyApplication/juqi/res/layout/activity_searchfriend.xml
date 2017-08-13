@@ -4,58 +4,57 @@
     android:layout_height="wrap_content"
     android:background="@drawable/background"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#66000000" >
-         <TextView
+        android:background="#66000000">
+
+        <TextView
             android:id="@+id/back_to_my"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:clickable="true"
             android:layout_marginLeft="5dp"
+            android:clickable="true"
             android:drawableLeft="@drawable/back_to_pre"
+            android:drawablePadding="5dp"
+            android:gravity="center"
             android:text="@string/back_txt"
             android:textColor="@color/choosetextcolor"
-            android:textSize="@dimen/medium_text_size" />
-         
-        <EditText
-            android:id="@+id/searchcontent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/back_to_my"
-            android:ems="10"
-            android:hint="请输入昵称"
-            android:textSize="@dimen/medium_text_size"
-            android:textColor="@color/manage_pay" >
-
-            <requestFocus />
-        </EditText>
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText1"
-            android:layout_alignBottom="@+id/editText1"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginRight="19dp"
             android:clickable="true"
-            android:drawableLeft="@drawable/search"
+            android:gravity="center"
             android:text="搜索"
-            android:textColorHint="@color/white"
-            android:textColorLink="@color/white"
-            android:textSize="@dimen/large_text_size" />
+            android:textColor="@color/choosetextcolor"
+            android:textSize="16dp" />
+        <!--android:drawableLeft="@drawable/search"-->
+        <EditText
+            android:id="@+id/searchcontent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/search"
+            android:layout_toRightOf="@+id/back_to_my"
+            android:ems="10"
+            android:hint="请输入昵称"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:paddingLeft="15dp"
+            android:textColor="@color/manage_pay"
+            android:textColorHint="@color/manage_pay"
+            android:textSize="16dp" />
 
     </RelativeLayout>
-
 
 
     <ListView
@@ -66,8 +65,7 @@
         android:layout_centerHorizontal="true"
         android:divider="@null"
         android:dividerHeight="2dp"
-        android:scrollbars="none" >
-    </ListView>
+        android:scrollbars="none" />
 
     <LinearLayout
         android:id="@+id/rl"
@@ -75,7 +73,7 @@
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/friendList"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,7 +83,6 @@
             android:textColor="@color/halfwhite"
             android:textSize="@dimen/small_medium_text_size" />
 
-        
     </LinearLayout>
 
 </RelativeLayout>

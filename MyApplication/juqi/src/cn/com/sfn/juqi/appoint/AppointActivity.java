@@ -12,6 +12,7 @@ import cn.com.sfn.juqi.controller.MatchController;
 import cn.com.sfn.juqi.model.MatchModel;
 import cn.com.sfn.juqi.util.Config;
 import cn.com.sfn.juqi.util.ToastUtil;
+import cn.com.sfn.juqi.util.ValidateUtil;
 import cn.com.sfn.juqi.widgets.ArrayWheelAdapter;
 import cn.com.sfn.juqi.widgets.DuringWheelAdapter;
 import cn.com.sfn.juqi.widgets.NumericWheelAdapter;
@@ -93,8 +94,6 @@ public class AppointActivity extends Activity implements OnClickListener {
                     Toast.makeText(AppointActivity.this, "网络异常",
                             Toast.LENGTH_SHORT).show();
                     break;
-                default:
-                    break;
             }
         }
     };
@@ -106,10 +105,6 @@ public class AppointActivity extends Activity implements OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_appoint);
         mContext = this;
-
-//		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-//				.permitAll().build();
-//		StrictMode.setThreadPolicy(policy);
 
         mIntent = getIntent();
         id = mIntent.getStringExtra("matchId");
@@ -148,7 +143,7 @@ public class AppointActivity extends Activity implements OnClickListener {
         startTime = (TextView) findViewById(R.id.date_start);
         title = (EditText) findViewById(R.id.title_content);
         phone = (EditText) findViewById(R.id.phone_content);
-        detail = (EditText) findViewById(R.id.match_detail);
+        detail = (EditText) findViewById(R.id.match_detail); // 球局详情
         endDate = (RelativeLayout) findViewById(R.id.end_date);
         placeMap = (RelativeLayout) findViewById(R.id.place_map);
         startDate = (RelativeLayout) findViewById(R.id.start_date);
@@ -237,58 +232,10 @@ public class AppointActivity extends Activity implements OnClickListener {
                 break;
             // 点击确认发布按钮
             case R.id.appoint_confirm_btn:
-                int duration = (int) (Double.valueOf(during.getText().toString()) * 60);
-                int iFormat;
-                if (matchFormat.getText().toString().equals("半场")) {
-                    iFormat = 1;
-                } else {
-                    iFormat = 0;
-                }
-                int iType;
-                if (type.getText().toString().equals("私密球局")) {
-                    iType = 1;
-                } else {
-                    iType = 0;
-                }
-                int rs = matchController.release(title.getText().toString(),
-                        Config.login_userid, startTime.getText().toString(),
-                        duration, number.getText().toString(), iType, iFormat, fee
-                                .getText().toString(), detail.getText().toString(),
-                        place.getText().toString(), placeDetail.getText()
-                                .toString(), latitude, longtitude, phone.getText()
-                                .toString(), district);
+                confirmRelease();
+                break;
 
-                if (rs == Config.AppointSuccess) {
-                    Toast.makeText(AppointActivity.this, "发布成功", Toast.LENGTH_LONG)
-                            .show();
-                    mIntent = new Intent(AppointActivity.this, MainActivity.class);
-                    mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(mIntent);
-                    finish();
-                    break;
-                } else if (rs == -1) {
-                    Toast.makeText(AppointActivity.this, "网络异常", Toast.LENGTH_LONG)
-                            .show();
-                    break;
-                } else {
-                    if (Config.AppointFailedHint == null) {
-                        Toast.makeText(AppointActivity.this, "网络异常",
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        if (Config.AppointFailedHint
-                                .equals("\u53d1\u5e03\u7403\u5c40\u524d\u8bf7\u5148\u7ed1\u5b9a\u624b\u673a\u53f7\uff01")) {
-                            mIntent = new Intent(AppointActivity.this,
-                                    ValidateMobileActivity.class);
-                            startActivity(mIntent);
-                        } else {
-                            Toast.makeText(AppointActivity.this,
-                                    Config.AppointFailedHint, Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    }
-                    break;
-                }
-                // 点击开始时间行，弹出日期选择框
+            // 点击开始时间行，弹出日期选择框
             case R.id.start_date:
                 hideInput(v);
                 showPopwindow(getDataPick(startTime));
@@ -314,6 +261,97 @@ public class AppointActivity extends Activity implements OnClickListener {
                 break;
             default:
                 break;
+        }
+    }
+
+    /***
+     * 确认发布
+     */
+    private void confirmRelease() {
+        int duration = (int) (Double.valueOf(during.getText().toString()) * 60);
+        int iFormat;
+        if (matchFormat.getText().toString().equals("半场")) {
+            iFormat = 1;
+        } else {
+            iFormat = 0;
+        }
+        int iType;
+        if (type.getText().toString().equals("私密球局")) {
+            iType = 1;
+        } else {
+            iType = 0;
+        }
+        String titleParams = title.getText().toString().trim();
+        String startTimeParams = startTime.getText().toString().trim();
+        String numberParams = number.getText().toString().trim();
+        String feeParams = fee.getText().toString().trim();
+        String detailParams = detail.getText().toString().trim();
+        String placeParams = place.getText().toString().trim();
+        String placeDetailParams = placeDetail.getText().toString().trim();
+        String phoneParams = phone.getText().toString().trim();
+
+        if (TextUtils.isEmpty(titleParams)) {
+            ToastUtil.show(mContext, "请输入球局标题");
+            return;
+        }
+        if (TextUtils.isEmpty(startTimeParams)) {
+            ToastUtil.show(mContext, "请选择开始时间");
+            return;
+        }
+        if (TextUtils.isEmpty(numberParams)) {
+            ToastUtil.show(mContext, "请输入球局人数");
+            return;
+        }
+        if (TextUtils.isEmpty(placeParams)) {
+            ToastUtil.show(mContext, "请输入所在场馆");
+            return;
+        }
+        if (TextUtils.isEmpty(placeDetailParams)) {
+            ToastUtil.show(mContext, "请输入详细地址");
+            return;
+        }
+        if (TextUtils.isEmpty(phoneParams)) {
+            ToastUtil.show(mContext, "请输入手机号码");
+            return;
+        }
+        if (!ValidateUtil.isMobile(phoneParams)) {
+            ToastUtil.show(mContext, "手机号格式不正确");
+            return;
+        }
+        if (TextUtils.isEmpty(feeParams)) {
+            ToastUtil.show(mContext, "请输入球局费用");
+            return;
+        }
+        if (TextUtils.isEmpty(detailParams)) {
+            ToastUtil.show(mContext, "请输入球局详情");
+            return;
+        }
+
+        int rs = matchController.release(titleParams,
+                Config.login_userid, startTimeParams,
+                duration, numberParams, iType, iFormat,
+                feeParams, detailParams, placeParams
+                , placeDetailParams, latitude, longtitude,
+                phoneParams, district);
+
+        if (rs == Config.AppointSuccess) {
+            ToastUtil.show(mContext, "发布成功");
+            finish();
+        } else if (rs == -1) {
+            ToastUtil.show(mContext, "网络异常");
+        } else {
+            if (Config.AppointFailedHint == null) {
+                ToastUtil.show(mContext, "网络异常");
+            } else {
+                if (Config.AppointFailedHint
+                        .equals("\u53d1\u5e03\u7403\u5c40\u524d\u8bf7\u5148\u7ed1\u5b9a\u624b\u673a\u53f7\uff01")) {
+                    mIntent = new Intent(AppointActivity.this,
+                            ValidateMobileActivity.class);
+                    startActivity(mIntent);
+                } else {
+                    ToastUtil.show(mContext, Config.AppointFailedHint);
+                }
+            }
         }
     }
 

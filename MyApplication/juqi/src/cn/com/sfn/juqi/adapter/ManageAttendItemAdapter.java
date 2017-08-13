@@ -8,6 +8,7 @@ import java.util.List;
 
 import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.widgets.CircleImageView;
+import cn.com.wx.util.GlideUtils;
 
 import com.example.juqi.R;
 
@@ -89,7 +90,8 @@ public class ManageAttendItemAdapter extends BaseAdapter {
 			viewHolder.name.setText(userModel.getNickName());
 			viewHolder.phone.setText("手机:" + userModel.getUserMobile());
 			viewHolder.fee.setText("报名金额:45.00");
-			viewHolder.avatar.setImageBitmap(userModel.getUserAvatar());
+//			viewHolder.avatar.setImageBitmap(userModel.getUserAvatar());
+			GlideUtils.loadCircleImage(userModel.getUserAvatar(),viewHolder.avatar);
 			viewHolder.status.setText("待付款");
 		}
 		return convertView;

@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 
 public class AccountModel {
 	private String id;
-	private Bitmap avatar;
+	private String avatar;
 	private String balance;
 	private String income;
 	private List<BillModel> billModel;
@@ -16,10 +16,10 @@ public class AccountModel {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Bitmap getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
-	public void setAvatar(Bitmap avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 	public String getBalance() {

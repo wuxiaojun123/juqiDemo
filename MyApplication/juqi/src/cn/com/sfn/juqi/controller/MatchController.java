@@ -246,7 +246,7 @@ public class MatchController {
         Log.e("release_game-param", param);
         String str = httpClient.doPost(action, param);
         System.out.println(str);
-        Log.e("release_game-return", str);
+        LogUtils.e("发布球局返回:"+ str);
         AppointDejson appointdejson = new AppointDejson();
         StandardModel appoint = appointdejson.dejson(str);
         if (appoint == null)

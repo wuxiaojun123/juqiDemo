@@ -70,7 +70,7 @@ public class AchieveItemAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        AchieveModel achieveModel = (AchieveModel) getItem(position);
+        AchieveModel achieveModel = mAchieves.get(position);
         if (null != achieveModel) {
             viewHolder.rank.setText(achieveModel.getRank());
             viewHolder.name.setText(achieveModel.getUsername());
