@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/withdraw_box1"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/id_venue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="活动地点"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/large_text_size" />
+
+        <ImageView
+            android:id="@+id/id_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/image_description"
+            android:src="@drawable/collapse" />
+
+        <TextView
+            android:id="@+id/id_region"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@id/id_right"
+            android:gravity="center"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/large_text_size" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/id_chaoyang"
+        style="@style/style_sign_choose_item_tv"
+        android:text="朝阳区" />
+
+    <TextView
+        android:id="@+id/id_haidian"
+        style="@style/style_sign_choose_item_tv"
+        android:text="海淀区" />
+
+    <TextView
+        android:id="@+id/id_dongcheng"
+        style="@style/style_sign_choose_item_tv"
+        android:text="东城区" />
+
+    <TextView
+        android:id="@+id/id_xicheng"
+        style="@style/style_sign_choose_item_tv"
+        android:text="西城区" />
+
+    <TextView
+        android:id="@+id/id_fentai"
+        style="@style/style_sign_choose_item_tv"
+        android:text="丰台区" />
+
+    <TextView
+        android:id="@+id/id_daxing"
+        style="@style/style_sign_choose_item_tv"
+        android:text="大兴区" />
+
+    <TextView
+        android:id="@+id/id_tongzhou"
+        style="@style/style_sign_choose_item_tv"
+        android:text="通州区" />
+
+    <TextView
+        android:id="@+id/id_changping"
+        style="@style/style_sign_choose_item_tv"
+        android:text="昌平区" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/withdraw_box1"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="排序方式"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/large_text_size" />
+
+        <ImageView
+            android:id="@+id/id_right2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/image_description"
+            android:src="@drawable/collapse" />
+
+        <TextView
+            android:id="@+id/id_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@id/id_right2"
+            android:gravity="center"
+            android:textColor="@color/choosetextcolor"
+            android:textSize="@dimen/large_text_size" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/id_area"
+        style="@style/style_sign_choose_item_tv"
+        android:text="地理位置" />
+
+    <TextView
+        android:id="@+id/id_fee"
+        style="@style/style_sign_choose_item_tv"
+        android:text="费用高低" />
+
+    <TextView
+        android:id="@+id/id_time"
+        style="@style/style_sign_choose_item_tv"
+        android:text="时间先后" />
+
+    <TextView
+        android:id="@+id/id_total"
+        style="@style/style_sign_choose_item_tv"
+        android:text="综合排序" />
+
+</LinearLayout>

@@ -235,7 +235,7 @@ public class MainActivity extends Activity {
     private void startLoginActivity() {
         mIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(mIntent);
-        finish();
+//        finish();
     }
 
     @Override

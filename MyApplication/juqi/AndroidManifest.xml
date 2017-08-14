@@ -189,6 +189,12 @@
             android:name="cn.com.sfn.juqi.my.MyFragment"
             android:screenOrientation="portrait" />
 
+        <activity android:name="cn.com.sfn.juqi.my.AboutActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name="cn.com.sfn.juqi.my.HelpCenterActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name="cn.com.sfn.juqi.my.SearchFriendActivity"
             android:screenOrientation="portrait" />

@@ -1,95 +1,114 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/poppop"
+    android:id="@+id/id_drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:fitsSystemWindows="true">
 
-    <RelativeLayout
-        android:id="@+id/rl1"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:background="#66000000" >
-
-        <TextView
-            android:id="@+id/choose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:clickable="true"
-            android:drawableLeft="@drawable/shaixuan"
-            android:text="@string/chooses"
-            android:textColor="@color/choosetextcolor"
-            android:textSize="@dimen/medium_text_size" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/btn1"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/signleftbtn"
-                android:gravity="center"
-                android:text="@string/today"
-                android:textColor="@color/manage_pay"
-                android:textSize="@dimen/small_medium_text_size" />
-
-            <Button
-                android:id="@+id/btn2"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="50dp"
-                android:layout_height="22dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/signmiddlebtn"
-                android:gravity="center"
-                android:text="@string/tommorrow"
-                android:textColor="@color/manage_pay"
-                android:textSize="@dimen/small_medium_text_size" />
-
-            <Button
-                android:id="@+id/btn3"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/signmiddlebtn"
-                android:gravity="center"
-                android:text="@string/jinyizhou"
-                android:textColor="@color/manage_pay"
-                android:textSize="@dimen/small_medium_text_size" />
-
-            <Button
-                android:id="@+id/btn4"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/signrightbtn"
-                android:gravity="center"
-                android:text="@string/nomatter"
-                android:textColor="@color/manage_pay"
-                android:textSize="@dimen/small_medium_text_size" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <cn.com.sfn.juqi.widgets.XListView
-        android:id="@+id/matchList"
+    <LinearLayout
+        android:id="@+id/poppop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl1"
-        android:divider="@null"
-        android:dividerHeight="5dp"
-        android:listSelector="@drawable/listselect"
-        android:scrollbars="none" >
-    </cn.com.sfn.juqi.widgets.XListView>
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="#66000000">
+
+            <TextView
+                android:id="@+id/choose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:drawableLeft="@drawable/shaixuan"
+                android:text="@string/chooses"
+                android:textColor="@color/choosetextcolor"
+                android:textSize="@dimen/medium_text_size" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn1"
+                    android:layout_width="60dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/signleftbtn"
+                    android:gravity="center"
+                    android:text="@string/today"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/small_medium_text_size" />
+
+                <Button
+                    android:id="@+id/btn2"
+                    android:layout_width="60dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/signmiddlebtn"
+                    android:gravity="center"
+                    android:text="@string/tommorrow"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/small_medium_text_size" />
+
+                <Button
+                    android:id="@+id/btn3"
+                    android:layout_width="60dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/signmiddlebtn"
+                    android:gravity="center"
+                    android:text="@string/jinyizhou"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/small_medium_text_size" />
+
+                <Button
+                    android:id="@+id/btn4"
+                    android:layout_width="60dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/signrightbtn"
+                    android:gravity="center"
+                    android:text="@string/nomatter"
+                    android:textColor="@color/manage_pay"
+                    android:textSize="@dimen/small_medium_text_size" />
+
+                <!--style="?android:attr/buttonBarButtonStyle"-->
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <cn.com.sfn.juqi.widgets.XListView
+            android:id="@+id/matchList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl1"
+            android:divider="@null"
+            android:dividerHeight="5dp"
+            android:listSelector="@drawable/listselect"
+            android:scrollbars="none" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:layout_marginTop="50dp"
+        android:background="#444953"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_sign_drawer" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

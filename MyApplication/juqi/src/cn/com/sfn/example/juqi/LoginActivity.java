@@ -157,10 +157,10 @@ public class LoginActivity extends Activity implements OnClickListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            mIntent = new Intent();
+            /*mIntent = new Intent();
             mIntent.putExtra("fragmentFlag", 0);
             mIntent.setClass(LoginActivity.this, MainActivity.class);
-            startActivity(mIntent);
+            startActivity(mIntent);*/
             finish();
         }
         return super.onKeyDown(keyCode, event);
@@ -199,11 +199,11 @@ public class LoginActivity extends Activity implements OnClickListener {
                 startActivity(mIntent);
                 break;
             case R.id.free_see:
-                mIntent = new Intent();
+                /*mIntent = new Intent();
                 mIntent.putExtra("fragmentFlag", 0);
                 mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mIntent.setClass(LoginActivity.this, MainActivity.class);
-                startActivity(mIntent);
+                startActivity(mIntent);*/
                 finish();
                 break;
             case R.id.register_btn:
@@ -250,11 +250,11 @@ public class LoginActivity extends Activity implements OnClickListener {
                 Config.is_login = true;
                 Config.login_type = "putong";
 
-                mIntent = new Intent();
+                /*mIntent = new Intent();
                 mIntent.putExtra("fragmentFlag", 0);
                 mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mIntent.setClass(LoginActivity.this, MainActivity.class);
-                startActivity(mIntent);
+                startActivity(mIntent);*/
                 finish();
                 return;
             } else if (rs == -1) {
@@ -379,11 +379,11 @@ public class LoginActivity extends Activity implements OnClickListener {
                         editor.commit();
                         Config.is_login = true;
                         Config.login_type = "qq";
-                        mIntent = new Intent();
+                        /*mIntent = new Intent();
                         mIntent.putExtra("fragmentFlag", 0);
                         mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mIntent.setClass(LoginActivity.this, MainActivity.class);
-                        startActivity(mIntent);
+                        startActivity(mIntent);*/
                         finish();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -434,11 +434,11 @@ public class LoginActivity extends Activity implements OnClickListener {
                 // 保存 Token 到 SharedPreferences
                 AccessTokenKeeper.writeAccessToken(LoginActivity.this,
                         mAccessToken);
-                mIntent = new Intent();
+                /*mIntent = new Intent();
                 mIntent.putExtra("fragmentFlag", 0);
                 mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mIntent.setClass(LoginActivity.this, MainActivity.class);
-                startActivity(mIntent);
+                startActivity(mIntent);*/
                 finish();
                 Toast.makeText(LoginActivity.this, "授权成功", Toast.LENGTH_SHORT)
                         .show();

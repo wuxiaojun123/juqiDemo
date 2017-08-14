@@ -168,6 +168,9 @@
     <string name="zhanji_hint">请输入战绩说明</string>
     <string name="authentication_text">身份认证</string>
     <string name="system_settings">系统设置</string>
+    <string name="string_about">关于我们</string>
+    <string name="string_help">帮助中心</string>
+
     <string name="message_push">消息推送</string>
     <string name="about_us">关于我们</string>
     <string name="help_center">帮助中心</string>

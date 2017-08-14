@@ -16,6 +16,7 @@ import cn.com.sfn.juqi.model.MatchModel;
 import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.net.MyHttpClient;
 import cn.com.sfn.juqi.util.Config;
+import cn.com.wx.util.LogUtils;
 
 public class UserDejson {
     private JSONObject infoObject;
@@ -38,8 +39,9 @@ public class UserDejson {
         try {
             userInfo.setUserId(infoObject.getString("id"));
             userInfo.setNickName(infoObject.getString("user_nicename"));
-            String userAvatar = infoObject.getString("u_img");
-            if (!TextUtils.isEmpty(userAvatar) && userAvatar.endsWith("avatar/")) {
+            String userAvatar = infoObject.getString("u_img").trim();
+            LogUtils.e("打印的图片地址是：" + userAvatar);
+            if (!TextUtils.isEmpty(userAvatar) && !userAvatar.endsWith("avatar/")) {
                 userInfo.setUserAvatar(Config.URL_BASE + userAvatar);// 210.72.13.135
             }
             userInfo.setUserSex(infoObject.getString("sex"));

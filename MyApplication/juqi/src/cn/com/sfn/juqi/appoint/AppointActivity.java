@@ -18,7 +18,12 @@ import cn.com.sfn.juqi.widgets.DuringWheelAdapter;
 import cn.com.sfn.juqi.widgets.NumericWheelAdapter;
 import cn.com.sfn.juqi.widgets.OnWheelScrollListener;
 import cn.com.sfn.juqi.widgets.WheelView;
+import cn.com.wx.util.BaseSubscriber;
 import cn.com.wx.util.LogUtils;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import com.amap.map3d.poisearch.PoiAroundSearchActivity;
 import com.example.juqi.R;
@@ -327,32 +332,70 @@ public class AppointActivity extends Activity implements OnClickListener {
             return;
         }
 
-        int rs = matchController.release(titleParams,
-                Config.login_userid, startTimeParams,
-                duration, numberParams, iType, iFormat,
-                feeParams, detailParams, placeParams
-                , placeDetailParams, latitude, longtitude,
-                phoneParams, district);
+        confirmNet(duration, iFormat, iType, titleParams, startTimeParams, numberParams, feeParams, detailParams, placeParams, placeDetailParams, phoneParams);
 
-        if (rs == Config.AppointSuccess) {
-            ToastUtil.show(mContext, "发布成功");
-            finish();
-        } else if (rs == -1) {
-            ToastUtil.show(mContext, "网络异常");
-        } else {
-            if (Config.AppointFailedHint == null) {
-                ToastUtil.show(mContext, "网络异常");
-            } else {
-                if (Config.AppointFailedHint
-                        .equals("\u53d1\u5e03\u7403\u5c40\u524d\u8bf7\u5148\u7ed1\u5b9a\u624b\u673a\u53f7\uff01")) {
-                    mIntent = new Intent(AppointActivity.this,
-                            ValidateMobileActivity.class);
-                    startActivity(mIntent);
-                } else {
-                    ToastUtil.show(mContext, Config.AppointFailedHint);
-                }
+    }
+
+    /***
+     * 确认提交
+     * @param duration
+     * @param iFormat
+     * @param iType
+     * @param titleParams
+     * @param startTimeParams
+     * @param numberParams
+     * @param feeParams
+     * @param detailParams
+     * @param placeParams
+     * @param placeDetailParams
+     * @param phoneParams
+     */
+    private void confirmNet(final int duration, final int iFormat, final int iType, final String titleParams, final String startTimeParams, final String numberParams, final String feeParams, final String detailParams, final String placeParams, final String placeDetailParams, final String phoneParams) {
+        Observable.create(new Observable.OnSubscribe<String>() {
+
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                int rs = matchController.release(titleParams,
+                        Config.login_userid, startTimeParams,
+                        duration, numberParams, iType, iFormat,
+                        feeParams, detailParams, placeParams
+                        , placeDetailParams, latitude, longtitude,
+                        phoneParams, district);
+                subscriber.onNext(rs+"");
             }
-        }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        int rs = Integer.parseInt(s);
+                        if (rs == Config.AppointSuccess) {
+                            ToastUtil.show(mContext, "发布成功");
+                            finish();
+                        } else if (rs == -1) {
+                            ToastUtil.show(mContext, "网络异常");
+                        } else {
+                            if (Config.AppointFailedHint == null) {
+                                ToastUtil.show(mContext, "网络异常");
+                            } else {
+                                if (Config.AppointFailedHint
+                                        .equals("\u53d1\u5e03\u7403\u5c40\u524d\u8bf7\u5148\u7ed1\u5b9a\u624b\u673a\u53f7\uff01")) {
+                                    mIntent = new Intent(AppointActivity.this,
+                                            ValidateMobileActivity.class);
+                                    startActivity(mIntent);
+                                } else {
+                                    ToastUtil.show(mContext, Config.AppointFailedHint);
+                                }
+                            }
+                        }
+                    }
+                });
     }
 
     /**

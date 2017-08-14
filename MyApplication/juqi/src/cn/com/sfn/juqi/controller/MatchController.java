@@ -69,10 +69,10 @@ public class MatchController {
     }
 
     // 获取时间排序球局列表
-    public List<MatchModel> getMatchByCondition2(String area, int page)
+    public List<MatchModel> getMatchByCondition2(String limit,String area, int page)
             throws Exception {
         String action = "index/game_list";
-        String params = "area=" + area + "&p=" + page;
+        String params = "time_limit=" + limit+"&area=" + area + "&p=" + page;
         String str = httpClient.doPost(action, params);
         System.out.println(str);
         List<MatchModel> matches = new ArrayList<MatchModel>();
@@ -85,10 +85,10 @@ public class MatchController {
     }
 
     // 获取时间排序球局列表
-    public List<MatchModel> getMatchByCondition(String order, int page)
+    public List<MatchModel> getMatchByCondition(String limit,String order, int page)
             throws Exception {
         String action = "index/game_list";
-        String params = "order_by=" + order + "&p=" + page;
+        String params = "time_limit=" + limit+"&order_by=" + order + "&p=" + page;
         String str = httpClient.doPost(action, params);
         System.out.println(str);
         List<MatchModel> matches = new ArrayList<MatchModel>();
@@ -101,10 +101,10 @@ public class MatchController {
     }
 
     // 获取地理位置排序球局列表
-    public List<MatchModel> getMatchByCondition1(String order, double lon,
+    public List<MatchModel> getMatchByCondition1(String limit,String order, double lon,
                                                  double lat, int page) throws Exception {
         String action = "index/game_list";
-        String params = "order_by=" + order + "&lat=" + lat + "&lng=" + lon
+        String params = "time_limit=" + limit + "&order_by=" + order + "&lat=" + lat + "&lng=" + lon
                 + "&p=" + page;
         String str = httpClient.doPost(action, params);
         System.out.println(str);
@@ -245,7 +245,6 @@ public class MatchController {
                 + "&mobile=" + phone + "&area=" + district;
         Log.e("release_game-param", param);
         String str = httpClient.doPost(action, param);
-        System.out.println(str);
         LogUtils.e("发布球局返回:"+ str);
         AppointDejson appointdejson = new AppointDejson();
         StandardModel appoint = appointdejson.dejson(str);
