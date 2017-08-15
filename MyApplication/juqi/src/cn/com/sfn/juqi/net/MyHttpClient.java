@@ -30,8 +30,7 @@ import android.util.Log;
 
 public class MyHttpClient {
 
-    private String result = "";
-//    private String url = ""; // 192.168.3.2 210.72.13.135
+//    private String result = "";
     // www.juqilife.cn
 
     private SharedPreferences settings;
@@ -39,12 +38,12 @@ public class MyHttpClient {
 
     @SuppressWarnings("deprecation")
     public String doPost(Context context, String action, String params) {
+        String result = "";
         settings = context.getSharedPreferences(Config.PREFS_NAME, 0);
         if (TextUtils.isEmpty(Config.SessionID)) {
-            System.out.println("action:" + action + "  params:" + params);
+            LogUtils.e("action:" + action + "--params:" + params);
         } else {
-            System.out.println("action:" + action + "  params:" + params
-                    + "ID:" + Config.SessionID);
+            LogUtils.e("action:" + action + "--params:" + params + "--ID:" + Config.SessionID);
             // 记住登录状态
             Editor editor = settings.edit();
             // 存入数据
@@ -84,7 +83,7 @@ public class MyHttpClient {
                     iStream, "UTF-8"));
             String tempLine = null;
             while ((tempLine = rd.readLine()) != null) {
-                this.result += tempLine.toString();
+                result += tempLine.toString();
             }
             rd.close();
             iStream.close();
@@ -98,18 +97,19 @@ public class MyHttpClient {
         }
 //        this.result = jsontourl(this.result);
         try {
-//            LogUtils.e("登录信息没有解码之前" + result);
-            this.result = URLDecoder.decode(this.result, "UTF-8");
+            result = URLDecoder.decode(result, "UTF-8");
 
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return this.result;
+        LogUtils.e("结果返回是；" + result);
+        return result;
     }
 
     @SuppressWarnings("deprecation")
     public String doPost(String action, String params) {
+        String result = "";
         HttpURLConnection conn = null;
         try {
             URL requestURL = new URL(Config.URL_BASE + action);
@@ -138,7 +138,7 @@ public class MyHttpClient {
                         iStream, "UTF-8"));
                 String tempLine = null;
                 while ((tempLine = rd.readLine()) != null) {
-                    this.result = tempLine.toString();
+                    result = tempLine.toString();
                 }
                 rd.close();
                 iStream.close();
@@ -151,16 +151,17 @@ public class MyHttpClient {
                 conn.disconnect();
             }
         }
-        this.result = jsontourl(this.result);
-        this.result = URLDecoder.decode(this.result);
-        return this.result;
+        result = jsontourl(result);
+        result = URLDecoder.decode(result);
+        return result;
     }
 
     @SuppressWarnings("deprecation")
     public String doGet(String action) {
+        String result = "";
         HttpURLConnection conn = null;
         try {
-            System.out.println(Config.URL_BASE + action);
+            LogUtils.e(Config.URL_BASE + action);
             URL requestURL = new URL(Config.URL_BASE + action);
             conn = (HttpURLConnection) requestURL.openConnection();
             if (Config.SessionID != null) {
@@ -180,7 +181,7 @@ public class MyHttpClient {
                     iStream, "UTF-8"));
             String tempLine = null;
             while ((tempLine = rd.readLine()) != null) {
-                this.result = tempLine.toString();
+                result = tempLine.toString();
             }
             rd.close();
             iStream.close();
@@ -192,18 +193,17 @@ public class MyHttpClient {
                 conn.disconnect();
             }
         }
-        this.result = jsontourl(this.result);
-        this.result = URLDecoder.decode(this.result);
-        return this.result;
-    }
-
-    public String getResult() {
+        result = jsontourl(result);
+        result = URLDecoder.decode(result);
         return result;
     }
 
+    /*public String getResult() {
+        return result;
+    }
     public void setResult(String result) {
         this.result = result;
-    }
+    }*/
 
     /*public static Bitmap getImage(String urlpath) throws Exception {
         urlpath = StrReplace(urlpath, "192.168.3.2", "www.juqilife.cn"); // 绗簩澶勬敼鍦板潃鐨勫湴鏂�

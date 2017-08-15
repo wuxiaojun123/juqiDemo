@@ -159,7 +159,6 @@
         <activity
             android:name="cn.com.sfn.example.juqi.LoginActivity"
             android:exported="true"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity

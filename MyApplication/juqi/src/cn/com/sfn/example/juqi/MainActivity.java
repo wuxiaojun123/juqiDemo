@@ -13,26 +13,24 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.juqi.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.sfn.juqi.achieve.AchieveFragment;
 import cn.com.sfn.juqi.appoint.AppointActivity;
-import cn.com.sfn.juqi.controller.UserController;
 import cn.com.sfn.juqi.manage.ManageFragment;
-import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.my.MyFragment;
 import cn.com.sfn.juqi.sign.SignFragment;
 import cn.com.sfn.juqi.util.Config;
-
-import com.example.juqi.R;
+import cn.com.wx.util.LogUtils;
 
 @SuppressLint("NewApi")
 public class MainActivity extends Activity {
@@ -70,10 +68,7 @@ public class MainActivity extends Activity {
 
     private FragmentManager fm;
     private long mExitTime = 0;
-    private Intent mIntent;
     private int flag = 0;
-//    private UserController userController = new UserController();
-//    private UserModel userModel = new UserModel();
 
     private SignFragment signFragment; // 报名
     private AchieveFragment achieveFragment; // 成就
@@ -88,11 +83,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mContext = this;
-        mIntent = getIntent();
-//        initNet();
         // 进入系统默认为BillOverViewFragment
         fm = getFragmentManager();
-        flag = mIntent.getIntExtra("flag", 0);
+        flag = getIntent().getIntExtra("flag", 0);
         if (flag == 0) {
             showFragment(R.id.MyBottemSignBtn);
         } else if (flag == 5) {
@@ -106,14 +99,13 @@ public class MainActivity extends Activity {
         int id = v.getId();
         switch (id) {
             case R.id.MyBottemAppointBtn:
-//                userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
                 if (TextUtils.isEmpty(Config.login_userid)) {// 未登录或登录过期
                     startLoginActivity();
                 } else {
-//                    initBottemBtn();
-//                    appointImg.setImageResource(R.drawable.appoint_pressed);
-//                    appointTxt.setTextColor(Color.parseColor("#7be5ff"));
-                    mIntent = new Intent(MainActivity.this, AppointActivity.class);
+                    /*initBottemBtn();
+                    appointImg.setImageResource(R.drawable.appoint_pressed);
+                    appointTxt.setTextColor(Color.parseColor("#7be5ff"));*/
+                    Intent mIntent = new Intent(MainActivity.this, AppointActivity.class);
                     startActivity(mIntent);
                 }
                 break;
@@ -158,7 +150,6 @@ public class MainActivity extends Activity {
 
                 break;
             case R.id.MyBottemManageBtn:
-//                    userModel = userController.getInfo(Config.login_userid);// 每次点击都和服务器交互判断状态
                 if (TextUtils.isEmpty(Config.login_userid)) {// 未登录或登录过期
                     startLoginActivity();
                 } else {
@@ -179,18 +170,16 @@ public class MainActivity extends Activity {
                 if (TextUtils.isEmpty(Config.login_userid)) {// 未登录或登录过期
                     startLoginActivity();
                 } else {
-//                    if (userModel != null) {
-                        initBottemBtn();
-                        myImg.setImageResource(R.drawable.my_pressed);
-                        myTxt.setTextColor(Color.parseColor("#7be5ff"));
+                    initBottemBtn();
+                    myImg.setImageResource(R.drawable.my_pressed);
+                    myTxt.setTextColor(Color.parseColor("#7be5ff"));
 
-                        if (myFragment == null) {
-                            myFragment = new MyFragment();
-                            mFragmentTransaction.add(R.id.fragment_content, myFragment);
-                        } else {
-                            mFragmentTransaction.show(myFragment);
-                        }
-//                    }
+                    if (myFragment == null) {
+                        myFragment = new MyFragment();
+                        mFragmentTransaction.add(R.id.fragment_content, myFragment);
+                    } else {
+                        mFragmentTransaction.show(myFragment);
+                    }
                 }
                 break;
         }
@@ -233,9 +222,18 @@ public class MainActivity extends Activity {
      * 跳到登录界面
      */
     private void startLoginActivity() {
-        mIntent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(mIntent);
-//        finish();
+        Intent mIntent = new Intent(MainActivity.this, LoginActivity.class);
+        MainActivity.this.startActivityForResult(mIntent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.e("请求码和返回码" + requestCode + "---" + resultCode);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            showFragment(R.id.MyBottemSignBtn);
+        }
+
     }
 
     @Override

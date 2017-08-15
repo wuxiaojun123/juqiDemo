@@ -40,7 +40,7 @@ public class UserDejson {
             userInfo.setUserId(infoObject.getString("id"));
             userInfo.setNickName(infoObject.getString("user_nicename"));
             String userAvatar = infoObject.getString("u_img").trim();
-            LogUtils.e("打印的图片地址是：" + userAvatar);
+//            LogUtils.e("打印的图片地址是：" + userAvatar);
             if (!TextUtils.isEmpty(userAvatar) && !userAvatar.endsWith("avatar/")) {
                 userInfo.setUserAvatar(Config.URL_BASE + userAvatar);// 210.72.13.135
             }

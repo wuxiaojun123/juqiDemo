@@ -41,8 +41,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyFragment extends Fragment implements OnClickListener {
-//    @SuppressLint("SdCardPath")
-//    private static String path = "/sdcard/myHead/";
     private View myView;
     private TextView username, attend, release, friendnum, role, ageTv, sexTv,
             signTv;

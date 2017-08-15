@@ -26,72 +26,70 @@ import android.widget.TextView;
 
 @SuppressLint("HandlerLeak")
 public class BillOverViewFragment extends Fragment {
-	private ListView billOverviewListView;
-	private ListAdapter listAdapter;
-	private List<BillModel> billOverviews;
-	private AccountModel accountModel;
-	private Handler myhandler;
-	private UserController userController;
-	private CircleImageView avatar;
-	private TextView balance, income;
-	private View billOverView;
+    private ListView billOverviewListView;
+    private ListAdapter listAdapter;
+    private List<BillModel> billOverviews;
+    private AccountModel accountModel;
+    private UserController userController;
+    private CircleImageView avatar;
+    private TextView balance, income;
+    private View billOverView;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		billOverView = inflater.inflate(R.layout.activity_tab_billoverview,
-				container, false);
-		userController = new UserController();
-		findViewById();
-		initBillOverView();
-		myhandler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case 1:
-					initView();
-					break;
-				default:
-					break;
-				}
-			}
-		};
-		return billOverView;
-	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
+    Handler myhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    initView();
+                    break;
+            }
+        }
+    };
 
-	public void initBillOverView() {
-		new Thread() {
-			public void run() {
-				accountModel = userController.billOverView();
-				Message msg = new Message();
-				msg.what = 1;
-				myhandler.sendMessage(msg);
-			}
-		}.start();
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        billOverView = inflater.inflate(R.layout.activity_tab_billoverview,
+                container, false);
+        userController = new UserController();
+        findViewById();
+        initBillOverView();
 
-	private void findViewById() {
-		avatar = (CircleImageView) billOverView.findViewById(R.id.bill_avatar);
-		balance = (TextView) billOverView.findViewById(R.id.balance);
-		income = (TextView) billOverView.findViewById(R.id.income);
-		billOverviewListView = (ListView) billOverView
-				.findViewById(R.id.billOverviewList);
-	}
+        return billOverView;
+    }
 
-	@SuppressWarnings("deprecation")
-	private void initView() {
-		Drawable drawable = new BitmapDrawable(accountModel.getAvatar());// 转换成drawable
-		avatar.setImageDrawable(drawable);
-		balance.setText(accountModel.getBalance());
-		income.setText(accountModel.getIncome());
-		billOverviews = accountModel.getBillModel();
-		listAdapter = new BillOverviewAdapter(getActivity(), billOverviews);
-		billOverviewListView.setAdapter(listAdapter);
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    public void initBillOverView() {
+        new Thread() {
+            public void run() {
+                accountModel = userController.billOverView();
+                myhandler.sendEmptyMessage(1);
+            }
+        }.start();
+    }
+
+    private void findViewById() {
+        avatar = (CircleImageView) billOverView.findViewById(R.id.bill_avatar);
+        balance = (TextView) billOverView.findViewById(R.id.balance);
+        income = (TextView) billOverView.findViewById(R.id.income);
+        billOverviewListView = (ListView) billOverView
+                .findViewById(R.id.billOverviewList);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void initView() {
+        Drawable drawable = new BitmapDrawable(accountModel.getAvatar());// 转换成drawable
+        avatar.setImageDrawable(drawable);
+        balance.setText(accountModel.getBalance());
+        income.setText(accountModel.getIncome());
+        billOverviews = accountModel.getBillModel();
+        listAdapter = new BillOverviewAdapter(getActivity(), billOverviews);
+        billOverviewListView.setAdapter(listAdapter);
+    }
 }

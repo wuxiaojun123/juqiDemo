@@ -3,7 +3,7 @@
     android:id="@+id/id_drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    >
 
     <LinearLayout
         android:id="@+id/poppop"
@@ -14,7 +14,7 @@
         <RelativeLayout
             android:id="@+id/rl1"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dimen_50"
             android:layout_alignParentTop="true"
             android:background="#66000000">
 
@@ -90,7 +90,7 @@
         <cn.com.sfn.juqi.widgets.XListView
             android:id="@+id/matchList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/rl1"
             android:divider="@null"
             android:dividerHeight="5dp"

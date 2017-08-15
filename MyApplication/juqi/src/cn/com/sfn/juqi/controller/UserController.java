@@ -54,14 +54,12 @@ public class UserController {
         // 发送登陆请求 18810543162   123456
         String str = httpClient.doPost(context, action, param);
         if (!TextUtils.isEmpty(str)) {
-            LogUtils.e("登录返回信息是:" + str);
-//            LoginModel loginModel = (LoginModel) JsonUtils.toObject(str, LoginModel.class);
             LoginDejson logindejson = new LoginDejson();
             LoginModel loginModel = logindejson.dejson(str);
             // 判断是否登陆成功
             if (loginModel.getStatus() == 1) {
                 Config.SessionID = loginModel.getSession_id();
-                LogUtils.e("登陆的sessionId是：" + Config.SessionID);
+//                LogUtils.e("登陆的sessionId是：" + Config.SessionID);
                 // 记住登录状态
                 Editor editor = setting.edit();
                 // 存入数据

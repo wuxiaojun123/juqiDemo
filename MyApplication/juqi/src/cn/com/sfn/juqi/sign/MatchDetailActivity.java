@@ -28,7 +28,10 @@ import cn.com.sfn.juqi.util.ToastUtil;
 import cn.com.sfn.juqi.widgets.CircleImageView;
 import cn.com.sfn.juqi.widgets.InnerListView;
 import cn.com.sfn.juqi.widgets.XListView.IXListViewListener;
+import cn.com.wx.util.DateUtils;
 import cn.com.wx.util.DownLoadImage;
+import cn.com.wx.util.GlideUtils;
+import cn.com.wx.util.LogUtils;
 import cn.com.wx.util.WXUtil;
 import cn.com.wx.util.DownLoadImage.BitmapCallBack;
 
@@ -110,7 +113,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
      * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
      * docType=1) 建议商户依赖异步通知
      *//*
-				String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                String resultInfo = payResult.getResult();// 同步返回需要验证的信息
 				Log.e("resultInfo", resultInfo);
 				String resultStatus = payResult.getResultStatus();
 				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
@@ -181,9 +184,9 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
     private TextView attendText;
     private ImageView attendImg;
     private QuitPopWin quitPop;
-    private String imageurl = "http://www.juqilife.cn/index/game_info1/id/";
-    private UserController userController = new UserController();
-    private UserModel userModel = new UserModel();
+    private String imageurl = "https://www.juqilife.cn/index/game_info1/id/";
+//    private UserController userController = new UserController();
+//    private UserModel userModel = new UserModel();
 
 
     Handler myhandler = new Handler() {
@@ -323,9 +326,8 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
         canyu.setProgress(match.getJoinEntire() - match.getNowJoinNum());
         zjlev.setText("V" + match.getRelLevel());
         cjlev.setText("V" + match.getJoinLevel());
-        @SuppressWarnings("deprecation")
-        Drawable drawable = new BitmapDrawable(match.getuImg());// 转换成drawable
-        avatar.setImageDrawable(drawable);
+        GlideUtils.loadCircleImage(match.getuImg(), avatar);
+
         avatar.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -364,11 +366,11 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
         matchDuration
                 .setText(match.getStart_time().substring(0, 10)
                         + " "
-                        + getWeek(match.getStart_time().substring(0, 10))
+                        + DateUtils.getWeek(match.getStart_time().substring(0, 10))
                         + " "
                         + match.getStart_time().substring(11, 16)
                         + "-"
-                        + addDateMinut(match.getStart_time(),
+                        + DateUtils.addDateMinut(match.getStart_time(),
                         Integer.valueOf(match.getDuration()))
                         .substring(11, 16));
 
@@ -379,150 +381,83 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
         longitude = Double.valueOf(match.getLongitude());
         latitude = Double.valueOf(match.getLatitude());
         scrollView.smoothScrollTo(0, 20);
-        if (!match.getFee().equals("0") || match.getFee().equals("0")) {  //跟钱没关系，可去掉
-			/*
-			 * userMatch:0-可参与 1-需支付 2-可退出 3-满员 4-已结束 5-正在进行
+            /*
+             * userMatch:0-可参与 1-需支付 2-可退出 3-满员 4-已结束 5-正在进行
 			 */
-            Log.e("match.getUserAndmatch()", match.getUserAndmatch());
-            if (match.getUserAndmatch().equals("0")) {
-                hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
-                        + match.getU_mobile().substring(7, 11));
-                attendText.setText("我要报名");
-                attendImg.setImageDrawable(getResources().getDrawable(
-                        R.drawable.attend));
-                attendButton.setOnClickListener(this);
-            } else if (match.getUserAndmatch().equals("1")) {
-                hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
-                        + match.getU_mobile().substring(7, 11));
-                attendText.setText("去支付");
-                attendImg.setImageDrawable(getResources().getDrawable(
-                        R.drawable.gotopay));
-				
-				
-				/*去支付！！！！！！*/
+        LogUtils.e("match.getUserAndmatch() = " + match.getUserAndmatch());
+        if (match.getUserAndmatch().equals("0")) {
+            hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
+                    + match.getU_mobile().substring(7, 11));
+            attendText.setText("我要报名");
+            attendImg.setImageDrawable(getResources().getDrawable(
+                    R.drawable.attend));
+            attendButton.setOnClickListener(this);
+        } else if (match.getUserAndmatch().equals("1")) {
+            hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
+                    + match.getU_mobile().substring(7, 11));
+            attendText.setText("去支付");
+            attendImg.setImageDrawable(getResources().getDrawable(
+                    R.drawable.gotopay));
 
-                attendButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View arg0) {
-						/*String rs = matchController.paygame(id, "AliPay");
-						if (rs.equals("")) {
-							Toast.makeText(MatchDetailActivity.this, "支付出错",
-									Toast.LENGTH_SHORT).show();
-						} else {
-							pay(rs);
-						}*/
-                        mIntent = new Intent();
-                        mIntent.putExtra("matchid", id);
-                        mIntent.putExtra("matchfee", fee.getText().toString());
-                        mIntent.setClass(MatchDetailActivity.this, ChoosePaymentActivity.class);
-                        startActivity(mIntent);
-                        finish();
-                    }
-                });
-            } else if (match.getUserAndmatch().equals("2")) {
-                hostNumber.setText(match.getU_mobile());
-                attendText.setText("退出球局");
-                attendImg.setImageDrawable(getResources().getDrawable(
-                        R.drawable.tuichuqiuju));
-                attendButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View arg0) {
-                        showQuit(arg0);
-                    }
-                });
-                Log.e("match.getUserAndmatch()", match.getUserAndmatch());
-            } else if (match.getUserAndmatch().equals("3")) {
-                Log.e("match.getUserAndmatch", match.getUserAndmatch());
-                hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
-                        + match.getU_mobile().substring(7, 11));
-                attendText.setText("人员已满"); // 人员已满
-                attendText.setTextColor(getResources()
-                        .getColor(R.color.halftxt));
-                attendImg.setImageDrawable(getResources().getDrawable(
-                        R.drawable.manyuan));
-                attendButton.setBackgroundColor(getResources().getColor(
-                        R.color.halfbtn));
-                attendButton.setClickable(false);
-            } else if (match.getUserAndmatch().equals("4")) {
-                Log.e("match.getUserAndmatch", match.getUserAndmatch());
-                hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
-                        + match.getU_mobile().substring(7, 11));
-                attendText.setText("已结束");
-                attendText.setTextColor(getResources()
-                        .getColor(R.color.halftxt));
-                attendImg.setImageDrawable(getResources().getDrawable(
-                        R.drawable.jieshu));
-                attendButton.setBackgroundColor(getResources().getColor(
-                        R.color.halfbtn));
-                attendButton.setClickable(false);
-            } else if (match.getUserAndmatch().equals("5")) {
-                hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
-                        + match.getU_mobile().substring(7, 11));
-                attendText.setText("进行中");
-                attendText.setTextColor(getResources()
-                        .getColor(R.color.halftxt));
-                attendImg.setImageDrawable(getResources().getDrawable(
-                        R.drawable.jinxingzhong));
-                attendButton.setBackgroundColor(getResources().getColor(
-                        R.color.halfbtn));
-                attendButton.setClickable(false);
-            } else {
-				/*
-				 * userMatch:0-可参与 1-需支付 2-可退出 3-满员 4-已结束 5-正在进行
-				 */
-                if (match.getUserAndmatch().equals("0")) {
-                    hostNumber.setText(match.getU_mobile().substring(0, 3)
-                            + "****" + match.getU_mobile().substring(7, 11));
-                    attendText.setText("我要报名");
-                    attendImg.setImageDrawable(getResources().getDrawable(
-                            R.drawable.attend));
-                    attendButton.setOnClickListener(this);
-                } else if (match.getUserAndmatch().equals("2")) {
-                    hostNumber.setText(match.getU_mobile());
-                    attendText.setText("退出球局");
-                    attendImg.setImageDrawable(getResources().getDrawable(
-                            R.drawable.tuichuqiuju));
-                    attendButton.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View arg0) {
-                            showQuit(arg0);
-                        }
-                    });
-                } else if (match.getUserAndmatch().equals("3")) {
-                    hostNumber.setText(match.getU_mobile().substring(0, 3)
-                            + "****" + match.getU_mobile().substring(7, 11));
-                    attendText.setText("人员已满");
-                    attendText.setTextColor(getResources().getColor(
-                            R.color.halftxt));
-                    attendImg.setImageDrawable(getResources().getDrawable(
-                            R.drawable.manyuan));
-                    attendButton.setBackgroundColor(getResources().getColor(
-                            R.color.halfbtn));
-                    attendButton.setClickable(false);
-                } else if (match.getUserAndmatch().equals("4")) {
-                    hostNumber.setText(match.getU_mobile().substring(0, 3)
-                            + "****" + match.getU_mobile().substring(7, 11));
-                    attendText.setText("已结束");
-                    attendText.setTextColor(getResources().getColor(
-                            R.color.halftxt));
-                    attendImg.setImageDrawable(getResources().getDrawable(
-                            R.drawable.jieshu));
-                    attendButton.setBackgroundColor(getResources().getColor(
-                            R.color.halfbtn));
-                    attendButton.setClickable(false);
-                } else if (match.getUserAndmatch().equals("5")) {
-                    hostNumber.setText(match.getU_mobile().substring(0, 3)
-                            + "****" + match.getU_mobile().substring(7, 11));
-                    attendText.setText("进行中");
-                    attendText.setTextColor(getResources().getColor(
-                            R.color.halftxt));
-                    attendImg.setImageDrawable(getResources().getDrawable(
-                            R.drawable.jinxingzhong));
-                    attendButton.setBackgroundColor(getResources().getColor(
-                            R.color.halfbtn));
-                    attendButton.setClickable(false);
+				/*去支付！！！！！！*/
+            attendButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    mIntent = new Intent();
+                    mIntent.putExtra("matchid", id);
+                    mIntent.putExtra("matchfee", fee.getText().toString());
+                    mIntent.setClass(MatchDetailActivity.this, ChoosePaymentActivity.class);
+                    startActivity(mIntent);
+                    finish();
                 }
-            }
+            });
+        } else if (match.getUserAndmatch().equals("2")) {
+            hostNumber.setText(match.getU_mobile());
+            attendText.setText("退出球局");
+            attendImg.setImageDrawable(getResources().getDrawable(
+                    R.drawable.tuichuqiuju));
+            attendButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    showQuit(arg0);
+                }
+            });
+            Log.e("match.getUserAndmatch()", match.getUserAndmatch());
+        } else if (match.getUserAndmatch().equals("3")) {
+            Log.e("match.getUserAndmatch", match.getUserAndmatch());
+            hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
+                    + match.getU_mobile().substring(7, 11));
+            attendText.setText("人员已满"); // 人员已满
+            attendText.setTextColor(getResources()
+                    .getColor(R.color.halftxt));
+            attendImg.setImageDrawable(getResources().getDrawable(
+                    R.drawable.manyuan));
+            attendButton.setBackgroundColor(getResources().getColor(
+                    R.color.halfbtn));
+            attendButton.setClickable(false);
+        } else if (match.getUserAndmatch().equals("4")) {
+            Log.e("match.getUserAndmatch", match.getUserAndmatch());
+            hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
+                    + match.getU_mobile().substring(7, 11));
+            attendText.setText("已结束");
+            attendText.setTextColor(getResources()
+                    .getColor(R.color.halftxt));
+            attendImg.setImageDrawable(getResources().getDrawable(
+                    R.drawable.jieshu));
+            attendButton.setBackgroundColor(getResources().getColor(
+                    R.color.halfbtn));
+            attendButton.setClickable(false);
+        } else if (match.getUserAndmatch().equals("5")) {
+            hostNumber.setText(match.getU_mobile().substring(0, 3) + "****"
+                    + match.getU_mobile().substring(7, 11));
+            attendText.setText("进行中");
+            attendText.setTextColor(getResources()
+                    .getColor(R.color.halftxt));
+            attendImg.setImageDrawable(getResources().getDrawable(
+                    R.drawable.jinxingzhong));
+            attendButton.setBackgroundColor(getResources().getColor(
+                    R.color.halfbtn));
+            attendButton.setClickable(false);
 
         }
 
@@ -533,15 +468,11 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
             public void run() {
                 match = matchController.getinfo(id);
                 if (match == null) {
-                    Message msg = new Message();
-                    msg.what = 2;
-                    myhandler.sendMessage(msg);
+                    myhandler.sendEmptyMessage(2);
                 } else {
                     comments = matchController.getComment(id);
                     table = matchController.getTable(id);
-                    Message msg = new Message();
-                    msg.what = 1;
-                    myhandler.sendMessage(msg);
+                    myhandler.sendEmptyMessage(1);
                 }
             }
         }.start();
@@ -674,19 +605,18 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
                 break;
             // 报名球局按钮
             case R.id.attend_btn:
-                userModel = userController.getInfo(Config.login_userid);//每次点击都和服务器交互判断状态
+                /*userModel = userController.getInfo(Config.login_userid);//每次点击都和服务器交互判断状态
                 if (userModel == null) {//未登录或登录过期
-                    mIntent = new Intent(MatchDetailActivity.this,
-                            LoginActivity.class);
+                    mIntent = new Intent(MatchDetailActivity.this, LoginActivity.class);
                     startActivity(mIntent);
                     finish();
                     break;
-                } else {
-                    showAttend(v, id, match.getFee());//球赛的id
-                    break;
-                }
-			/*if (Config.is_login) {
-				showAttend(v, id, match.getFee());//球赛的id			
+                } else {*/
+                showAttend(v, id, match.getFee());//球赛的id
+                break;
+//                }
+            /*if (Config.is_login) {
+                showAttend(v, id, match.getFee());//球赛的id
 				break;
 			} else {
 				mIntent = new Intent(MatchDetailActivity.this,
@@ -696,7 +626,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
 				break;
 			}*/
 
-                // 评论按钮
+            // 评论按钮
             case R.id.comment_btn:
                 if (Config.is_login) {
                     showComment(v, "0", id, "", table, match.getU_id());
@@ -723,57 +653,6 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
                 Gravity.CENTER, 0, 0);
     }
 
-    public static String addDateMinut(String day, int x) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = null;
-        try {
-            date = format.parse(day);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        if (date == null)
-            return "";
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.MINUTE, x);// 24小时制
-        date = cal.getTime();
-        cal = null;
-        return format.format(date);
-    }
-
-    private String getWeek(String pTime) {
-        String Week = "周";
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c = Calendar.getInstance();
-        try {
-            c.setTime(format.parse(pTime));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 1) {
-            Week += "日";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 2) {
-            Week += "一";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 3) {
-            Week += "二";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 4) {
-            Week += "三";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 5) {
-            Week += "四";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 6) {
-            Week += "五";
-        }
-        if (c.get(Calendar.DAY_OF_WEEK) == 7) {
-            Week += "六";
-        }
-        return Week;
-    }
-
     /**
      * @see {@link Activity#onNewIntent}
      */
@@ -789,7 +668,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
     /**
      * 接收微博客户端请求的数据。 当微博客户端唤起当前应用并进行分享时，该方法被调用。
      *
-     * @param baseRequest 微博请求数据对象
+     * @param baseResp 微博请求数据对象
      * @see {@link IWeiboShareAPI#handleWeiboRequest}
      */
     @Override
@@ -858,7 +737,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
         Log.e("request.multiMessage", "request.multiMessage");//ok
         // 3. 发送请求消息到微博，唤起微博分享界面
         WeiboShareAPI.sendRequest(MatchDetailActivity.this, request);
-        Log.e("WeiboShareAPI.sendRequest", "WeiboShareAPI.sendRequest");
+        LogUtils.e("WeiboShareAPI.sendRequest" + "WeiboShareAPI.sendRequest");
     }
 
     /**

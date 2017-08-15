@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="cn.com.sfn.example.juqi.AchieveActivity" >
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/img1"
@@ -20,7 +19,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/canyu_btn"
@@ -63,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ll1"
         android:background="@drawable/achieve_box1"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,14 +97,11 @@
     <ListView
         android:id="@+id/achieveList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/rl2"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
         android:layout_marginTop="3dp"
         android:divider="@null"
         android:listSelector="@color/transparent"
-        android:scrollbars="none" >
-    </ListView>
+        android:scrollbars="none" />
 
 </RelativeLayout>

@@ -155,18 +155,6 @@ public class LoginActivity extends Activity implements OnClickListener {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            /*mIntent = new Intent();
-            mIntent.putExtra("fragmentFlag", 0);
-            mIntent.setClass(LoginActivity.this, MainActivity.class);
-            startActivity(mIntent);*/
-            finish();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // SSO 授权回调
@@ -229,10 +217,8 @@ public class LoginActivity extends Activity implements OnClickListener {
     private void login(String account, String password) {
         if (TextUtils.isEmpty(account)) {
             ToastUtil.show(mContext, "用户名不能为空");
-            return;
         } else if (TextUtils.isEmpty(password)) {
             ToastUtil.show(mContext, "密码不能为空");
-            return;
         } else {
             int rs = userController.login(account, password,
                     LoginActivity.this);
@@ -250,19 +236,11 @@ public class LoginActivity extends Activity implements OnClickListener {
                 Config.is_login = true;
                 Config.login_type = "putong";
 
-                /*mIntent = new Intent();
-                mIntent.putExtra("fragmentFlag", 0);
-                mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mIntent.setClass(LoginActivity.this, MainActivity.class);
-                startActivity(mIntent);*/
-                finish();
-                return;
+                finishLoginActivity();
             } else if (rs == -1) {
                 ToastUtil.show(mContext, "网络异常");
-                return;
             } else {
                 ToastUtil.show(mContext, "用户名或密码错误");
-                return;
             }
         }
     }
@@ -290,7 +268,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         }
 
         public void onComplete(Object response) {
-            ToastUtil.show(mContext,"登录成功");
+            ToastUtil.show(mContext, "登录成功");
             Config.is_login = true;
 
             try {
@@ -379,11 +357,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                         editor.commit();
                         Config.is_login = true;
                         Config.login_type = "qq";
-                        /*mIntent = new Intent();
-                        mIntent.putExtra("fragmentFlag", 0);
-                        mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        mIntent.setClass(LoginActivity.this, MainActivity.class);
-                        startActivity(mIntent);*/
+
                         finish();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -463,6 +437,16 @@ public class LoginActivity extends Activity implements OnClickListener {
                     "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG)
                     .show();
         }
+    }
+
+    private void finishLoginActivity(){
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishLoginActivity();
     }
 
 }

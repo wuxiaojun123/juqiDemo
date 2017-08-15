@@ -121,7 +121,7 @@ public class MatchDejson {
 		} else if (gStatus.equals("2")) {
 			userMatch = "5";
 		} else if (gStatus.equals("3")) {
-			userMatch = "3";
+			userMatch = "4";
 		} else if (gStatus.equals("4")) {
 			userMatch = "4";
 		}

@@ -352,3 +352,7 @@
 -keep class com.amap.api.navi.**{*;}
 -keep class com.autonavi.**{*;}
 # 高德地图结束
+
+# 微博
+-keep class com.sina.weibo.sdk.** { *; }
+# 微博

@@ -1,17 +1,22 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical">
 
+
+    <FrameLayout
+        android:id="@+id/fragment_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <LinearLayout
-        android:id="@+id/Frame_BottemView"
+        android:id="@+id/id_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
         android:background="@drawable/nav"
-        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -20,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dimen_8"
             android:layout_weight="1"
-            android:gravity="center_vertical|center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -34,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/signString"
                 android:textColor="@color/textcolor"
-                android:textSize="@dimen/micro_text_size" />
+                android:textSize="@dimen/dimen_14" />
         </LinearLayout>
 
         <LinearLayout
@@ -43,7 +48,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dimen_8"
             android:layout_weight="1"
-            android:gravity="center_vertical|center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -57,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/appointString"
                 android:textColor="@color/search_bottem_textcolor"
-                android:textSize="@dimen/micro_text_size" />
+                android:textSize="@dimen/dimen_14" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical|center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -74,6 +79,7 @@
                 android:layout_height="40dp"
                 android:contentDescription="@string/image_description"
                 android:src="@drawable/bottem_achieve" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -82,7 +88,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dimen_8"
             android:layout_weight="1"
-            android:gravity="center_vertical|center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -96,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/manageString"
                 android:textColor="@color/search_bottem_textcolor"
-                android:textSize="@dimen/micro_text_size" />
+                android:textSize="@dimen/dimen_14" />
         </LinearLayout>
 
         <LinearLayout
@@ -105,7 +111,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dimen_8"
             android:layout_weight="1"
-            android:gravity="center_vertical|center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -119,14 +125,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/myString"
                 android:textColor="@color/search_bottem_textcolor"
-                android:textSize="@dimen/micro_text_size" />
+                android:textSize="@dimen/dimen_14" />
+
         </LinearLayout>
+
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/Frame_BottemView"></FrameLayout>
 
-</RelativeLayout>
+</LinearLayout>

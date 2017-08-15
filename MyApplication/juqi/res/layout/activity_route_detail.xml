@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/act_background"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <RelativeLayout 
+    <RelativeLayout
         android:id="@+id/route_title"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:background="@drawable/title_background">
+
         <LinearLayout
             android:id="@+id/title_back"
             android:layout_width="70dp"
@@ -22,22 +23,23 @@
             android:onClick="onBackClick"
             android:orientation="vertical"
             android:paddingLeft="@dimen/offset_title"
-            android:paddingStart="@dimen/offset_title" >
+            android:paddingStart="@dimen/offset_title">
 
             <ImageView
                 android:layout_width="@dimen/width_title_leftImg"
                 android:layout_height="match_parent"
                 android:clickable="false"
+                android:contentDescription="@string/image_description"
                 android:scaleType="center"
-                android:src="@drawable/back"
-                android:contentDescription="@string/image_description" />
+                android:src="@drawable/back" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/title_center"
@@ -49,13 +51,15 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:gravity="center_vertical"
-        android:padding="5dp"
         android:background="@drawable/bg_bottom_bar"
-        android:orientation="vertical" >
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="5dp">
+
         <TextView
             android:id="@+id/firstline"
             android:layout_width="wrap_content"
@@ -81,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#e0e0e0"
-        android:contentDescription="@string/image_description"/>
+        android:contentDescription="@string/image_description" />
 
     <ListView
         android:id="@+id/bus_segment_list"
@@ -93,7 +97,6 @@
         android:fadingEdgeLength="0dp"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
-        android:listSelector="@color/transparent" >
-    </ListView>
+        android:listSelector="@color/transparent" />
 
 </LinearLayout>
