@@ -85,9 +85,7 @@ public class ManageFragment extends Fragment {
         new Thread() {
             public void run() {
                 matches = matchController.getManageMatchList(Config.login_userid);
-                Message msg = new Message();
-                msg.what = 1;
-                myhandler.sendMessage(msg);
+                myhandler.sendEmptyMessage(1);
             }
         }.start();
     }

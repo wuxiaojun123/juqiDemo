@@ -107,6 +107,8 @@ public class MyHttpClient {
         return result;
     }
 
+    public static final String TIME_OUT = "time out";
+
     @SuppressWarnings("deprecation")
     public String doPost(String action, String params) {
         String result = "";
@@ -114,7 +116,6 @@ public class MyHttpClient {
         try {
             URL requestURL = new URL(Config.URL_BASE + action);
             conn = (HttpURLConnection) requestURL.openConnection();
-            LogUtils.e("设置cookie=" + Config.SessionID);
             if (Config.SessionID != null) {
                 conn.setRequestProperty("Cookie", Config.SessionID);
             }
@@ -129,7 +130,6 @@ public class MyHttpClient {
             if (conn.getResponseCode() == 200) {
                 InputStream iStream = conn.getInputStream();
                 String cookieval = conn.getHeaderField("set-cookie");
-                LogUtils.e("返回的cookie值是:" + cookieval);
                 if (cookieval != null) {
                     Config.SessionID = cookieval.substring(0,
                             cookieval.indexOf(";"));
@@ -145,7 +145,7 @@ public class MyHttpClient {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return "time out";
+            return TIME_OUT;
         } finally {
             if (null != conn) {
                 conn.disconnect();

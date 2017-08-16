@@ -58,7 +58,6 @@ public class MatchController {
         String action = "index/game_list";
         String params = "time_limit=" + limit + "&p=" + page;
         String str = httpClient.doPost(action, params);
-        System.out.println(str);
         List<MatchModel> matches = new ArrayList<MatchModel>();
         MatchDejson md = new MatchDejson();
         matches = md.matchListDejson(str);
@@ -246,14 +245,18 @@ public class MatchController {
         Log.e("release_game-param", param);
         String str = httpClient.doPost(action, param);
         LogUtils.e("发布球局返回:" + str);
-        AppointDejson appointdejson = new AppointDejson();
-        StandardModel appoint = appointdejson.dejson(str);
-        if (appoint == null)
+        if (MyHttpClient.TIME_OUT.equals(str)) {
             return -1;
-        if (appoint.getStatus() == 1) {
-            return Config.AppointSuccess;
-        } else
-            return Config.AppointFailed;
+        } else {
+            AppointDejson appointdejson = new AppointDejson();
+            StandardModel appoint = appointdejson.dejson(str);
+            if (appoint == null)
+                return -1;
+            if (appoint.getStatus() == 1) {
+                return Config.AppointSuccess;
+            } else
+                return Config.AppointFailed;
+        }
     }
 
     // 修改球局
@@ -368,8 +371,6 @@ public class MatchController {
         String action = "weixinpay/weixinpay";
         String param = "u_id=" + u_id + "&g_id=" + g_id + "&fee=" + fee;
         String str = httpClient.doPost(action, param);
-        System.out.println(str);
-        Log.e("weixinpay_returnstr", str);
         if (str.equals("time out")) {
             return "";
         } else {

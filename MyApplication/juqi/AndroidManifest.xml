@@ -274,15 +274,13 @@
             android:label="@string/title_activity_set_account" />
 
         <activity
-            android:name="cn.com.sfn.juqi.sign.ChoosePaymentActivity"
+            android:name="com.example.juqi.wxapi.ChoosePaymentActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:scheme="wx6091081fcba9999a" />
                 <!-- 需修改 -->
             </intent-filter>

@@ -3,8 +3,6 @@ package com.example.juqi.wxapi;
 
 import net.sourceforge.simcpux.Constants;
 
-import cn.com.sfn.juqi.sign.ChoosePaymentActivity;
-import cn.com.sfn.juqi.sign.MatchDetailActivity;
 import cn.com.wx.util.LogUtils;
 
 import com.example.juqi.R;
@@ -19,8 +17,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
@@ -34,7 +30,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         setContentView(R.layout.pay_result);
 
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
-
         api.handleIntent(getIntent(), this);
     }
 
@@ -53,10 +48,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onResp(BaseResp resp) {
 
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            LogUtils.e("微信支付" + resp.errStr + "-----" + resp.errCode);
+            LogUtils.e("微信支付结果:" + resp.errStr + "======" + resp.errCode);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.app_tip);//提示
-            //builder.setMessage(getString(R.string.pay_result_callback_msg,resp.errStr +";code=" + String.valueOf(resp.errCode)));
+//            builder.setMessage(getString(R.string.pay_result_callback_msg,resp.errStr +";code=" + String.valueOf(resp.errCode)));
             if (resp.errCode == 0) {
                 builder.setMessage(getString(R.string.pay_result_callback_msg) + "支付成功");
                 builder.show();

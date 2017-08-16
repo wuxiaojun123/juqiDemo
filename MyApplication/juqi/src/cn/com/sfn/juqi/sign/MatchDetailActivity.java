@@ -2,32 +2,23 @@ package cn.com.sfn.juqi.sign;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import cn.com.sfn.alipay.util.PayResult;
 import cn.com.sfn.alipay.util.SignUtils;
 import cn.com.sfn.example.juqi.LoginActivity;
-import cn.com.sfn.example.juqi.MainActivity;
 import cn.com.sfn.juqi.adapter.CommentsItemAdapter;
 import cn.com.sfn.juqi.adapter.JoinItemAdapter;
 import cn.com.sfn.juqi.adapter.ListItemClickHelp;
 import cn.com.sfn.juqi.controller.MatchController;
-import cn.com.sfn.juqi.controller.UserController;
 import cn.com.sfn.juqi.model.AttendModel;
 import cn.com.sfn.juqi.model.CommentsModel;
 import cn.com.sfn.juqi.model.MatchModel;
-import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.my.FriendDetailActivity;
 import cn.com.sfn.juqi.util.Config;
 import cn.com.sfn.juqi.util.Constants;
 import cn.com.sfn.juqi.util.ToastUtil;
 import cn.com.sfn.juqi.widgets.CircleImageView;
 import cn.com.sfn.juqi.widgets.InnerListView;
-import cn.com.sfn.juqi.widgets.XListView.IXListViewListener;
 import cn.com.wx.util.DateUtils;
 import cn.com.wx.util.DownLoadImage;
 import cn.com.wx.util.GlideUtils;
@@ -38,6 +29,7 @@ import cn.com.wx.util.DownLoadImage.BitmapCallBack;
 import com.alipay.sdk.app.PayTask;
 import com.amap.map3d.demo.route.RouteActivity;
 import com.example.juqi.R;
+import com.example.juqi.wxapi.ChoosePaymentActivity;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMessage;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
@@ -65,8 +57,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -161,7 +151,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
     // 自己微信应用的 appSecret
     public static final String WX_SECRET = "c9ed9adab65c9c9db3598d3f2d10b576";
     public static IWXAPI wxApi;
-    private Intent mIntent;
+    //    private Intent mIntent;
     private ScrollView scrollView;
     private List<AttendModel> attends;
     private LinearLayout addressBtn;
@@ -228,14 +218,13 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
 
         //checkWX();
         matchController = new MatchController();
-        mIntent = getIntent();
+        Intent mIntent = getIntent();
         id = mIntent.getStringExtra("matchId");//球赛的id
         if (TextUtils.isEmpty(id)) {
-            Intent i_getvalue = getIntent();
-            String action = i_getvalue.getAction();
+            String action = mIntent.getAction();
 
             if (Intent.ACTION_VIEW.equals(action)) {
-                Uri uri = i_getvalue.getData();
+                Uri uri = mIntent.getData();
                 if (uri != null) {
                     id = uri.getQueryParameter("id");
                 }
@@ -258,25 +247,14 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
                                 "回复：@" + cm.getUserName() + ": ", table,
                                 cm.getUserId());
                     } else {
-                        mIntent = new Intent(MatchDetailActivity.this,
-                                LoginActivity.class);
-                        startActivity(mIntent);
-                        finish();
+                        goToLoginActivity();
                     }
                     break;
                 case R.id.comments_avatar:
                     if (Config.is_login) {
-                        mIntent = new Intent();
-                        mIntent.putExtra("id", cm.getUserId());
-                        mIntent.setClass(MatchDetailActivity.this,
-                                FriendDetailActivity.class);
-                        startActivity(mIntent);
-                        finish();
+                        goToFriendDetailActivity(cm.getUserId());
                     } else {
-                        mIntent = new Intent(MatchDetailActivity.this,
-                                LoginActivity.class);
-                        startActivity(mIntent);
-                        finish();
+                        goToLoginActivity();
                     }
                     break;
                 default:
@@ -304,10 +282,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
                 AttendModel fm = (AttendModel) arg0.getItemAtPosition(position);
-                mIntent.putExtra("id", fm.getId());
-                mIntent.setClass(MatchDetailActivity.this,
-                        FriendDetailActivity.class);
-                startActivity(mIntent);
+                goToFriendDetailActivity(fm.getId());
             }
         });
         if (comments.size() != 0) {
@@ -332,17 +307,9 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
             @Override
             public void onClick(View v) {
                 if (Config.is_login) {
-                    mIntent = new Intent();
-                    mIntent.putExtra("id", match.getU_id());
-                    mIntent.setClass(MatchDetailActivity.this,
-                            FriendDetailActivity.class);
-                    startActivity(mIntent);
-                    //finish();
+                    goToFriendDetailActivity(match.getU_id());
                 } else {
-                    mIntent = new Intent(MatchDetailActivity.this,
-                            LoginActivity.class);
-                    startActivity(mIntent);
-                    finish();
+                    goToLoginActivity();
                 }
             }
         });
@@ -403,12 +370,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
             attendButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
-                    mIntent = new Intent();
-                    mIntent.putExtra("matchid", id);
-                    mIntent.putExtra("matchfee", fee.getText().toString());
-                    mIntent.setClass(MatchDetailActivity.this, ChoosePaymentActivity.class);
-                    startActivity(mIntent);
-                    finish();
+                    goToChoosePaymentActivity();
                 }
             });
         } else if (match.getUserAndmatch().equals("2")) {
@@ -461,6 +423,15 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
 
         }
 
+    }
+
+    private void goToChoosePaymentActivity() {
+        Intent mIntent = new Intent();
+        mIntent.putExtra("matchid", id);
+        mIntent.putExtra("matchfee", fee.getText().toString());
+        mIntent.setClass(MatchDetailActivity.this, ChoosePaymentActivity.class);
+        startActivity(mIntent);
+        finish();
     }
 
     protected void initDetail() {
@@ -591,13 +562,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
         switch (v.getId()) {
             // 详细地址哪一行的点击事件
             case R.id.address_btn:
-                mIntent = new Intent();
-                mIntent.putExtra("slon", Config.lon);
-                mIntent.putExtra("slat", Config.lat);
-                mIntent.putExtra("elon", longitude);
-                mIntent.putExtra("elat", latitude);
-                mIntent.setClass(MatchDetailActivity.this, RouteActivity.class);
-                startActivity(mIntent);
+                goToRouteActivity();
                 break;
             // 返回
             case R.id.match_detail_to_sign:
@@ -614,28 +579,12 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
                 } else {*/
                 showAttend(v, id, match.getFee());//球赛的id
                 break;
-//                }
-            /*if (Config.is_login) {
-                showAttend(v, id, match.getFee());//球赛的id
-				break;
-			} else {
-				mIntent = new Intent(MatchDetailActivity.this,
-						LoginActivity.class);
-				startActivity(mIntent);
-				finish();
-				break;
-			}*/
-
-            // 评论按钮
-            case R.id.comment_btn:
+            case R.id.comment_btn:// 评论按钮
                 if (Config.is_login) {
                     showComment(v, "0", id, "", table, match.getU_id());
                     break;
                 } else {
-                    mIntent = new Intent(MatchDetailActivity.this,
-                            LoginActivity.class);
-                    startActivity(mIntent);
-                    finish();
+                    goToLoginActivity();
                     break;
                 }
             case R.id.share_btn:
@@ -644,6 +593,30 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
             default:
                 break;
         }
+    }
+
+    private void goToRouteActivity() {
+        Intent mIntent = new Intent();
+        mIntent.putExtra("slon", Config.lon);
+        mIntent.putExtra("slat", Config.lat);
+        mIntent.putExtra("elon", longitude);
+        mIntent.putExtra("elat", latitude);
+        mIntent.setClass(MatchDetailActivity.this, RouteActivity.class);
+        startActivity(mIntent);
+    }
+
+    private void goToFriendDetailActivity(String id) {
+        Intent mIntent = new Intent();
+        mIntent.putExtra("id", id);
+        mIntent.setClass(MatchDetailActivity.this, FriendDetailActivity.class);
+        startActivity(mIntent);
+        finish();
+    }
+
+    private void goToLoginActivity() {
+        Intent mIntent = new Intent(MatchDetailActivity.this, LoginActivity.class);
+        startActivity(mIntent);
+        finish();
     }
 
     // 弹出分享窗

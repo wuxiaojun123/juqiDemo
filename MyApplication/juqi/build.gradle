@@ -39,6 +39,17 @@ android {
         }
     }
     buildTypes {
+        debug{
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            debuggable true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+
+            signingConfig signingConfigs.myConfig
+        }
+
         release {
             minifyEnabled true
             shrinkResources true

@@ -169,13 +169,25 @@
 -keep class com.tencent.mm.sdk.** {
    *;
 }
--keep class com.tencent.mm.** {
-   *;
-}
+-keep class com.tencent.mm.** {*;}
 -dontwarn com.tencent.connect.**
 
 -dontwarn org.apache.http.**
 ###################### weixin login ##################
+
+###################### 微信支付########################
+-keep class com.tencent.mm.** {*;}
+-keep class com.tencent.stat.** {*;}
+-keep class com.tencent.** {*;}
+###################### 微信支付########################
+
+###################### 支付宝########################
+-keep class com.alipay.**{*;}
+-keep class com.ta.utdid2.**{*;}
+-keep class com.ut.device.**{*;}
+-keep class org.json.alipay.**{*;}
+###################### 支付宝########################
+
 
 -keep class com.hyphenate.** {*;}
 -dontwarn  com.hyphenate.**

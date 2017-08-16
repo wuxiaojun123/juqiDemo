@@ -61,7 +61,6 @@ public class MyFragment extends Fragment implements OnClickListener {
             switch (msg.what) {
                 case 1:
                     initShow(Config.mUserModel);
-                    LogUtils.e("用户昵称是" + Config.mUserModel == null ? "null" : Config.mUserModel.getNickName());
                     break;
                 case 2:
                     ToastUtil.show(mContext, "未登录");
