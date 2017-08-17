@@ -10,7 +10,7 @@
     <string name="weibosdk_demo_toast_share_canceled">取消分享</string>
     <string name="weibosdk_demo_toast_share_response_args_success">收到微博发起的请求成功</string>
     <string name="weibosdk_demo_toast_share_response_args_failed">收到客户端请求消息失败</string>
-    <string name="app_name">局气</string>
+    <string name="app_name">局器</string>
     <string name="image_description">imageView</string>
     <!-- 球局详情页 -->
     <string name="host_description">球局组织者</string>
@@ -42,7 +42,7 @@
     <string name="attend_txt">+报名球局</string>
     <string name="attend_confirm">确认报名</string>
     <string name="comment_txt">评论</string>
-    <string name="check_attend">我已阅读<a href="http://www.baidu.com/">《局气APP支付协议》</a>，并确认活动真实性，同意支付报名费</string>
+    <string name="check_attend">我已阅读<a href="http://www.baidu.com/">《局器APP支付协议》</a>，并确认活动真实性，同意支付报名费</string>
     <string name="comments_send">发送</string>
     <string name="comments_hint">评论:</string>
     <string name="comments_list">评论列表</string>
@@ -125,7 +125,7 @@
     <string name="hit_code">请输入验证码</string>
     <string name="get_code">获取验证码</string>
     <string name="register_code">验  证  码</string>
-    <string name="check_pwd_txt">我已阅读并同意《局气APP用户协议》</string>
+    <string name="check_pwd_txt">我已阅读并同意《局器APP用户协议》</string>
     <string name="my_information">我的信息</string>
     <string name="match_certificate">球局凭证</string>
     <string name="my_friend">我的局友</string>
