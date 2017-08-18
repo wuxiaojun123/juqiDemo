@@ -195,6 +195,7 @@ public class MyHttpClient {
         }
         result = jsontourl(result);
         result = URLDecoder.decode(result);
+        LogUtils.e("返回结果是:" + result);
         return result;
     }
 

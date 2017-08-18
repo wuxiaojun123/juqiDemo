@@ -43,8 +43,13 @@ import cn.com.sfn.juqi.widgets.ArrayWheelAdapter;
 import cn.com.sfn.juqi.widgets.CircleImageView;
 import cn.com.sfn.juqi.widgets.NumberWheelAdaper;
 import cn.com.sfn.juqi.widgets.WheelView;
+import cn.com.wx.util.BaseSubscriber;
 import cn.com.wx.util.GlideUtils;
 import cn.com.wx.util.LogUtils;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @SuppressLint("HandlerLeak")
 public class DetailInfoActivity extends Activity implements OnClickListener {
@@ -247,42 +252,66 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
                 } else {
                     sexStr = "2";
                 }
+                confirmServer(nichNameParams, ageParams, gameAgeParams, heightParams, weightParams, offenseParams, defenseParams, zongheParams, shizhanParams, weizhiParams, signatureParams, zhanjiParams);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void confirmServer(final String nichNameParams, final String ageParams, final String gameAgeParams, final String heightParams,
+                               final String weightParams, final String offenseParams, final String defenseParams, final String zongheParams,
+                               final String shizhanParams, final String weizhiParams, final String signatureParams, final String zhanjiParams) {
+
+        Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
                 int rs = userController
                         .editInfo(nichNameParams, sexStr, ageParams, gameAgeParams
                                 , heightParams, weightParams, offenseParams
                                 , defenseParams, zongheParams, shizhanParams
                                 , weizhiParams, signatureParams
                                 , zhanjiParams);
-                if (rs == Config.EditSuccess) {
-                    ToastUtil.show(mContext, "修改成功");
-                    UserModel mUserModel = Config.mUserModel;
-                    if (mUserModel != null) {
-                        mUserModel.setNickName(nichNameParams);
-                        mUserModel.setUserSex(sexStr);
-                        mUserModel.setAge(ageParams);
-                        mUserModel.setUage(gameAgeParams);
-                        mUserModel.setHeight(heightParams);
-                        mUserModel.setWeight(weightParams);
-                        mUserModel.setOffense(offenseParams);
-                        mUserModel.setDefense(defenseParams);
-                        mUserModel.setComprehensive(zongheParams);
-                        mUserModel.setStandard(shizhanParams);
-                        mUserModel.setPosition(weizhiParams);
-                        mUserModel.setSignature(signatureParams);
-                        mUserModel.setGrade(zhanjiParams);
-                        Config.mUserModel = mUserModel;
+                subscriber.onNext(rs + "");
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onNext(String text) {
+                        if (TextUtils.isEmpty(text)) {
+                            ToastUtil.show(mContext, "网络异常");
+                        } else {
+                            int rs = Integer.parseInt(text);
+                            if (rs == Config.EditSuccess) {
+                                ToastUtil.show(mContext, "修改成功");
+                                UserModel mUserModel = Config.mUserModel;
+                                if (mUserModel != null) {
+                                    mUserModel.setNickName(nichNameParams);
+                                    mUserModel.setUserSex(sexStr);
+                                    mUserModel.setAge(ageParams);
+                                    mUserModel.setUage(gameAgeParams);
+                                    mUserModel.setHeight(heightParams);
+                                    mUserModel.setWeight(weightParams);
+                                    mUserModel.setOffense(offenseParams);
+                                    mUserModel.setDefense(defenseParams);
+                                    mUserModel.setComprehensive(zongheParams);
+                                    mUserModel.setStandard(shizhanParams);
+                                    mUserModel.setPosition(weizhiParams);
+                                    mUserModel.setSignature(signatureParams);
+                                    mUserModel.setGrade(zhanjiParams);
+                                    Config.mUserModel = mUserModel;
+                                }
+                                sendRxtypeUpdateFlag(2);
+                            } else if (rs == -1) {
+                                ToastUtil.show(mContext, "网络异常");
+                            } else {
+                                ToastUtil.show(mContext, "网络异常");
+                            }
+                        }
                     }
-                    sendRxtypeUpdateFlag(2);
-//                    startMainActivity();
-                } else if (rs == -1) {
-                    ToastUtil.show(mContext, "网络异常");
-                } else {
-                    ToastUtil.show(mContext, "网络异常");
-                }
-                break;
-            default:
-                break;
-        }
+                });
     }
 
     private void sendRxtypeUpdateFlag(int updateFlag) {

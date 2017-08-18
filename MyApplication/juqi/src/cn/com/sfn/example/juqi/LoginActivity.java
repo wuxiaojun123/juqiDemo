@@ -187,17 +187,13 @@ public class LoginActivity extends Activity implements OnClickListener {
                 startActivity(mIntent);
                 break;
             case R.id.free_see:
-                /*mIntent = new Intent();
-                mIntent.putExtra("fragmentFlag", 0);
-                mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mIntent.setClass(LoginActivity.this, MainActivity.class);
-                startActivity(mIntent);*/
-                finish();
+                finishLoginActivity();
+
                 break;
             case R.id.register_btn:
                 mIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(mIntent);
-//                finish();
+
 
                 break;
             case R.id.login_btn:

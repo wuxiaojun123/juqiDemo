@@ -282,7 +282,6 @@ public class UserController {
         AccountModel account = new AccountModel();
         String action = "user/center/finance";
         String str = httpClient.doGet(action);
-        Log.e("bov", str);
         if (str.equals("time out")) {
             return null;
         } else {

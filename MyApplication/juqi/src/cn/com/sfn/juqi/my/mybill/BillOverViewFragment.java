@@ -7,6 +7,7 @@ import cn.com.sfn.juqi.controller.UserController;
 import cn.com.sfn.juqi.model.AccountModel;
 import cn.com.sfn.juqi.model.BillModel;
 import cn.com.sfn.juqi.widgets.CircleImageView;
+import cn.com.wx.util.GlideUtils;
 
 import com.example.juqi.R;
 
@@ -84,8 +85,10 @@ public class BillOverViewFragment extends Fragment {
 
     @SuppressWarnings("deprecation")
     private void initView() {
-        Drawable drawable = new BitmapDrawable(accountModel.getAvatar());// 转换成drawable
-        avatar.setImageDrawable(drawable);
+//        Drawable drawable = new BitmapDrawable(accountModel.getAvatar());// 转换成drawable
+//        avatar.setImageDrawable(drawable);
+        GlideUtils.loadCircleImage(accountModel.getAvatar(), avatar);
+
         balance.setText(accountModel.getBalance());
         income.setText(accountModel.getIncome());
         billOverviews = accountModel.getBillModel();

@@ -263,7 +263,10 @@ public class ManageItemAdapter extends BaseAdapter {
         return Week;
     }
 
-    public void addList(List<MatchModel> list) {
+    public void setList(List<MatchModel> list) {
+        if (mManages != null && !mManages.isEmpty()) {
+            mManages.clear();
+        }
         if (list != null) {
             mManages.addAll(list);
             notifyDataSetChanged();

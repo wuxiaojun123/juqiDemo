@@ -27,6 +27,8 @@ import butterknife.OnClick;
 import cn.com.sfn.juqi.adapter.MatchItemAdapter;
 import cn.com.sfn.juqi.controller.MatchController;
 import cn.com.sfn.juqi.model.MatchModel;
+import cn.com.sfn.juqi.rxbus.RxBus;
+import cn.com.sfn.juqi.rxbus.rxtype.ChangeMatchRxbusType;
 import cn.com.sfn.juqi.util.Config;
 import cn.com.sfn.juqi.util.ToastUtil;
 import cn.com.sfn.juqi.widgets.XListView;
@@ -36,6 +38,7 @@ import cn.com.wx.util.LogUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 @SuppressLint("HandlerLeak")
@@ -96,14 +99,11 @@ public class SignFragment extends Fragment implements IXListViewListener {
     private int page = 1; // 当前页
     private int pages; // 总页数
     private int flag = -1;
-    //    private int regionFlag = -1;
-//    private int sortFlag = -1;
     private String chooseRegion; // 活动地点
     private String chooseSort; // 排序方式
 
     private SlidePopWin slidePop;
     private MatchItemAdapter listAdapter;
-    //    private List<MatchModel> matches;
     private Context mContext;
 
 
@@ -117,6 +117,8 @@ public class SignFragment extends Fragment implements IXListViewListener {
         initView();
         drawerListener();
         btn1.performClick();
+
+        initRxbus();
 
         return signView;
     }
@@ -143,6 +145,18 @@ public class SignFragment extends Fragment implements IXListViewListener {
         super.onActivityCreated(savedInstanceState);
     }
 
+    private void initRxbus(){
+        RxBus.getDefault().toObservable(ChangeMatchRxbusType.class).subscribe(new Action1<ChangeMatchRxbusType>() {
+            @Override
+            public void call(ChangeMatchRxbusType changeMatchRxbusType) {
+                // 刷新界面
+                if(changeMatchRxbusType.isRefresh){
+                    btnClick();
+                }
+            }
+        });
+    }
+
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.choose,
             R.id.id_chaoyang, R.id.id_haidian, R.id.id_dongcheng, R.id.id_xicheng,
@@ -162,7 +176,11 @@ public class SignFragment extends Fragment implements IXListViewListener {
                 btn3Click();
                 break;
             case R.id.btn4:
+                // 点击不限，需要清空筛选条件
+                id_region.setText(null);
+                id_sort.setText(null);
                 btn4Click();
+
                 break;
             case R.id.choose:
                 //showSlide(view);
@@ -338,6 +356,23 @@ public class SignFragment extends Fragment implements IXListViewListener {
         initBottemBtn();
         btn1.setBackgroundResource(R.drawable.signleftpressed);
         getData(LIMIT0, false);
+    }
+
+    private void btnClick(){
+        switch (flag){
+            case 0:
+                btn1Click();
+                break;
+            case 1:
+                btn2Click();
+                break;
+            case 2:
+                btn3Click();
+                break;
+            case 3:
+                btn4Click();
+                break;
+        }
     }
 
     /***

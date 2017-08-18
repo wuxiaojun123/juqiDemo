@@ -25,8 +25,11 @@ import cn.com.sfn.juqi.adapter.ListItemClickHelp;
 import cn.com.sfn.juqi.adapter.ManageItemAdapter;
 import cn.com.sfn.juqi.controller.MatchController;
 import cn.com.sfn.juqi.model.MatchModel;
+import cn.com.sfn.juqi.rxbus.RxBus;
+import cn.com.sfn.juqi.rxbus.rxtype.ChangeMatchRxbusType;
 import cn.com.sfn.juqi.sign.MatchDetailActivity;
 import cn.com.sfn.juqi.util.Config;
+import rx.functions.Action1;
 
 import com.example.juqi.R;
 import com.zxing.activity.CaptureActivity;
@@ -48,9 +51,8 @@ public class ManageFragment extends Fragment {
                     if (matches.size() != 0) {
                         emptyLayout.setVisibility(View.INVISIBLE);
                     }
-                    listAdapter.addList(matches);
-                    break;
-                default:
+
+                    listAdapter.setList(matches);
                     break;
             }
         }
@@ -72,8 +74,22 @@ public class ManageFragment extends Fragment {
         if (Config.login_userid != null) {
             initList();
         }
-
+        initRxbus();
         return manageView;
+    }
+
+    private void initRxbus() {
+        RxBus.getDefault().toObservable(ChangeMatchRxbusType.class).subscribe(new Action1<ChangeMatchRxbusType>() {
+            @Override
+            public void call(ChangeMatchRxbusType changeMatchRxbusType) {
+                // 刷新界面
+                if (changeMatchRxbusType.isRefresh) {
+                    if (Config.login_userid != null) {
+                        initList();
+                    }
+                }
+            }
+        });
     }
 
     @Override
