@@ -199,27 +199,6 @@ public class MyHttpClient {
         return result;
     }
 
-    /*public String getResult() {
-        return result;
-    }
-    public void setResult(String result) {
-        this.result = result;
-    }*/
-
-    /*public static Bitmap getImage(String urlpath) throws Exception {
-        urlpath = StrReplace(urlpath, "192.168.3.2", "www.juqilife.cn"); // 绗簩澶勬敼鍦板潃鐨勫湴鏂�
-        URL url = new URL(urlpath);
-
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setConnectTimeout(5 * 1000);
-        Bitmap bitmap = null;
-        if (conn.getResponseCode() == 200) {
-            InputStream inputStream = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(inputStream);
-        }
-        return bitmap;
-    }*/
 
     public String uploadFile(String postUrl, String type, File uploadFile) {
         String end = "\r\n";
@@ -227,6 +206,7 @@ public class MyHttpClient {
         String boundary = "*****";
         try {
             URL url = new URL(postUrl + type);
+//            LogUtils.e("上传图片的路径是:" + (postUrl + type) + "----" + uploadFile.length());
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             /*
              * Output to the connection. Default is false, set to true because
@@ -258,6 +238,7 @@ public class MyHttpClient {
             ds.writeBytes(end);
             /* 鍙栧緱鏂囦欢鐨凢ileInputStream */
             FileInputStream fStream = new FileInputStream(uploadFile);
+            LogUtils.e("打印图片流"+fStream.available());
             /* 璁剧疆姣忔鍐欏叆8192bytes */
             int bufferSize = 8192;
             byte[] buffer = new byte[bufferSize]; // 8k
@@ -289,6 +270,7 @@ public class MyHttpClient {
             return str;
         } catch (Exception e) {
             /* 鏄剧ず寮傚父淇℃伅 */
+            e.printStackTrace();
             return "";
         }
     }

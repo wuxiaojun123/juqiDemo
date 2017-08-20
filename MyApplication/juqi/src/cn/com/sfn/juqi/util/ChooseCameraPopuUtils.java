@@ -47,12 +47,12 @@ public class ChooseCameraPopuUtils {
     public static final int PIC_RROM_PHONO = 14;
     public static final int PIC_RROM_VIDEO = 15;
     public static final int PIC_SIZE = 16;
-    String type;
+    private String uploadType;
     public int flag;
 
     public ChooseCameraPopuUtils(Activity activity, String type) {
         this.activity = activity;
-        this.type = type;
+        this.uploadType = type;
     }
 
     public void showPopupWindow() {
@@ -287,10 +287,10 @@ public class ChooseCameraPopuUtils {
             ToastUtil.show(activity, "请选择图片");
             return;
         }
-        MyProcessDialog.showDialog(activity, "正在上传...");
+//        MyProcessDialog.showDialog(activity, "正在上传...");
         MyHttpClient uploadClient = new MyHttpClient();
-        String imgName = uploadClient.uploadFile(Config.URL_UPLOAD, type, file);
-        MyProcessDialog.closeDialog();
+        String imgName = uploadClient.uploadFile(Config.URL_UPLOAD, uploadType, file);
+//        MyProcessDialog.closeDialog();
         // 发送更新到个人首页
         if (onUploadImageListener != null) {
             onUploadImageListener.onLoadSucced(flag,imgName);
@@ -305,7 +305,7 @@ public class ChooseCameraPopuUtils {
         }
         // 请求携带的参数
         Map<String, RequestBody> params = new HashMap<>();
-        params.put("type", toRequestBody(type));
+        params.put("type", toRequestBody(uploadType));
 //        params.put("key", toRequestBody(App.APP_CLIENT_KEY));
 
         // 上传的图片

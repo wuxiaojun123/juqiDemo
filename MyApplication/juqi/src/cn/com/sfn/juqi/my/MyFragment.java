@@ -1,6 +1,23 @@
 
 package cn.com.sfn.juqi.my;
 
+import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.example.juqi.R;
+
 import cn.com.sfn.example.juqi.LoginActivity;
 import cn.com.sfn.example.juqi.RegisterActivity;
 import cn.com.sfn.juqi.controller.UserController;
@@ -17,28 +34,6 @@ import cn.com.sfn.juqi.widgets.RoundProgressBar;
 import cn.com.wx.util.GlideUtils;
 import cn.com.wx.util.LogUtils;
 import rx.functions.Action1;
-
-import com.example.juqi.R;
-
-import android.annotation.SuppressLint;
-import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MyFragment extends Fragment implements OnClickListener {
     private View myView;
@@ -161,7 +156,7 @@ public class MyFragment extends Fragment implements OnClickListener {
         if (userModel == null || userModel.getJoinEntire() == null) {
             return;
         }
-        attend.setText("参与成就:" + userModel.getJoinEntire().toString());
+        attend.setText("参与成就:" + userModel.getJoinEntire());
         release.setText("组织成就:" + userModel.getReleaseEntire());
         friendnum.setText("关注球友:" + userModel.getFriendNum());
         username.setText(userModel.getNickName());

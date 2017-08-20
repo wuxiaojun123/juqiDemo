@@ -20,50 +20,51 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class BillDetailFragment extends Fragment {
-	private ListView billDetailListView;
-	private ListAdapter listAdapter;
-	private List<BillModel> billDetails;
-	private Handler myhandler;
-	private UserController userController;
-	@SuppressLint("HandlerLeak")
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		View billDetailView = inflater.inflate(
-				R.layout.activity_tab_billdetail, container, false);
-		userController = new UserController();
-		billDetailListView = (ListView) billDetailView
-				.findViewById(R.id.billDetailList);
-		initBillDetail();
-		myhandler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case 1:
-					listAdapter = new BillDetailAdapter(getActivity(), billDetails);
-					billDetailListView.setAdapter(listAdapter);
-					break;
-				default:
-					break;
-				}
-			}
-		};
-		return billDetailView;
-	}
+    private ListView billDetailListView;
+    private ListAdapter listAdapter;
+    private List<BillModel> billDetails;
+    private UserController userController;
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
-	public void initBillDetail() {
-		new Thread() {
-			public void run() {
-				billDetails = userController.getBillDetailList();
-				Message msg = new Message();
-				msg.what = 1;
-				myhandler.sendMessage(msg);
-			}
-		}.start();
-	}
+    Handler myhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    if(billDetails != null && !billDetails.isEmpty()){
+                        listAdapter = new BillDetailAdapter(getActivity(), billDetails);
+                        billDetailListView.setAdapter(listAdapter);
+                    }
+                    break;
+            }
+        }
+    };
+
+    @SuppressLint("HandlerLeak")
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View billDetailView = inflater.inflate(
+                R.layout.activity_tab_billdetail, container, false);
+        userController = new UserController();
+        billDetailListView = (ListView) billDetailView
+                .findViewById(R.id.billDetailList);
+        initBillDetail();
+
+        return billDetailView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    public void initBillDetail() {
+        new Thread() {
+            public void run() {
+                billDetails = userController.getBillDetailList();
+                myhandler.sendEmptyMessage(1);
+            }
+        }.start();
+    }
 }

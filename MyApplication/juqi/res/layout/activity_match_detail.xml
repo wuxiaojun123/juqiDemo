@@ -55,45 +55,54 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="15dp"
-                android:background="@drawable/match_detail_top">
+                >
+
+                <ImageView
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:src="@drawable/my_avatar" />
 
                 <cn.com.sfn.juqi.widgets.CircleImageView
                     android:id="@+id/match_avatar"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginTop="21dp"
-                    android:contentDescription="@string/image_description" />
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="17dp"
+                    />
 
-                <RelativeLayout
+                <TextView
+                    android:id="@+id/tv1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/match_avatar"
-                    android:orientation="vertical">
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/host_description"
+                    android:textColor="@color/match_detail"
+                    android:textSize="@dimen/micro_text_size" />
 
-                    <TextView
-                        android:id="@+id/tv1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="20dp"
-                        android:text="@string/host_description"
-                        android:textColor="@color/match_detail"
-                        android:textSize="@dimen/micro_text_size" />
+                <RelativeLayout
+                    android:id="@+id/rl_content1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@id/match_avatar"
+                    android:background="@drawable/img_detail_right"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/host_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_below="@id/tv1"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
                         android:textColor="@color/match_detail"
@@ -110,75 +119,78 @@
                         android:textColor="@color/match_detail"
                         android:textSize="@dimen/small_medium_text_size" />
 
-                    <LinearLayout
-                        android:id="@+id/ll1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/ball_age"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/zuju"
-                            android:textColor="@color/match_detail"
-                            android:textSize="@dimen/small_middle_text_size" />
-
-                        <ProgressBar
-                            android:id="@+id/fabu_bar"
-                            style="@style/StyleProgressBarMini"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:max="100"
-                            android:progress="0" />
-
-                        <TextView
-                            android:id="@+id/zj_level"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/editcolor"
-                            android:textSize="@dimen/small_middle_text_size" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@id/ll1"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/ll1"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/canju"
-                            android:textColor="@color/match_detail"
-                            android:textSize="@dimen/small_middle_text_size" />
-
-                        <ProgressBar
-                            android:id="@+id/canyu_bar"
-                            style="@style/StyleProgressBarMini"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:max="100"
-                            android:progress="0" />
-
-                        <TextView
-                            android:id="@+id/cj_level"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/editcolor"
-                            android:textSize="@dimen/small_middle_text_size" />
-                    </LinearLayout>
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/rl_content1"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zuju"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/small_middle_text_size" />
+
+                    <ProgressBar
+                        android:id="@+id/fabu_bar"
+                        style="@style/StyleProgressBarMini"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:max="100"
+                        android:progress="0" />
+
+                    <TextView
+                        android:id="@+id/zj_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/editcolor"
+                        android:textSize="@dimen/small_middle_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/ll1"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/ll1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/canju"
+                        android:textColor="@color/match_detail"
+                        android:textSize="@dimen/small_middle_text_size" />
+
+                    <ProgressBar
+                        android:id="@+id/canyu_bar"
+                        style="@style/StyleProgressBarMini"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:max="100"
+                        android:progress="0" />
+
+                    <TextView
+                        android:id="@+id/cj_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/editcolor"
+                        android:textSize="@dimen/small_middle_text_size" />
+
+                </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout

@@ -13,8 +13,13 @@ import cn.com.sfn.juqi.net.MyHttpClient;
 import cn.com.sfn.juqi.util.ChooseCameraPopuUtils;
 import cn.com.sfn.juqi.util.Config;
 import cn.com.sfn.juqi.util.ToastUtil;
+import cn.com.wx.util.BaseSubscriber;
 import cn.com.wx.util.GlideUtils;
 import cn.com.wx.util.LogUtils;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import com.example.juqi.R;
 
@@ -38,21 +43,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-@SuppressLint("SdCardPath")
 public class AuthenticationActivity extends Activity implements OnClickListener {
-    //	private Bitmap auth;
-//	private Intent mIntent;
     // 认证按钮
     private Button authConfirm;
     private EditText real;
-    //	private static String path = "/sdcard/myAuth/";
     private TextView back;
     private TextView mytvreason;
     private ImageView image1, image2;
-    //	private MyHttpClient uploadClient;
     private String front, backImage;
     private UserController userController;
-    private AuthModel authModel;
     private Context mContext;
     private ChooseCameraPopuUtils chooseCameraPopuUtilsFront;
 
@@ -62,7 +61,6 @@ public class AuthenticationActivity extends Activity implements OnClickListener 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_authentication);
         mContext = this;
-//		uploadClient = new MyHttpClient();
         userController = new UserController();
         findViewById();
         initView();
@@ -80,12 +78,16 @@ public class AuthenticationActivity extends Activity implements OnClickListener 
             @Override
             public void onLoadSucced(int flag, String url) {
                 LogUtils.e("头像修改的路径是：" + url);
-                if(flag == 1){
-                    front = url;
-                }else if(flag == 2){
-                    backImage = url;
+                if(!TextUtils.isEmpty(url)){
+                    if (flag == 1) {
+                        front = url;
+                    } else if (flag == 2) {
+                        backImage = url;
+                    }
+                    ToastUtil.show(mContext, "上传成功");
+                }else{
+                    ToastUtil.show(mContext, "上传失败");
                 }
-                ToastUtil.show(mContext, "上传成功");
             }
         });
     }
@@ -104,12 +106,26 @@ public class AuthenticationActivity extends Activity implements OnClickListener 
         image2.setOnClickListener(this);
         authConfirm.setOnClickListener(this);
         back.setOnClickListener(this);
-        authModel = userController.authDetail();
-        if (authModel.getStatus().equals("3")) {
-            mytvreason.setText("审核未通过原因：请检查照片是否清晰");
-            Toast.makeText(AuthenticationActivity.this, "当前审核没有通过",
-                    Toast.LENGTH_SHORT).show();
-        }
+
+        Observable.create(new Observable.OnSubscribe<AuthModel>() {
+            @Override
+            public void call(Subscriber<? super AuthModel> subscriber) {
+                AuthModel authModel = userController.authDetail();
+                subscriber.onNext(authModel);
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<AuthModel>() {
+                    @Override
+                    public void onNext(AuthModel authModel) {
+                        if (authModel.getStatus().equals("3")) {
+                            mytvreason.setText("审核未通过原因：请检查照片是否清晰");
+                            Toast.makeText(AuthenticationActivity.this, "当前审核没有通过",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
     }
 
@@ -131,36 +147,49 @@ public class AuthenticationActivity extends Activity implements OnClickListener 
                 break;
             // 确认认证提交按钮
             case R.id.auth_confirm_btn:
-                String realName = real.getText().toString().trim();
-                if (TextUtils.isEmpty(realName)) {
-                    Toast.makeText(AuthenticationActivity.this, "请输入身份证上的真实姓名",
-                            Toast.LENGTH_SHORT).show();
-                    break;
-                } else {
-                    if (!TextUtils.isEmpty(front) && !TextUtils.isEmpty(backImage)) {
-                        int rs = userController.UploadAuth(real.getText().toString().trim(), front, backImage);
-                        if (rs == Config.AuthUploadSuccess) {
-                            Toast.makeText(AuthenticationActivity.this,
-                                    "提交成功，审核将在三日内完成！", Toast.LENGTH_SHORT).show();
-                            finish();
-                            break;
-                        } else if (rs == -1) {
-                            Toast.makeText(AuthenticationActivity.this, "网络异常",
-                                    Toast.LENGTH_LONG).show();
-                            break;
-                        } else {
-                            Toast.makeText(AuthenticationActivity.this, "提交失败",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
-                        }
-                    } else {
-                        Toast.makeText(AuthenticationActivity.this, "请上传全部图片",
-                                Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                }
-            default:
+                confirmServer();
                 break;
+        }
+    }
+
+    private void confirmServer() {
+        final String realName = real.getText().toString().trim();
+        if (TextUtils.isEmpty(realName)) {
+            ToastUtil.show(mContext, "请输入身份证上的真实姓名");
+        } else {
+            if (!TextUtils.isEmpty(front) && !TextUtils.isEmpty(backImage)) {
+                Observable.create(new Observable.OnSubscribe<String>() {
+
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        int rs = userController.UploadAuth(realName, front, backImage);
+                        subscriber.onNext(rs + "");
+                    }
+                })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<String>() {
+                            @Override
+                            public void onNext(String s) {
+                                if (!TextUtils.isEmpty(s)) {
+                                    int rs = Integer.parseInt(s);
+                                    if (rs == Config.AuthUploadSuccess) {
+                                        ToastUtil.show(mContext, "提交成功，审核将在三日内完成！");
+                                        finish();
+                                    } else if (rs == -1) {
+                                        ToastUtil.show(mContext, "网络异常");
+                                    } else {
+                                        ToastUtil.show(mContext, "提交失败");
+                                    }
+                                } else {
+                                    ToastUtil.show(mContext, "提交失败");
+                                }
+                            }
+                        });
+
+            } else {
+                ToastUtil.show(mContext, "请上传全部图片");
+            }
         }
     }
 

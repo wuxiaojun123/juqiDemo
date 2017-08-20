@@ -246,6 +246,7 @@ public class MainActivity extends Activity {
                 // 将设置还原
 //                userController = null;
                 Config.login_userid = null;
+                Config.SessionID = null;
                 finish();
             }
             return true;

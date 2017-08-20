@@ -90,6 +90,9 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
     }
 
     private void initShow() {
+        if (userModel == null) {
+            return;
+        }
         if (userModel.getNickName().equals("")) {
             nickName.setHint(R.string.hint11);
         } else {
@@ -187,10 +190,14 @@ public class DetailInfoActivity extends Activity implements OnClickListener {
             @Override
             public void onLoadSucced(int flag, String url) {
                 LogUtils.e("头像修改的路径是：" + url);
-                Config.mUserModel.setUserAvatar(Config.URL_IMAGE_BASE + url);
-                GlideUtils.loadCircleImage(Config.mUserModel.getUserAvatar(), avatar);
-                sendRxtypeUpdateFlag(1);
-                ToastUtil.show(mContext, "上传成功");
+                if (!TextUtils.isEmpty(url)) {
+                    Config.mUserModel.setUserAvatar(Config.URL_IMAGE_BASE + url);
+                    GlideUtils.loadCircleImage(Config.mUserModel.getUserAvatar(), avatar);
+                    sendRxtypeUpdateFlag(1);
+                    ToastUtil.show(mContext, "上传成功");
+                } else {
+                    ToastUtil.show(mContext, "上传失败");
+                }
             }
         });
     }

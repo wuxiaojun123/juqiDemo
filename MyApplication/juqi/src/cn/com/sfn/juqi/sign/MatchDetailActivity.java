@@ -189,8 +189,6 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
                 case 2:
                     ToastUtil.show(mContext, "网络异常");
                     break;
-                default:
-                    break;
             }
         }
     };

@@ -129,8 +129,7 @@ public class AchieveFragment extends Fragment implements OnClickListener {
             case R.id.myself_btn:
                 startActivity(new Intent(getActivity(), MyAccomplishmentsActivity.class));
                 break;
-            default:
-                break;
         }
     }
+
 }

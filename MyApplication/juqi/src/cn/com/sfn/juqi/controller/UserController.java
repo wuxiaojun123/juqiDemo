@@ -343,7 +343,6 @@ public class UserController {
         AuthModel auth = new AuthModel();
         String action = "user/center/withdrawals";
         String str = httpClient.doGet(action);
-        Log.e("acc", str);
         if (str.equals("time out")) {
             return null;
         } else {

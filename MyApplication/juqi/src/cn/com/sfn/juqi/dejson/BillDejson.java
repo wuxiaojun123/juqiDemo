@@ -11,14 +11,15 @@ import cn.com.sfn.juqi.model.AccountModel;
 import cn.com.sfn.juqi.model.BillModel;
 import cn.com.sfn.juqi.net.MyHttpClient;
 import cn.com.sfn.juqi.util.Config;
+import cn.com.wx.util.LogUtils;
 
 public class BillDejson {
     private JSONObject infoObject, userObject;
-    private String finance;
     private List<BillModel> billList;
 
     public AccountModel accountDejson(String str) {
         AccountModel accountModel = new AccountModel();
+        String finance = null;
         try {
             JSONObject jObject = new JSONObject(str);
             if (jObject.getInt("status") == 0) {
@@ -63,13 +64,9 @@ public class BillDejson {
         try {
             JSONObject jObject = new JSONObject(str);
             billDetail = jObject.getString("data");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JSONArray jsonArray;
-        try {
+
             billDetailList = new ArrayList<BillModel>();
-            jsonArray = new JSONArray(billDetail);
+            JSONArray jsonArray = new JSONArray(billDetail);
             for (int i = 0; i < jsonArray.length(); i++) {
                 BillModel billModel = new BillModel();
                 JSONObject json = (JSONObject) jsonArray.get(i);

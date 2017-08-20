@@ -6,18 +6,22 @@ import cn.com.sfn.juqi.adapter.BillOverviewAdapter;
 import cn.com.sfn.juqi.controller.UserController;
 import cn.com.sfn.juqi.model.AccountModel;
 import cn.com.sfn.juqi.model.BillModel;
+import cn.com.sfn.juqi.util.Config;
+import cn.com.sfn.juqi.util.ToastUtil;
 import cn.com.sfn.juqi.widgets.CircleImageView;
 import cn.com.wx.util.GlideUtils;
 
 import com.example.juqi.R;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +39,7 @@ public class BillOverViewFragment extends Fragment {
     private CircleImageView avatar;
     private TextView balance, income;
     private View billOverView;
-
+    private Context mContext;
 
     Handler myhandler = new Handler() {
         @Override
@@ -54,6 +58,7 @@ public class BillOverViewFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         billOverView = inflater.inflate(R.layout.activity_tab_billoverview,
                 container, false);
+        mContext = getActivity();
         userController = new UserController();
         findViewById();
         initBillOverView();
@@ -83,16 +88,19 @@ public class BillOverViewFragment extends Fragment {
                 .findViewById(R.id.billOverviewList);
     }
 
-    @SuppressWarnings("deprecation")
     private void initView() {
-//        Drawable drawable = new BitmapDrawable(accountModel.getAvatar());// 转换成drawable
-//        avatar.setImageDrawable(drawable);
-        GlideUtils.loadCircleImage(accountModel.getAvatar(), avatar);
-
-        balance.setText(accountModel.getBalance());
-        income.setText(accountModel.getIncome());
-        billOverviews = accountModel.getBillModel();
-        listAdapter = new BillOverviewAdapter(getActivity(), billOverviews);
-        billOverviewListView.setAdapter(listAdapter);
+        if (Config.mUserModel != null) {
+            GlideUtils.loadCircleImage(Config.mUserModel.getUserAvatar(), avatar);
+        }
+        if (accountModel != null) {
+            balance.setText(accountModel.getBalance());
+            income.setText(accountModel.getIncome());
+            billOverviews = accountModel.getBillModel();
+            listAdapter = new BillOverviewAdapter(getActivity(), billOverviews);
+            billOverviewListView.setAdapter(listAdapter);
+        } else {
+            ToastUtil.show(mContext, "无账单明细");
+        }
     }
+
 }

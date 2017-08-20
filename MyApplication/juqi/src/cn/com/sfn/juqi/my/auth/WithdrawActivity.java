@@ -46,7 +46,6 @@ public class WithdrawActivity extends Activity implements OnClickListener {
         }
     };
 
-    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,15 +80,14 @@ public class WithdrawActivity extends Activity implements OnClickListener {
             authentication.setText("已认证");
             authentication.setClickable(false);
             confirm.setTag("1");
-//            confirm.setOnClickListener(this);
         } else if (authModel.getStatus().equals("2")) {
             authentication.setText("正在审核");
             authentication.setClickable(false);
-            confirm.setClickable(false);
+//            confirm.setClickable(false);
+            confirm.setTag("2");
         } else {
             authentication.setText("未通过");
             authentication.setOnClickListener(this);
-//            confirm.setOnClickListener(this);
         }
         confirm.setOnClickListener(this);
     }
@@ -116,12 +114,11 @@ public class WithdrawActivity extends Activity implements OnClickListener {
                 break;
             case R.id.withdraw_confirm_btn:
                 String tag = (String) confirm.getTag();
-                LogUtils.e("认证点击:" + tag);
-                if ("0".equals(tag)) {
+                if ("0".equals(tag)) { // 身份认证
                     mIntent = new Intent(WithdrawActivity.this,
                             AuthenticationActivity.class);
                     startActivity(mIntent);
-                } else {
+                } else if ("1".equals(tag)) { // 我要提现
                     mIntent = new Intent(WithdrawActivity.this,
                             GoWithdrawActivity.class);
                     startActivity(mIntent);
