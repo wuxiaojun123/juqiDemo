@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import cn.com.sfn.alipay.util.SignUtils;
-import cn.com.sfn.example.juqi.LoginActivity;
+import com.example.juqi.LoginActivity;
 import cn.com.sfn.juqi.adapter.CommentsItemAdapter;
 import cn.com.sfn.juqi.adapter.JoinItemAdapter;
 import cn.com.sfn.juqi.adapter.ListItemClickHelp;

@@ -10,7 +10,7 @@
     <string name="weibosdk_demo_toast_share_canceled">取消分享</string>
     <string name="weibosdk_demo_toast_share_response_args_success">收到微博发起的请求成功</string>
     <string name="weibosdk_demo_toast_share_response_args_failed">收到客户端请求消息失败</string>
-    <string name="app_name">局器</string>
+    <string name="app_name">局气</string>
     <string name="image_description">imageView</string>
     <!-- 球局详情页 -->
     <string name="host_description">球局组织者</string>

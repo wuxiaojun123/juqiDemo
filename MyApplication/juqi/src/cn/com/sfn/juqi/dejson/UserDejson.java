@@ -235,6 +235,7 @@ public class UserDejson {
                 return id;
             } else {
                 id = jObject.getString("id");
+                Config.SessionID = jObject.getString("session_id");
             }
         } catch (JSONException e) {
             e.printStackTrace();

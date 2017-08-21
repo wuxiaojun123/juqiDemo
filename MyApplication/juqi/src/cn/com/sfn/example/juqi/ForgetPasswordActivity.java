@@ -6,7 +6,13 @@ import java.util.regex.Pattern;
 
 import cn.com.sfn.juqi.controller.UserController;
 import cn.com.sfn.juqi.util.Config;
+import cn.com.sfn.juqi.util.ValidateUtil;
+import cn.com.wx.util.BaseSubscriber;
 import cn.smssdk.SMSSDK;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import com.example.juqi.R;
 
@@ -15,6 +21,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.StrictMode;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -74,48 +81,24 @@ public class ForgetPasswordActivity extends Activity {
         codeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (account.getText().toString().trim().equals("")) {
-                    Toast.makeText(ForgetPasswordActivity.this, "不能为空",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    if (isPhone(account.getText().toString().trim())) {
-                        Toast.makeText(ForgetPasswordActivity.this, "已发送，请稍等",
-                                Toast.LENGTH_SHORT).show();
-                        SMSSDK.getVerificationCode("86", account.getText()
-                                .toString().trim());
-                        timer.start();
-                    } else {
-                        Toast.makeText(ForgetPasswordActivity.this, "请输入手机号",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
+                sendCode();
             }
         });
         forgetButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (account.getText().toString().equals("")
-                        || idCode.getText().toString().equals("")
-                        || password.getText().toString().equals("")) {
+                String accountParams = account.getText().toString().trim();
+                String codeParams = idCode.getText().toString().trim();
+                String passwordParams = password.getText().toString().trim();
+
+                if (accountParams.equals("")
+                        || codeParams.equals("")
+                        || passwordParams.equals("")) {
                     Toast.makeText(ForgetPasswordActivity.this, "请全部填写",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    if (isPhone(account.getText().toString())) {
-                        int rs = userController.forget(account.getText()
-                                .toString(), password.getText().toString(),
-                                idCode.getText().toString());
-                        if (rs == Config.ForgetPasswordSuccess) {
-                            Toast.makeText(ForgetPasswordActivity.this, "重置成功",
-                                    Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else if (rs == -1) {
-                            Toast.makeText(ForgetPasswordActivity.this, "网络异常",
-                                    Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(ForgetPasswordActivity.this, "重置失败",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
+                    if (ValidateUtil.isMobile(accountParams)) {
+                        confirm(accountParams, passwordParams, codeParams);
                     } else {
                         Toast.makeText(ForgetPasswordActivity.this, "请输入手机号",
                                 Toast.LENGTH_SHORT).show();
@@ -125,10 +108,66 @@ public class ForgetPasswordActivity extends Activity {
         });
     }
 
-    private boolean isPhone(String inputText) {
-        Pattern p = Pattern
-                .compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-        Matcher m = p.matcher(inputText);
-        return m.matches();
+    /***
+     * 提交到服务器
+     */
+    private void confirm(final String accountParams, final String passwordParams, final String codeParams) {
+        Observable.create(new Observable.OnSubscribe<String>() {
+
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                int rs = userController.forget(accountParams, passwordParams, codeParams);
+                subscriber.onNext(rs + "");
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onNext(String text) {
+                        if (TextUtils.isEmpty(text)) {
+                            Toast.makeText(ForgetPasswordActivity.this, "重置失败",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            int rs = Integer.parseInt(text);
+                            if (rs == Config.ForgetPasswordSuccess) {
+                                Toast.makeText(ForgetPasswordActivity.this, "重置成功",
+                                        Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else if (rs == -1) {
+                                Toast.makeText(ForgetPasswordActivity.this, "网络异常",
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(ForgetPasswordActivity.this, "重置失败",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+
+
     }
+
+    /***
+     *
+     */
+    private void sendCode() {
+        String accountParams = account.getText().toString().trim();
+        if (TextUtils.isEmpty(accountParams)) {
+            Toast.makeText(ForgetPasswordActivity.this, "不能为空",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            if (ValidateUtil.isMobile(accountParams)) {
+                Toast.makeText(ForgetPasswordActivity.this, "已发送，请稍等",
+                        Toast.LENGTH_SHORT).show();
+                SMSSDK.getVerificationCode("86", account.getText()
+                        .toString().trim());
+                timer.start();
+            } else {
+                Toast.makeText(ForgetPasswordActivity.this, "请输入手机号",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
 }

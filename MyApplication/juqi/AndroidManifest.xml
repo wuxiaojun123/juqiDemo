@@ -157,7 +157,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="cn.com.sfn.example.juqi.LoginActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
 
@@ -285,6 +285,11 @@
                 <!-- 需修改 -->
             </intent-filter>
         </activity>
+
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            />
 
         <activity
             android:name="com.example.juqi.wxapi.WXPayEntryActivity"

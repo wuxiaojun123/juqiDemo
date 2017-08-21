@@ -267,7 +267,6 @@ public class UserController {
         String action = "api/oauth/register/type/" + type;
         String params = "data=" + data;
         String str = httpClient.doPost(context, action, params);
-        Log.e("sadasdad", str);
         String rs = "";
         if (str.equals("time out")) {
             return "";
