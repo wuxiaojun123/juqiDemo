@@ -20,34 +20,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import cn.com.sfn.example.juqi.ForgetPasswordActivity;
-import cn.com.sfn.example.juqi.RegisterActivity;
-import cn.com.sfn.juqi.controller.UserController;
-import cn.com.sfn.juqi.rxbus.RxBus;
-import cn.com.sfn.juqi.rxbus.rxtype.LoginRxbusType;
-import cn.com.sfn.juqi.util.AccessTokenKeeper;
-import cn.com.sfn.juqi.util.Config;
-import cn.com.sfn.juqi.util.Constants;
-import cn.com.sfn.juqi.util.ToastUtil;
-import cn.com.sfn.juqi.util.Util;
-import cn.com.wx.util.BaseSubscriber;
-import cn.com.wx.util.GlideUtils;
-import cn.com.wx.util.LogUtils;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.tencent.connect.UserInfo;
-import com.tencent.connect.auth.QQAuth;
 import com.tencent.connect.auth.QQToken;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -59,9 +37,25 @@ import com.tencent.tauth.UiError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@SuppressLint({
-        "HandlerLeak", "ShowToast"
-})
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import cn.com.sfn.example.juqi.ForgetPasswordActivity;
+import cn.com.sfn.example.juqi.RegisterActivity;
+import cn.com.sfn.juqi.controller.UserController;
+import cn.com.sfn.juqi.rxbus.RxBus;
+import cn.com.sfn.juqi.rxbus.rxtype.LoginRxbusType;
+import cn.com.sfn.juqi.util.AccessTokenKeeper;
+import cn.com.sfn.juqi.util.Config;
+import cn.com.sfn.juqi.util.Constants;
+import cn.com.sfn.juqi.util.ToastUtil;
+import cn.com.wx.util.BaseSubscriber;
+import cn.com.wx.util.LogUtils;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
 public class LoginActivity extends Activity implements OnClickListener {
 
     @BindView(R.id.accout)
@@ -105,7 +99,7 @@ public class LoginActivity extends Activity implements OnClickListener {
      */
     private SsoHandler mSsoHandler;
     // 微信登录
-    public static IWXAPI wxApi;
+    public IWXAPI wxApi;
     private Context mContext;
 
     Handler mHandler = new Handler() {
@@ -201,7 +195,8 @@ public class LoginActivity extends Activity implements OnClickListener {
             case R.id.wechat_login:
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
-                req.state = "wechat_sdk_demo";
+//                req.state = "wechat_sdk_demo";
+                req.state = String.valueOf(System.currentTimeMillis());
                 wxApi.sendReq(req);
 
                 break;
@@ -278,7 +273,7 @@ public class LoginActivity extends Activity implements OnClickListener {
          * “get_user_info,add_t”；所有权限用“all”
          * 第三个参数，是一个事件监听器，IUiListener接口的实例，这里用的是该接口的实现类
          */
-        if(!mTencent.isSessionValid()){
+        if (!mTencent.isSessionValid()) {
             mTencent.login(LoginActivity.this, "all", new BaseUiListener());
         }
     }
@@ -289,7 +284,7 @@ public class LoginActivity extends Activity implements OnClickListener {
      */
     private class BaseUiListener implements IUiListener {
         public void onCancel() {
-            ToastUtil.show(mContext,"取消登录");
+            ToastUtil.show(mContext, "取消登录");
         }
 
         public void onComplete(Object response) {
@@ -313,13 +308,14 @@ public class LoginActivity extends Activity implements OnClickListener {
         }
 
         public void onError(UiError arg0) {
-            ToastUtil.show(mContext,"错误");
+            ToastUtil.show(mContext, "错误");
         }
 
     }
 
     /**
      * qq登录
+     *
      * @param str
      */
     private void confirmQQ(final String str) {
@@ -482,6 +478,9 @@ public class LoginActivity extends Activity implements OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (mTencent != null) {
+            mTencent.onActivityResult(requestCode, resultCode, data);
+        }
         // SSO 授权回调
         // 重要：发起 SSO 登陆的 Activity 必须重写 onActivityResults
         if (mSsoHandler != null) {

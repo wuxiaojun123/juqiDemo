@@ -6,6 +6,14 @@
 
 package cn.com.sfn.juqi.controller;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.text.TextUtils;
+import android.util.Log;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +30,8 @@ import cn.com.sfn.juqi.model.StandardModel;
 import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.net.MyHttpClient;
 import cn.com.sfn.juqi.util.Config;
-import cn.com.wx.util.JsonUtils;
 import cn.com.wx.util.LogUtils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.text.TextUtils;
-import android.util.Log;
 
 public class UserController {
     private SharedPreferences setting;
@@ -275,6 +277,28 @@ public class UserController {
             rs = md.getThirdId(str);
         }
         return rs;
+    }
+
+    public String getAccessToken(String code) {
+        String accessToken = "";
+        try {
+            String action = "api/oauth/getAccessToken/type/weixin/" + code;
+            String str = httpClient.doGet(action);
+            if (str.equals("time out")) {
+                return accessToken;
+            } else {
+                accessToken = str;
+                /*JSONObject jsonObject = new JSONObject(str);
+                if (jsonObject.getInt("status") == 0) {
+                    return accessToken;
+                } else {
+                    accessToken = jsonObject.getString("accessToken");
+                }*/
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
     }
 
     public AccountModel billOverView() {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -14,7 +15,16 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import net.sourceforge.simcpux.Constants;
 
+import org.json.JSONObject;
+
+import cn.com.sfn.juqi.controller.UserController;
+import cn.com.sfn.juqi.util.ToastUtil;
+import cn.com.wx.util.BaseSubscriber;
 import cn.com.wx.util.LogUtils;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wuxiaojun on 17-5-25.
@@ -23,6 +33,7 @@ import cn.com.wx.util.LogUtils;
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     private IWXAPI api;
+    private UserController userController;
     private Context mContext;
 
     @Override
@@ -34,6 +45,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
             api.registerApp(Constants.APP_ID); // 将应用注册到微信
             api.handleIntent(getIntent(), this);
+
+            userController = new UserController();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,14 +108,49 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     /***
      * 获取token
-     * ?act=connect_wx&op=index
-     * "connect_wx", "index",
+     * /api/oauth/getAccessToken/type/weixin/code
      *
      * @param code
      */
-    private void getAccessToken(String code) {
+    private void getAccessToken(final String code) {
+        Observable.create(new Observable.OnSubscribe<String>() {
 
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                String result = userController.getAccessToken(code);
+                subscriber.onNext(result);
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onNext(String text) {
+                        if (!TextUtils.isEmpty(text)) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(text);
+                                if (jsonObject.getInt("status") == 0) {
+                                    ToastUtil.show(mContext, "获取token失败");
+                                } else {
+                                    String accessToken = jsonObject.getString("accessToken");
+                                    String expires_in = jsonObject.getString("expires_in");
+                                    String open_id = jsonObject.getString("open_id");
+                                    final String params = "access_token="
+                                            + accessToken
+                                            + "%26expires_in="
+                                            + expires_in
+                                            + "%26open_id=" + open_id;
 
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        } else {
+                            ToastUtil.show(mContext, "获取token失败");
+                        }
+                    }
+                });
     }
 
 
@@ -110,18 +158,32 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      * ?act=connect_wx&op=login
      * "connect_wx", "login",
      *
-     * @param access_token
-     * @param openid
-     * @param platformClient
+     * @param params
      */
-    private void login(String access_token, String openid, String platformClient) {
+    private void login(final String params) {
+        Observable.create(new Observable.OnSubscribe<String>() {
 
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                userController.oauthRegister("weixin", params, mContext);
+
+
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+                });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(api != null){
+        if (api != null) {
             api.unregisterApp();
         }
     }

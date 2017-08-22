@@ -46,10 +46,10 @@
         android:smallScreens="true" />
 
     <application
+        android:name="cn.com.sfn.juqi.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name="cn.com.sfn.juqi.App"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -188,10 +188,12 @@
             android:name="cn.com.sfn.juqi.my.MyFragment"
             android:screenOrientation="portrait" />
 
-        <activity android:name="cn.com.sfn.juqi.my.AboutActivity"
+        <activity
+            android:name="cn.com.sfn.juqi.my.AboutActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name="cn.com.sfn.juqi.my.HelpCenterActivity"
+        <activity
+            android:name="cn.com.sfn.juqi.my.HelpCenterActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -286,10 +288,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".wxapi.WXEntryActivity"
+        <activity
+            android:name="com.example.juqi.wxapi.WXEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"
-            />
+            android:launchMode="singleTop" />
 
         <activity
             android:name="com.example.juqi.wxapi.WXPayEntryActivity"
