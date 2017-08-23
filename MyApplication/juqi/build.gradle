@@ -40,7 +40,7 @@ android {
     }
     buildTypes {
         debug{
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
             debuggable true

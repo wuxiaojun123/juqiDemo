@@ -162,7 +162,14 @@ public class MyHttpClient {
         HttpURLConnection conn = null;
         try {
             LogUtils.e(Config.URL_BASE + action);
-            URL requestURL = new URL(Config.URL_BASE + action);
+            URL requestURL = null;
+            if (!TextUtils.isEmpty(action)) {
+                if ("https".startsWith(action)) {
+                    requestURL = new URL(action);
+                } else {
+                    requestURL = new URL(Config.URL_BASE + action);
+                }
+            }
             conn = (HttpURLConnection) requestURL.openConnection();
             if (Config.SessionID != null) {
                 conn.setRequestProperty("Cookie", Config.SessionID);
@@ -195,6 +202,40 @@ public class MyHttpClient {
         }
         result = jsontourl(result);
         result = URLDecoder.decode(result);
+        LogUtils.e("返回结果是:" + result);
+        return result;
+    }
+
+    public String doGetGetToken(String action) {
+        String result = "";
+        HttpURLConnection conn = null;
+        try {
+            LogUtils.e(Config.URL_BASE + action);
+            URL requestURL = new URL(action);
+            conn = (HttpURLConnection) requestURL.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(6000);
+            conn.setDoOutput(true);
+
+            InputStream iStream = conn.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(
+                    iStream, "UTF-8"));
+            String tempLine = null;
+            while ((tempLine = rd.readLine()) != null) {
+                result = tempLine.toString();
+            }
+            rd.close();
+            iStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "time out";
+        } finally {
+            if (null != conn) {
+                conn.disconnect();
+            }
+        }
+//        result = jsontourl(result);
+//        result = URLDecoder.decode(result);
         LogUtils.e("返回结果是:" + result);
         return result;
     }
@@ -238,7 +279,7 @@ public class MyHttpClient {
             ds.writeBytes(end);
             /* 鍙栧緱鏂囦欢鐨凢ileInputStream */
             FileInputStream fStream = new FileInputStream(uploadFile);
-            LogUtils.e("打印图片流"+fStream.available());
+            LogUtils.e("打印图片流" + fStream.available());
             /* 璁剧疆姣忔鍐欏叆8192bytes */
             int bufferSize = 8192;
             byte[] buffer = new byte[bufferSize]; // 8k

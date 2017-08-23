@@ -3,9 +3,11 @@ package com.example.juqi.wxapi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.example.juqi.LoginActivity;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -18,6 +20,10 @@ import net.sourceforge.simcpux.Constants;
 import org.json.JSONObject;
 
 import cn.com.sfn.juqi.controller.UserController;
+import cn.com.sfn.juqi.rxbus.RxBus;
+import cn.com.sfn.juqi.rxbus.rxtype.LoginRxbusType;
+import cn.com.sfn.juqi.util.AccessTokenKeeper;
+import cn.com.sfn.juqi.util.Config;
 import cn.com.sfn.juqi.util.ToastUtil;
 import cn.com.wx.util.BaseSubscriber;
 import cn.com.wx.util.LogUtils;
@@ -42,7 +48,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         try {
             LogUtils.e("执行WXEntryActivity");
             mContext = getApplicationContext();
-            api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
+
+            api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
+//            api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
             api.registerApp(Constants.APP_ID); // 将应用注册到微信
             api.handleIntent(getIntent(), this);
 
@@ -78,7 +86,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 if (sendResp != null) {
                     LogUtils.e("code是：" + sendResp.code);
                     // 拿到code 再去获取access_token
-
                     getAccessToken(sendResp.code);
                 }
 
@@ -129,25 +136,29 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         if (!TextUtils.isEmpty(text)) {
                             try {
                                 JSONObject jsonObject = new JSONObject(text);
-                                if (jsonObject.getInt("status") == 0) {
+                                if (jsonObject.has("errcode")) {
                                     ToastUtil.show(mContext, "获取token失败");
+                                    finish();
                                 } else {
-                                    String accessToken = jsonObject.getString("accessToken");
+                                    String accessToken = jsonObject.getString("access_token");
                                     String expires_in = jsonObject.getString("expires_in");
-                                    String open_id = jsonObject.getString("open_id");
+                                    String open_id = jsonObject.getString("openid");
                                     final String params = "access_token="
                                             + accessToken
                                             + "%26expires_in="
                                             + expires_in
-                                            + "%26open_id=" + open_id;
-
+                                            + "%26openid=" + open_id;
+                                    login(params);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
+                                ToastUtil.show(mContext, "获取数据失败");
+                                finish();
                             }
 
                         } else {
                             ToastUtil.show(mContext, "获取token失败");
+                            finish();
                         }
                     }
                 });
@@ -165,17 +176,36 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
             @Override
             public void call(Subscriber<? super String> subscriber) {
-                userController.oauthRegister("weixin", params, mContext);
-
-
+                String result = userController.oauthRegister("weixin", params, mContext);
+                subscriber.onNext(result);
             }
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<String>() {
                     @Override
-                    public void onNext(String s) {
+                    public void onNext(String text) {
+                        if (TextUtils.isEmpty(text)) {
+                            ToastUtil.show(mContext, "登录超时，请稍后重试");
+                        } else {
+                            Config.login_userid = text;
+                            SharedPreferences settings = getSharedPreferences(Config.PREFS_NAME, 0);
+                            // 记住登录状态
+                            SharedPreferences.Editor editor = settings.edit();
+                            // 存入数据
+                            editor.putBoolean("isLogin", true);
+                            editor.putString("type", "weixin");
+                            editor.putString("userid", Config.login_userid);
+                            // 提交修改
+                            editor.commit();
+                            Config.is_login = true;
+                            Config.login_type = "weixin";
+                            // 关闭登录页面
+                            RxBus.getDefault().post(new LoginRxbusType(1));
 
+                            ToastUtil.show(mContext, "授权成功");
+                        }
+                        finish();
                     }
                 });
     }

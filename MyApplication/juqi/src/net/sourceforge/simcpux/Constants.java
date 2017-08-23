@@ -1,8 +1,10 @@
 package net.sourceforge.simcpux;
 
 public class Constants {
-    // APP_ID 替换为你的应用从官方网站申请到的合法appId
+    // APP_ID 替换为你的应用从官方网站申请到的合法appId wx6091081fcba9999a
     public static final String APP_ID = "wx6091081fcba9999a";
+    public static final String APP_SECRET = "c9ed9adab65c9c9db3598d3f2d10b576";
+
     //商户号 微信分配的公众账号ID
     public static final String MCH_ID = "1343863501";
 

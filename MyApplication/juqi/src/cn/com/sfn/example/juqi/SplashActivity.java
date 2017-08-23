@@ -38,10 +38,10 @@ public class SplashActivity extends Activity implements AMapLocationListener {
     private SharedPreferences setting;
     private Boolean is_login;
     // 自己微信应用的 appId
-    public static final String WX_APP_ID = "wx6091081fcba9999a";
+//    public static final String WX_APP_ID = "wx6091081fcba9999a";
     // 自己微信应用的 appSecret
-    public static final String WX_SECRET = "c9ed9adab65c9c9db3598d3f2d10b576";
-    public static IWXAPI wxApi;
+//    public static final String WX_SECRET = "c9ed9adab65c9c9db3598d3f2d10b576";
+//    public static IWXAPI wxApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +60,8 @@ public class SplashActivity extends Activity implements AMapLocationListener {
             Log.e("TYTY", Config.login_type);
         if (!TextUtils.isEmpty(Config.SessionID))
             Log.e("IDDID", Config.SessionID);
-        wxApi = WXAPIFactory.createWXAPI(this, WX_APP_ID, true);
-        wxApi.registerApp(WX_APP_ID);
+//        wxApi = WXAPIFactory.createWXAPI(this, WX_APP_ID, true);
+//        wxApi.registerApp(WX_APP_ID);
         mLocationManagerProxy = LocationManagerProxy.getInstance(this);
         // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
         // 注意设置合适的定位时间的间隔，并且在合适时间调用removeUpdates()方法来取消定位请求

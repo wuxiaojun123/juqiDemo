@@ -12,6 +12,8 @@ import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 import android.util.Log;
 
+import net.sourceforge.simcpux.Constants;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -281,9 +283,11 @@ public class UserController {
 
     public String getAccessToken(String code) {
         String accessToken = "";
-        try {
-            String action = "api/oauth/getAccessToken/type/weixin/" + code;
-            String str = httpClient.doGet(action);
+        try { // /api/oauth/getAccessToken/type/weixin/code/
+//            String action = "api/oauth/getAccessToken/type/weixin/code/" + code;
+            String action = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + Constants.APP_ID + "&secret=" + Constants.APP_SECRET
+                    + "&code=" + code + "&grant_type=authorization_code";
+            String str = httpClient.doGetGetToken(action);
             if (str.equals("time out")) {
                 return accessToken;
             } else {
