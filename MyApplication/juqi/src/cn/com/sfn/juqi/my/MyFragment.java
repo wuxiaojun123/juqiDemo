@@ -1,7 +1,6 @@
 
 package cn.com.sfn.juqi.my;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.juqi.R;
 
-import cn.com.sfn.example.juqi.LoginActivity;
+import com.example.juqi.LoginActivity;
 import cn.com.sfn.example.juqi.RegisterActivity;
 import cn.com.sfn.juqi.controller.UserController;
 import cn.com.sfn.juqi.model.UserModel;
@@ -64,7 +63,6 @@ public class MyFragment extends Fragment implements OnClickListener {
         }
     };
 
-    @SuppressLint("HandlerLeak")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -23,9 +23,8 @@ import cn.com.sfn.juqi.util.ToastUtil;
 import cn.com.sfn.juqi.util.ValidateUtil;
 import cn.smssdk.SMSSDK;
 
+import com.example.juqi.LoginActivity;
 import com.example.juqi.R;
-
-import java.util.regex.Pattern;
 
 public class RegisterActivity extends Activity {
     private Button registerButton;

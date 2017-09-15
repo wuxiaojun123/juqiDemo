@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.juqi.LoginActivity;
 import com.example.juqi.R;
 
 import butterknife.BindView;
@@ -253,4 +254,6 @@ public class MainActivity extends Activity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
 }

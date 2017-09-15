@@ -1,20 +1,11 @@
 package cn.com.sfn.juqi.my.auth;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import cn.com.sfn.example.juqi.LoginActivity;
-import cn.com.sfn.example.juqi.MainActivity;
 import cn.com.sfn.juqi.controller.UserController;
 import cn.com.sfn.juqi.model.AuthModel;
-import cn.com.sfn.juqi.net.MyHttpClient;
 import cn.com.sfn.juqi.util.ChooseCameraPopuUtils;
 import cn.com.sfn.juqi.util.Config;
 import cn.com.sfn.juqi.util.ToastUtil;
 import cn.com.wx.util.BaseSubscriber;
-import cn.com.wx.util.GlideUtils;
 import cn.com.wx.util.LogUtils;
 import rx.Observable;
 import rx.Subscriber;
@@ -23,17 +14,11 @@ import rx.schedulers.Schedulers;
 
 import com.example.juqi.R;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;

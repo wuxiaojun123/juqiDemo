@@ -6,6 +6,16 @@
 
 package cn.com.sfn.juqi.controller;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.text.TextUtils;
+import android.util.Log;
+
+import net.sourceforge.simcpux.Constants;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +32,8 @@ import cn.com.sfn.juqi.model.StandardModel;
 import cn.com.sfn.juqi.model.UserModel;
 import cn.com.sfn.juqi.net.MyHttpClient;
 import cn.com.sfn.juqi.util.Config;
-import cn.com.wx.util.JsonUtils;
 import cn.com.wx.util.LogUtils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.text.TextUtils;
-import android.util.Log;
 
 public class UserController {
     private SharedPreferences setting;
@@ -267,7 +271,6 @@ public class UserController {
         String action = "api/oauth/register/type/" + type;
         String params = "data=" + data;
         String str = httpClient.doPost(context, action, params);
-        Log.e("sadasdad", str);
         String rs = "";
         if (str.equals("time out")) {
             return "";
@@ -276,6 +279,30 @@ public class UserController {
             rs = md.getThirdId(str);
         }
         return rs;
+    }
+
+    public String getAccessToken(String code) {
+        String accessToken = "";
+        try { // /api/oauth/getAccessToken/type/weixin/code/
+//            String action = "api/oauth/getAccessToken/type/weixin/code/" + code;
+            String action = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + Constants.APP_ID + "&secret=" + Constants.APP_SECRET
+                    + "&code=" + code + "&grant_type=authorization_code";
+            String str = httpClient.doGetGetToken(action);
+            if (str.equals("time out")) {
+                return accessToken;
+            } else {
+                accessToken = str;
+                /*JSONObject jsonObject = new JSONObject(str);
+                if (jsonObject.getInt("status") == 0) {
+                    return accessToken;
+                } else {
+                    accessToken = jsonObject.getString("accessToken");
+                }*/
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
     }
 
     public AccountModel billOverView() {
