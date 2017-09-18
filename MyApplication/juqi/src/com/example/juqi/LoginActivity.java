@@ -1,7 +1,6 @@
 
 package com.example.juqi;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -195,7 +194,6 @@ public class LoginActivity extends Activity implements OnClickListener {
             case R.id.wechat_login:
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
-//                req.state = "wechat_sdk_demo";
                 req.state = String.valueOf(System.currentTimeMillis());
                 wxApi.sendReq(req);
 
@@ -232,34 +230,51 @@ public class LoginActivity extends Activity implements OnClickListener {
     /***
      * 登录方法
      */
-    private void login(String account, String password) {
+    private void login(final String account, final String password) {
         if (TextUtils.isEmpty(account)) {
             ToastUtil.show(mContext, "用户名不能为空");
         } else if (TextUtils.isEmpty(password)) {
             ToastUtil.show(mContext, "密码不能为空");
         } else {
-            int rs = userController.login(account, password,
-                    LoginActivity.this);
-            if (rs == Config.LoginSuccess) {
-                ToastUtil.show(mContext, "登录成功");
-                // 记住登录状态
-                Editor editor = settings.edit();
-                // 存入数据
-                editor.putString("username", account);
-                editor.putString("password", password);
-                editor.putBoolean("isLogin", true);
-                editor.putString("type", "putong");
-                // 提交修改
-                editor.commit();
-                Config.is_login = true;
-                Config.login_type = "putong";
+            Observable.create(new Observable.OnSubscribe<String>() {
+                @Override
+                public void call(Subscriber<? super String> subscriber) {
+                    int rs = userController.login(account, password,
+                            LoginActivity.this);
+                    subscriber.onNext(rs + "");
+                }
+            }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<String>() {
+                        @Override
+                        public void onNext(String text) {
+                            if (!TextUtils.isEmpty(text)) {
+                                int rs = Integer.parseInt(text);
+                                if (rs == Config.LoginSuccess) {
+                                    ToastUtil.show(mContext, "登录成功");
+                                    // 记住登录状态
+                                    Editor editor = settings.edit();
+                                    // 存入数据
+                                    editor.putString("username", account);
+                                    editor.putString("password", password);
+                                    editor.putBoolean("isLogin", true);
+                                    editor.putString("type", "putong");
+                                    // 提交修改
+                                    editor.commit();
+                                    Config.is_login = true;
+                                    Config.login_type = "putong";
 
-                finishLoginActivity();
-            } else if (rs == -1) {
-                ToastUtil.show(mContext, "网络异常");
-            } else {
-                ToastUtil.show(mContext, "用户名或密码错误");
-            }
+                                    finishLoginActivity();
+                                } else if (rs == -1) {
+                                    ToastUtil.show(mContext, "网络异常");
+                                }
+                            } else {
+                                ToastUtil.show(mContext, "用户名或密码错误");
+                            }
+                        }
+                    });
+
+
         }
     }
 

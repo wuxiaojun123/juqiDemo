@@ -93,8 +93,7 @@ public class RegisterActivity extends Activity {
                     if (ValidateUtil.isMobile(phoneStr)) {
                         Toast.makeText(RegisterActivity.this, "已发送，请稍等",
                                 Toast.LENGTH_SHORT).show();
-                        SMSSDK.getVerificationCode("86", account.getText()
-                                .toString().trim());
+                        SMSSDK.getVerificationCode("86", phoneStr);
                         timer.start();
                     } else {
                         Toast.makeText(RegisterActivity.this, "请输入手机号",

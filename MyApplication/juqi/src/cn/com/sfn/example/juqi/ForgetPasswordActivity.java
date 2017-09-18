@@ -159,8 +159,7 @@ public class ForgetPasswordActivity extends Activity {
             if (ValidateUtil.isMobile(accountParams)) {
                 Toast.makeText(ForgetPasswordActivity.this, "已发送，请稍等",
                         Toast.LENGTH_SHORT).show();
-                SMSSDK.getVerificationCode("86", account.getText()
-                        .toString().trim());
+                SMSSDK.getVerificationCode("86", accountParams);
                 timer.start();
             } else {
                 Toast.makeText(ForgetPasswordActivity.this, "请输入手机号",

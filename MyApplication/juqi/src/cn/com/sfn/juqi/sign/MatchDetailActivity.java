@@ -5,7 +5,9 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import cn.com.sfn.alipay.util.SignUtils;
+
 import com.example.juqi.LoginActivity;
+
 import cn.com.sfn.juqi.adapter.CommentsItemAdapter;
 import cn.com.sfn.juqi.adapter.JoinItemAdapter;
 import cn.com.sfn.juqi.adapter.ListItemClickHelp;
@@ -220,7 +222,6 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
         id = mIntent.getStringExtra("matchId");//球赛的id
         if (TextUtils.isEmpty(id)) {
             String action = mIntent.getAction();
-
             if (Intent.ACTION_VIEW.equals(action)) {
                 Uri uri = mIntent.getData();
                 if (uri != null) {
@@ -761,6 +762,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
         // eg：
         // http://h.hiphotos.baidu.com/image/w%3D310/sign=58272176271f95caa6f594b7f9177fc5/aa18972bd40735fa29e06ab19c510fb30f2408a1.png
         String imageUrl = "";
+//        LogUtils.e("分享的图片地址是:" + (imageurl + id));
         // 0:发送到朋友 1:发送到朋友圈 2:收藏
 
         if (imageUrl.length() == 0) {
@@ -789,6 +791,7 @@ public class MatchDetailActivity extends Activity implements OnClickListener,
                 }
             });
         }
+
     }
 
     private String buildTransaction(final String type) {

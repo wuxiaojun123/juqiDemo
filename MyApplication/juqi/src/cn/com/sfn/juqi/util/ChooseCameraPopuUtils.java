@@ -89,13 +89,10 @@ public class ChooseCameraPopuUtils {
                                     } catch (Exception e) {
                                         // TODO Auto-generated catch block
                                         ToastUtil.show(activity, "没有找到储存目录");
-
                                     }
                                 } else {
                                     ToastUtil.show(activity, "没有储存卡");
-
                                 }
-
                             }
                         })
                 .addSheetItem("从相册选择", ActionSheetDialog.SheetItemColor.Blue,
@@ -154,7 +151,6 @@ public class ChooseCameraPopuUtils {
             Intent localIntent2 = Intent.createChooser(localIntent, "选择图片");
             activity.startActivityForResult(localIntent2,
                     PIC_RROM_PHONO);
-
         }
     }
 
